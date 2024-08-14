@@ -4,9 +4,8 @@ import Link from 'next/link'
 export default function Header(){
     return (
         <header className='flex justify-between items-center py-4 px-20 border-b '>
-            <Link href="/">
-                <div className='flex items-center justify-center md:w-1/5'>
-
+            <div className='flex items-center justify-center md:w-1/5'>
+                <Link href="/">
                     <Image 
                     src="/logo.png"
                     width={1280}
@@ -14,8 +13,8 @@ export default function Header(){
                     className='hidden md:block'
                     alt="logo"
                     />
-                </div>
-            </Link>
+                </Link>
+            </div>
             <Link href="/login">
                 Login
             </Link>
