@@ -65,9 +65,9 @@ export default function Sites() {
               zoom: 10,
             }}
             mapStyle={
-              theme === "light"
-                ? "mapbox://styles/mapbox/streets-v10"
-                : "mapbox://styles/mapbox/dark-v10"
+              theme === "dark"
+                ? "mapbox://styles/mapbox/dark-v10"
+                : "mapbox://styles/mapbox/streets-v10"
             }
           >
             {markers.map((marker, index) => (
