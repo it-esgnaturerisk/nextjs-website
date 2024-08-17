@@ -12,60 +12,70 @@ import site10 from "@/public/_MG_2984.jpg";
 
 const siteList=[
     {
+        key: 1,
         image: site1,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 2,
         image: site2,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 3,
         image: site3,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 4,
         image: site4,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 5,
         image: site5,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 6,
         image: site6,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 7,
         image: site7,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 8,
         image: site8,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 9,
         image: site9,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
         address: "Adressen."    
     },
     {
+        key: 10,
         image: site10,
         name: "Tittel på utslippsområdet.",
         siteStats: "Grad av miljøpåvirkning.",
@@ -79,6 +89,7 @@ const SitesDisplay = () => {
         <div className="grid grid-cols-2 w-[500px] gap-1 overflow-auto">
             {siteList.map((site) => (
                 <SiteCard 
+                    key={site.key}
                     image={site.image} 
                     name={site.name} 
                     siteStats={site.siteStats} 
