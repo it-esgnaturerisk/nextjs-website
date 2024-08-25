@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/components/ui/button';
-import { authenticate } from '@/lib/actions';
+// import { authenticate } from '@/lib/actions';
 import { useState } from 'react';
  
 export default function LoginForm() {
@@ -17,9 +17,9 @@ export default function LoginForm() {
   function formAction(formData: FormData) {
     setIsPending(true);
     try{
-      if(authenticate(undefined, formData) != null){
-        return {action: "/sites"};
-      };
+      // if(authenticate(undefined, formData) != null){
+      //   return {action: "/sites"};
+      // };
     }
     catch (error: any) {
       setErrorMessage(error.message);

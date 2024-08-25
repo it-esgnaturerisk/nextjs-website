@@ -37,9 +37,10 @@ export default function SitesDisplay({markers}: { markers: SiteMarker[] }) {
           {sites.length === 0 ? (
             <p className="text-center">No existing sites found.</p>
           ) : (
-            sites.map((site) => ( 
-              <SiteCard {...site}/>
-            ))
+            "Sites found, but functionality not implemented yet."
+            // sites.map((site) => ( 
+            //   <SiteCard {...site}/>
+            // ))
           )}
         </div>
         <div>

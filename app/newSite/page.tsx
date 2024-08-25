@@ -7,7 +7,7 @@ import { useState } from "react";
 import { SiteMarker } from "@/lib/types";
 import CreateSiteForm from "@/components/createSite/create-site-form";
 
-export default function newSite() {
+export default function NewSite() {
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   const [marker, setMarker] = useState<SiteMarker>();
