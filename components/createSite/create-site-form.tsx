@@ -14,8 +14,37 @@ export default function CreateSiteForm({
 }) {
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
 
+  const [siteLatitude, setSiteLatitude] = useState<string>(
+    latitude !== undefined ? latitude.toFixed(6) : ""
+  );
+  const [parsedLatitude, setParsedLatitude] = useState<number | undefined>(latitude);
+
+
   function setRange(selectedValues: number[]) {
     setSelectedRanges(selectedValues);
+  }
+
+  function handleLatitudeChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+
+    // Allow empty input
+    if (value === "") {
+      setSiteLatitude(value);
+      setParsedLatitude(undefined);
+      return;
+    }
+
+    // Check if the value is a valid float or a partial float like "45."
+    const floatValue = parseFloat(value);
+
+    if (!isNaN(floatValue) && floatValue >= -90 && floatValue <= 90) {
+      setSiteLatitude(value);
+      setParsedLatitude(floatValue);
+    } else {
+      // Allow temporary invalid input (e.g., "45.")
+      setSiteLatitude(value);
+      setParsedLatitude(undefined);
+    }
   }
 
   return (
@@ -62,6 +91,8 @@ export default function CreateSiteForm({
                 latitude ? latitude.toFixed(6).toString() : "Latitude"
               }
               className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
+              value={siteLatitude}
+              onChange={handleLatitudeChange}
             />
             <input
               type="text"

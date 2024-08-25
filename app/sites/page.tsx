@@ -27,7 +27,7 @@ export default function Sites() {
     <div className="flex flex-col h-screen w-full">
       <Header />
       <div className="flex h-full">
-          <SitesDisplay markers={markers} />
+        <SitesDisplay markers={markers} />
         <div className="flex-grow">
           <Map
             mapboxAccessToken={mapboxToken}
@@ -49,6 +49,7 @@ export default function Sites() {
               />
             ))}
           </Map>
+
         </div>
       </div>
     </div>

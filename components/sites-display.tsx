@@ -32,7 +32,7 @@ export default function SitesDisplay({markers}: { markers: SiteMarker[] }) {
     }
 
     return (
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col">
         <div className="grid grid-cols-1 w-[250px] gap-1 overflow-auto">
           {sites.length === 0 ? (
             <p className="text-center">No existing sites found.</p>
