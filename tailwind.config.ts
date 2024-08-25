@@ -17,6 +17,16 @@ const config = {
         "2xl": "1400px",
       },
     },
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      black: "#000",
+      white: "#fff",
+      greendark: "#79937A",
+      greenlight: "#E1E5E1",
+      greenheader: "#272D2A",
+      greengray: "#F4F4F4",
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
