@@ -6,11 +6,11 @@ export default function Heatmap() {
       { name: "FRA", count: 2, color: "bg-red-200" },
       { name: "DEU", count: 1, color: "bg-red-300" },
       { name: "NOR", count: 8, color: "bg-orange-200" },
-      // Add more countries as necessary
     ];
-  
+    
+    
     return (
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-greenlight p-6 rounded-lg shadow-md">
         <div className="grid grid-cols-2 gap-2">
           {countries.map((country, index) => (
             <div key={index} className={`${country.color} p-2 text-center`}>

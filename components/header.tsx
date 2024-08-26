@@ -10,10 +10,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import HeaderButton from "./header-button";
 import { HomeIcon, PersonIcon } from "@radix-ui/react-icons";
+import { TfiBriefcase, TfiMap } from "react-icons/tfi";
 
 export default function Header() {
   return (
-    <div className="bg-greenheader flex justify-between items-center min-height-12 w-full px-6">
+    <div className="bg-greenheader flex justify-between items-center min-h-12 w-full px-6">
+    
+      
       <Link href="/">
         <Image
           src="/logo.png"
@@ -24,7 +27,8 @@ export default function Header() {
           priority={true}
         />
       </Link>
-      <div className="gap-8 flex items-center">
+
+      <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
         <Link href="/">
           <HeaderButton>
               <HomeIcon/>
@@ -32,35 +36,39 @@ export default function Header() {
         </Link>
         <Link href="/sites">
           <HeaderButton>
-              Sites
+            <TfiMap/>
           </HeaderButton>
         </Link>
-        <HeaderButton>
-          Analytics
-        </HeaderButton>
-      
 
+        <Link href="/portfolio">
+          <HeaderButton>
+                <TfiBriefcase />
+          </HeaderButton>
+        </Link>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
-            <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem>
-            <Link href={"/login"}> 
-              Login
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={"/signup"}>
-            Signup
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+
+      <div className="flex justify-end flex-1">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <Link href={"/login"}> 
+                Login
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={"/signup"}>
+              Signup
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }

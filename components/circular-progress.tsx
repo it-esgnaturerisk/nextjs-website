@@ -4,7 +4,7 @@ export default function CircularProgress() {
       <div className="w-32 h-32 relative">
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 36 36">
           <path
-            className="text-gray-200"
+            className="text-green-200"
             d="M18 2.0845
                a 15.9155 15.9155 0 0 1 0 31.831
                a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -22,7 +22,7 @@ export default function CircularProgress() {
             strokeDasharray="60, 100"
           />
         </svg>
-        <span className="absolute inset-0 flex items-center justify-center text-xl">Jan 2024</span>
+        <span className="absolute inset-0 flex items-center justify-center text-l">Aug 2024</span>
       </div>
     );
   }

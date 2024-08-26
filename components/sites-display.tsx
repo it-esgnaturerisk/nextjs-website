@@ -35,7 +35,7 @@ export default function SitesDisplay({markers}: { markers: SiteMarker[] }) {
       <div className="flex flex-col">
         <div className="grid grid-cols-1 w-[250px] gap-1 overflow-auto">
           {sites.length === 0 ? (
-            <p className="text-center">No existing sites found.</p>
+            <p className="text-center my-5">No existing sites found.</p>
           ) : (
             "Sites found, but functionality not implemented yet."
             // sites.map((site) => ( 

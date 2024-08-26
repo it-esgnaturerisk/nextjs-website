@@ -105,7 +105,7 @@ export default function CreateSiteForm({
           </div>
         </div>
 
-        <SiteRange onRangeUpdate={setRange}></SiteRange>
+        <SiteRange onRangeUpdate={setRange}/>
 
         {/* Portfolio */}
         <div className="mb-6">

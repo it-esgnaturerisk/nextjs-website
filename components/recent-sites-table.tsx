@@ -16,7 +16,7 @@ export default function RecentSitesTable() {
     return (
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
-          <thead>
+          <thead className="bg-greenlight">
             <tr>
               <th className="py-2 px-4 border-b">Name</th>
               <th className="py-2 px-4 border-b">Location</th>

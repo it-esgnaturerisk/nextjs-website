@@ -7,9 +7,6 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
-
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Dashboard</h1>
@@ -27,7 +24,7 @@ export default function Home() {
 
           {/* Circular Progress and Stats */}
           <div className="col-span-2">
-            <div className="bg-white p-6 rounded-lg shadow-md flex justify-between items-center">
+            <div className="bg-greenlight p-6 rounded-lg shadow-md flex justify-between items-center">
               <CircularProgress />
               <div className="flex-1 ml-6">
                 <div className="flex justify-between text-gray-600">
@@ -51,6 +48,5 @@ export default function Home() {
           <RecentSitesTable />
         </div>
       </div>
-    </div>
   );
 }
