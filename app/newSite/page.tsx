@@ -2,8 +2,8 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useState } from "react";
 import { SiteMarker } from "@/lib/types";
-import CreateSiteForm from "@/components/createSite/create-site-form";
-import MapNewSite from "@/components/createSite/map-new-site";
+import CreateSiteForm from "@/app/newSite/create-site-form";
+import MapNewSite from "@/app/newSite/map-new-site";
 
 export default function NewSite() {
 

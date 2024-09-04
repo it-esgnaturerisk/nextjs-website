@@ -1,4 +1,3 @@
-import Header from "@/components/header";
 import CircularProgress from "@/components/circular-progress";
 import Heatmap from "@/components/heatmap";
 import RecentSitesTable from "@/components/recent-sites-table";

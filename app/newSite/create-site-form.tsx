@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo_small from "@/public/logo_liten.png";
 import Image from "next/image";
-import SiteRange from "./site-range";
+import SiteRange from "@/app/newSite/site-range";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
