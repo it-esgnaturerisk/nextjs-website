@@ -16,6 +16,7 @@ export type Site = {
     name: string;
     latitude: number;
     longitude: number;
+    ranges: number[];
     imageurl: string | null;
     address: string;
 }

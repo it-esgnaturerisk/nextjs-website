@@ -1,5 +1,3 @@
-// pages/index.js
-
 import RecentSitesTable from '@/components/recent-sites-table';
 import Link from 'next/link';
 
