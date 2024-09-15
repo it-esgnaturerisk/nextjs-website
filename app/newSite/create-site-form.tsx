@@ -1,75 +1,146 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import logo_small from "@/public/logo_liten.png";
 import Image from "next/image";
 import SiteRange from "@/app/newSite/site-range";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { SiteMarker } from "@/lib/types";
 
 export default function CreateSiteForm({
-  latitude,
-  longitude,
+  marker,
+  setMarker,
 }: {
-  latitude: number | undefined;
-  longitude: number | undefined;
+  marker: SiteMarker | undefined;
+  setMarker: (newMarker: SiteMarker) => void;
 }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  let latitude = marker ? marker.latitude : undefined;
+  let longitude = marker ? marker.longitude : undefined;
+
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
-
-  const [siteLatitude, setSiteLatitude] = useState<string>(
-    latitude !== undefined ? latitude.toFixed(6) : ""
-  );
-  const [parsedLatitude, setParsedLatitude] = useState<number | undefined>(latitude);
-
 
   function setRange(selectedValues: number[]) {
     setSelectedRanges(selectedValues);
   }
 
-  function handleLatitudeChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value;
+  // Handle when the input field is no longer in focus. Should validate the input fields for latitude and longitude
+  // and update the marker if the input is valid.
+  async function handleUpdateMarker(event: React.FocusEvent<HTMLInputElement>) {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null); // Clear previous errors when a new request starts
 
-    // Allow empty input
-    if (value === "") {
-      setSiteLatitude(value);
-      setParsedLatitude(undefined);
-      return;
+    try {
+      const id = event.currentTarget.id;
+      const value = event.currentTarget.value;
+
+      const floatValue = parseFloat(value);
+
+      if (isNaN(floatValue)) {
+        return;
+      }
+
+      if (id === "latitude" && (floatValue < -90 || floatValue > 90)) {
+        console.log("Latitude must be between -90 and 90.");
+        return;
+      } else if (id==="latitude"){
+        latitude = floatValue;
+      }
+
+      if (id === "longitude" && (floatValue < -180 || floatValue > 180)) {
+        console.log("Longitude must be between -180 and 180.");
+        return;
+      } else if (id==="longitude"){
+        longitude = floatValue;
+      }
+
+      if (id === "latitude" && longitude == undefined){
+          console.log("Missing a valid value for longitude.");
+          return;
+        } else if(id === "longitude" && latitude == undefined){
+        console.log("Missing a valid value for latitude.");
+        return;
+      }
+
+      if (id === "latitude" && longitude) {
+        const newMarker: SiteMarker = {
+          key: 0,
+          longitude: longitude,
+          latitude: floatValue,
+        };
+        setMarker(newMarker);
+      }
+
+      if (id === "longitude" && latitude) {
+        const newMarker: SiteMarker = {
+          key: 0,
+          longitude: floatValue,
+          latitude: latitude,
+        };
+        setMarker(newMarker);
+      }
+    } catch (error: any) {
+      // Capture the error message to display to the user
+      setError(error.message);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
+  }
 
-    // Check if the value is a valid float or a partial float like "45."
-    const floatValue = parseFloat(value);
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(event.currentTarget);
+    setIsLoading(true);
+    setError(null); // Clear previous errors when a new request starts
 
-    if (!isNaN(floatValue) && floatValue >= -90 && floatValue <= 90) {
-      setSiteLatitude(value);
-      setParsedLatitude(floatValue);
-    } else {
-      // Allow temporary invalid input (e.g., "45.")
-      setSiteLatitude(value);
-      setParsedLatitude(undefined);
+    try {
+      const formData = new FormData(event.currentTarget as HTMLFormElement);
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the data. Please try again.");
+      }
+
+      // Handle response if necessary
+      const data = await response.json();
+      // ...
+    } catch (error: any) {
+      // Capture the error message to display to the user
+      setError(error.message);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+    <div className="max-w-xxl mx-auto bg-white p-8 rounded-lg shadow-md">
       <div className="flex items-center space-x-2 mb-4">
-      <Link href="/sites">
-        <IoMdArrowRoundBack className="text-gray-700" />
-      </Link>
-      <p className="block text-gray-700 font-bold mb-2 text-2xl">Create New Site</p>
+        <Link href="/sites">
+          <IoMdArrowRoundBack className="text-gray-700" />
+        </Link>
+        <p className="block text-gray-700 font-bold mb-2 text-2xl">
+          Create New Site
+        </p>
       </div>
-      {/* Site Name */}
-      <form>
+
+      <form onSubmit={onSubmit}>
         <div className="mb-6">
-          <label
-            className="block text-gray-700 font-semibold mb-2"
-            htmlFor="siteName"
-          >
+          <label className="block text-gray-700 font-semibold mb-2">
             Site name*
+            <input
+              type="text"
+              id="siteName"
+              placeholder="Define site name"
+              className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
+            />
           </label>
-          <input
-            type="text"
-            id="siteName"
-            placeholder="Define site name"
-            className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
-          />
         </div>
 
         {/* Site Location */}
@@ -79,33 +150,36 @@ export default function CreateSiteForm({
             htmlFor="longitude"
           >
             Site Location*
+            <p className="text-sm text-gray-500 mb-2">
+              ⚠ Pin point on map or write in Latitude and Longitude
+            </p>
+            <div className="flex space-x-4">
+              <input
+                type="number"
+                id="latitude"
+                placeholder={"Latitude"}
+                className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
+                onBlur={(event) => handleUpdateMarker(event)}
+              />
+              <input
+                type="number"
+                id="longitude"
+                placeholder={"Longitude"}
+                className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
+                onBlur={(event) => handleUpdateMarker(event)}
+              />
+            </div>
+            <p className="pb-5">
+              {marker
+                ? `Current marker location: ${latitude
+                    ?.toFixed(6)
+                    .toString()}, ${longitude?.toFixed(6).toString()}.`
+                : "No marker set."}
+            </p>
           </label>
-          <p className="text-sm text-gray-500 mb-2">
-            ⚠ Pin point on map or write in Longitude and Latitude
-          </p>
-          <div className="flex space-x-4">
-            <input
-              type="text"
-              id="latitude"
-              placeholder={
-                latitude ? latitude.toFixed(6).toString() : "Latitude"
-              }
-              className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
-              value={siteLatitude}
-              onChange={handleLatitudeChange}
-            />
-            <input
-              type="text"
-              id="longitude"
-              placeholder={
-                longitude ? longitude.toFixed(6).toString() : "Longitude"
-              }
-              className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
-            />
-          </div>
         </div>
 
-        <SiteRange onRangeUpdate={setRange}/>
+        {/* <SiteRange onRangeUpdate={setRange} /> */}
 
         {/* Portfolio */}
         <div className="mb-6">
@@ -114,18 +188,18 @@ export default function CreateSiteForm({
             htmlFor="portfolio"
           >
             Portfolio*
+            <select
+              id="portfolio"
+              className="w-full border-b-2 border-gray-300 py-2 px-4 bg-white focus:outline-none focus:border-green-500"
+            >
+              <option>Select Portfolio</option>
+              {/* Add options here */}
+            </select>
           </label>
-          <select
-            id="portfolio"
-            className="w-full border-b-2 border-gray-300 py-2 px-4 bg-white focus:outline-none focus:border-green-500"
-          >
-            <option>Select Portfolio</option>
-            {/* Add options here */}
-          </select>
         </div>
 
-        {/* Add Notes */}
-        <div className="mb-6">
+        {/* {/* Add Notes */}
+        {/* <div className="mb-6">
           <label
             className="block text-gray-700 font-semibold mb-2"
             htmlFor="notes"
@@ -135,21 +209,22 @@ export default function CreateSiteForm({
           <textarea
             id="notes"
             placeholder="Add notes about the site or autofill with NatureRisk AI"
-            className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 h-24"
+            className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 h-12"
           />
           <button className="bg-greengray py-1 px-5 shadow-md rounded-3xl text-sm flex items-center space-x-2">
             <Image src={logo_small} width={20} height={20} alt="Logo" />
             <span>Autofill with NatureRisk AI</span>
           </button>
-        </div>
+        </div>  */}
 
         {/* Add New Site Button */}
         <div className="text-center">
           <button
             type="submit"
+            disabled={isLoading}
             className="bg-greenlight text-black py-2 px-8 rounded-lg shadow-md "
           >
-            Add new site
+            {isLoading ? "Loading..." : "Add new site"}
           </button>
         </div>
       </form>
