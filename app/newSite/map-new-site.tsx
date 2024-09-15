@@ -21,7 +21,7 @@ export default function MapNewSite({ marker, setMarker }: { marker: SiteMarker |
           latitude: 52.8,
           zoom: 3,
         }}
-        mapStyle={"mapbox://styles/mapbox/satellite-v9"}
+        mapStyle={"mapbox://styles/mapbox/streets-v11"}
         onClick={handleMapClick}
         >{marker &&
           <Marker
