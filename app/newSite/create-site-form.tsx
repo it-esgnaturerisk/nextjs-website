@@ -179,7 +179,7 @@ export default function CreateSiteForm({
           </label>
         </div>
 
-        {/* <SiteRange onRangeUpdate={setRange} /> */}
+        <SiteRange onRangeUpdate={setRange} />
 
         {/* Portfolio */}
         <div className="mb-6">
@@ -198,8 +198,8 @@ export default function CreateSiteForm({
           </label>
         </div>
 
-        {/* {/* Add Notes */}
-        {/* <div className="mb-6">
+        {/* Add Notes
+        <div className="mb-6">
           <label
             className="block text-gray-700 font-semibold mb-2"
             htmlFor="notes"
@@ -215,7 +215,7 @@ export default function CreateSiteForm({
             <Image src={logo_small} width={20} height={20} alt="Logo" />
             <span>Autofill with NatureRisk AI</span>
           </button>
-        </div>  */}
+        </div> 
 
         {/* Add New Site Button */}
         <div className="text-center">
