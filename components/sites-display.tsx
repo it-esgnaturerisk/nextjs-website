@@ -16,6 +16,7 @@ export default function SitesDisplay({markers}: { markers: SiteMarker[] }) {
                 latitude: marker.latitude,
                 longitude: marker.longitude,
                 imageurl: null,
+                ranges:[], // Placeholder for now
                 address: "Placeholder Address", // Placeholder for now
               };
             });
