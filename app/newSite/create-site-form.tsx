@@ -4,7 +4,36 @@ import Image from "next/image";
 import SiteRange from "@/app/newSite/site-range";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { SiteMarker } from "@/lib/types";
+import { Site, SiteMarker } from "@/lib/types";
+import { sql } from "@vercel/postgres";
+import { NextResponse } from "next/server";
+
+async function insert_site(
+  event: FormEvent<HTMLFormElement>
+): Promise<Site[] | null> {
+  event.preventDefault();
+  const formData = new FormData(event.currentTarget as HTMLFormElement);
+  // formData.append("ranges", selectedRanges);
+
+  try {
+    const response = await fetch("http://localhost:3000/api/insert_new_site", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(
+        "Error inserting sites, response status: ${response.status}"
+      );
+    }
+    const data = await response.json(); // Parse the JSON response
+    return data.sites; // Return the data
+  } catch (error: any) {
+    console.error("Error inserting sites:", error);
+    return null; // Return an error message
+  }
+}
 
 export default function CreateSiteForm({
   marker,
@@ -45,22 +74,20 @@ export default function CreateSiteForm({
       if (id === "latitude" && (floatValue < -90 || floatValue > 90)) {
         console.log("Latitude must be between -90 and 90.");
         return;
-      } else if (id==="latitude"){
+      } else if (id === "latitude") {
         latitude = floatValue;
       }
 
       if (id === "longitude" && (floatValue < -180 || floatValue > 180)) {
         console.log("Longitude must be between -180 and 180.");
         return;
-      } else if (id==="longitude"){
+      } else if (id === "longitude") {
         longitude = floatValue;
       }
 
-      if (id === "latitude" && longitude == undefined){
-          console.log("Missing a valid value for longitude.");
-          return;
-        } else if(id === "longitude" && latitude == undefined){
-        console.log("Missing a valid value for latitude.");
+      if (id === "latitude" && longitude == undefined) {
+        return;
+      } else if (id === "longitude" && latitude == undefined) {
         return;
       }
 
@@ -97,21 +124,8 @@ export default function CreateSiteForm({
     setError(null); // Clear previous errors when a new request starts
 
     try {
-      const formData = new FormData(event.currentTarget as HTMLFormElement);
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit the data. Please try again.");
-      }
-
-      // Handle response if necessary
-      const data = await response.json();
-      // ...
+      insert_site(event);
     } catch (error: any) {
-      // Capture the error message to display to the user
       setError(error.message);
       console.error(error);
     } finally {
@@ -157,6 +171,7 @@ export default function CreateSiteForm({
               <input
                 type="number"
                 id="latitude"
+                step={0.0001}
                 placeholder={"Latitude"}
                 className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                 onBlur={(event) => handleUpdateMarker(event)}
@@ -164,6 +179,7 @@ export default function CreateSiteForm({
               <input
                 type="number"
                 id="longitude"
+                step={0.0001}
                 placeholder={"Longitude"}
                 className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                 onBlur={(event) => handleUpdateMarker(event)}
