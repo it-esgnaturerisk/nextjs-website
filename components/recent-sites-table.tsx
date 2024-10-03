@@ -67,7 +67,7 @@ export default async function RecentSitesTable() {
                     Download
                   </a>
                 ) : (
-                  "Not analyzed yet"
+                  "Processing..."
                 )}
               </td>
             </tr>
