@@ -15,7 +15,7 @@ async function get_sites(): Promise<Site[] | null> {
     const data = await response.json(); // Parse the JSON response
     return data.sites; // Return the data
   } catch (error: any) {
-    console.error("Error fetching sites:", error);
+    console.error("Error fetching sites. Error:", error);
     return null; // Return an error message
   }
 }
