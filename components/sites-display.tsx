@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 export default function SitesDisplay({ markers }: { markers: SiteMarker[] }) {
   const [sites, setSites] = useState<Site[]>([]);
 
-  const onRemove = (id: number) => {
-    const newSites = sites.filter((site) => site.id !== id);
+  const onRemove = (key: number) => {
+    const newSites = sites.filter((site) => parseInt(site.key) !== key);
     setSites(newSites);
   };
 
