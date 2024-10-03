@@ -8,7 +8,7 @@ import { Site, SiteMarker } from "@/lib/types";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
-async function insert_site(
+async function insertSite(
   event: FormEvent<HTMLFormElement>
 ): Promise<Site[] | null> {
   event.preventDefault();
@@ -124,7 +124,7 @@ export default function CreateSiteForm({
     setError(null); // Clear previous errors when a new request starts
 
     try {
-      insert_site(event);
+      insertSite(event);
     } catch (error: any) {
       setError(error.message);
       console.error(error);
@@ -238,10 +238,18 @@ export default function CreateSiteForm({
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-greenlight text-black py-2 px-8 rounded-lg shadow-md "
+            className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
           >
             {isLoading ? "Loading..." : "Add new site"}
           </button>
+          <Link href="examplesite">
+            <button
+              disabled={isLoading}
+              className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
+            >
+              {isLoading ? "Loading..." : "Example"}
+            </button>
+          </Link>
         </div>
       </form>
     </div>
