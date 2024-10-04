@@ -93,7 +93,6 @@ export default function CreateSiteForm({
 
       if (id === "latitude" && longitude) {
         const newMarker: SiteMarker = {
-          key: 0,
           longitude: longitude,
           latitude: floatValue,
         };
@@ -102,7 +101,6 @@ export default function CreateSiteForm({
 
       if (id === "longitude" && latitude) {
         const newMarker: SiteMarker = {
-          key: 0,
           longitude: floatValue,
           latitude: latitude,
         };

@@ -11,7 +11,7 @@ export default function SitesDisplay({ markers }: { markers: SiteMarker[] }) {
   };
 
   const handleSitesRequest = () => {
-    markers.sort((a, b) => a.key - b.key);
+    return;
   };
 
   return (
