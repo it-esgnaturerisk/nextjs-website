@@ -29,7 +29,6 @@ export type Site = {
 }
 
 export type SiteMarker = {
-    key: number;
     longitude: number;
     latitude: number;
 }
