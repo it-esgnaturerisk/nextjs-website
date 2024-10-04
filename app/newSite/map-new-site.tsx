@@ -24,7 +24,7 @@ export default function MapNewSite({
       initialViewState={{
         longitude: 13.7522,
         latitude: 52.8,
-        zoom: 3.2,
+        zoom: 3.3,
       }}
       mapStyle={"mapbox://styles/mapbox/satellite-streets-v11"}
       onClick={handleMapClick}
