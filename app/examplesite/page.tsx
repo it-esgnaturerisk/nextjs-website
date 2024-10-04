@@ -5,7 +5,7 @@ export default function ExampleSite() {
     // Show image on entire screen
     <div className="flex w-full">
       <Image
-        src="/example_site.png"
+        src="/example_site.svg"
         alt="Example Site"
         priority={true}
         // object-fit="contain"
