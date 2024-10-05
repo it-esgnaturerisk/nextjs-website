@@ -1,17 +1,17 @@
-import Link from "next/link";
 import Image from "next/image";
+import NewSiteButton from "@/components/new-site-button";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Sites</h1>
-        <Link
-          href="/new-site"
-          className="bg-greendark text-white py-2 px-4 rounded-lg shadow-md"
-        >
-          + New Site
-        </Link>
+        <div>
+          <NewSiteButton href="https://esg-reports-bucket.s3.amazonaws.com/ESG_Nature_Risk_Report_Example.pdf">
+            Download example
+          </NewSiteButton>
+          <NewSiteButton></NewSiteButton>
+        </div>
       </div>
 
       <div className="mt-8">
