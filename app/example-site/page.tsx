@@ -8,7 +8,6 @@ export default function ExampleSite() {
         src="/figma/site.svg"
         alt="Example Site"
         priority={true}
-        // object-fit="contain"
         layout="responsive"
         width={5000}
         height={5000}

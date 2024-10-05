@@ -13,7 +13,7 @@ const NewSiteButton = ({
 }: NewSiteButtonProps) => {
   return (
     <Link
-      href={href ? href : "/newSite"}
+      href={href ? href : "/new-site"}
       className={`${classNameArgs} bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md`}
     >
       {children ? children : "+ New Site"}

@@ -1,4 +1,3 @@
-import RecentSitesTable from "@/components/recent-sites-table";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -8,7 +7,7 @@ export default function Home() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Sites</h1>
         <Link
-          href="/newSite"
+          href="/new-site"
           className="bg-greendark text-white py-2 px-4 rounded-lg shadow-md"
         >
           + New Site

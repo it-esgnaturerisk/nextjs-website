@@ -7,49 +7,44 @@ import { TfiBriefcase, TfiMap } from "react-icons/tfi";
 import UserButton from "./user-button";
 
 export default function Header() {
-    return (
-      <div className="bg-greenheader flex justify-between items-center min-h-12 w-full px-6">
+  return (
+    <div className="bg-greenheader flex justify-between items-center min-h-12 w-full px-6">
+      <Link href="/">
+        <Image
+          src="/logo.png"
+          width={320}
+          height={90}
+          className="hidden md:block"
+          alt="logo"
+          priority={true}
+        />
+      </Link>
+
+      <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
         <Link href="/">
-          <Image
-            src="/logo.png"
-            width={320}
-            height={90}
-            className="hidden md:block"
-            alt="logo"
-            priority={true}
-          />
+          <HeaderButton>
+            <HomeIcon />
+          </HeaderButton>
+        </Link>
+        <Link href="/sites">
+          <HeaderButton>
+            <TfiMap />
+          </HeaderButton>
         </Link>
 
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
-          <Link href="/">
-            <HeaderButton>
-                <HomeIcon/>
-            </HeaderButton>
-          </Link>
-          <Link href="/sites">
-            <HeaderButton>
-              <TfiMap/>
-            </HeaderButton>
-          </Link>
-
-          <Link href="/portfolio">
-            <HeaderButton>
-                  <TfiBriefcase />
-            </HeaderButton>
-          </Link>
-        </div>
+        <Link href="/portfolio">
+          <HeaderButton>
+            <TfiBriefcase />
+          </HeaderButton>
+        </Link>
+      </div>
 
       <div className="flex justify-end flex-1">
         <UserButton />
       </div>
-
-
-
     </div>
   );
-  }
-
-
+}
 
 // "use client";
 // import Image from "next/image";

@@ -1,12 +1,8 @@
 import React, { useState, FormEvent } from "react";
-import logo_small from "@/public/logo_liten.png";
-import Image from "next/image";
-import SiteRange from "@/app/newSite/site-range";
+import SiteRange from "@/app/new-site/site-range";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Site, SiteMarker } from "@/lib/types";
-import { sql } from "@vercel/postgres";
-import { NextResponse } from "next/server";
 
 async function insertSite(
   event: FormEvent<HTMLFormElement>
@@ -240,7 +236,7 @@ export default function CreateSiteForm({
           >
             {isLoading ? "Loading..." : "Add new site"}
           </button>
-          <Link href="exampleSite">
+          <Link href="example-site">
             <button
               disabled={isLoading}
               className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
