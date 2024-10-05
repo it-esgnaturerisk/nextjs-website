@@ -9,14 +9,12 @@ export default function Heatmap() {
   ];
 
   return (
-    <div className="bg-greenlight p-6 rounded-lg shadow-md">
-      <div className="grid grid-cols-2 gap-2">
-        {countries.map((country, index) => (
-          <div key={index} className={`${country.color} p-2 text-center`}>
-            {country.count} {country.name}
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-2 gap-2">
+      {countries.map((country, index) => (
+        <div key={index} className={`${country.color} p-2 text-center`}>
+          {country.count} {country.name}
+        </div>
+      ))}
     </div>
   );
 }
