@@ -10,7 +10,7 @@ export default async function Home() {
         <h1 className="text-2xl font-bold">Sites</h1>
 
         <div className="flex items-center space-x-4 ml-auto">
-          <DownloadButton></DownloadButton>
+          <DownloadButton fileName="ESG_Nature_Risk_Report_Example.pdf"></DownloadButton>
           <NewSiteButton></NewSiteButton>
         </div>
       </div>
