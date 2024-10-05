@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 interface NewSiteButtonProps {
-  children?: React.ReactNode;
   classNameArgs?: string;
+  children?: React.ReactNode;
   href?: string;
 }
 
