@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";

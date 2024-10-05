@@ -1,6 +1,5 @@
 import Image from "next/image";
 import NewSiteButton from "@/components/new-site-button";
-import Link from "next/link";
 import DownloadButton from "@/components/download-button";
 
 export default async function Home() {

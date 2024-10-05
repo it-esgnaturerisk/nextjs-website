@@ -1,5 +1,4 @@
 import RecentSitesTable from "@/components/recent-sites-table";
-import Link from "next/link";
 import Image from "next/image";
 import DashboardItem from "@/components/dashboard-item";
 import StatsCard from "@/components/stats-card";

@@ -1,6 +1,5 @@
-import { StaticImageData } from "next/image";
 import { Site, SiteMarker } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function SitesDisplay({ markers }: { markers: SiteMarker[] }) {
   const [sites, setSites] = useState<Site[]>([]);

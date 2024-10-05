@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
-import { FaDownload } from 'react-icons/fa';
+import React from "react";
+import { FaDownload } from "react-icons/fa";
 
 const initialSites = [
   {
     id: 1,
-    name: 'Crucerio II N 22',
-    location: 'Spain',
+    name: "Crucerio II N 22",
+    location: "Spain",
     speciesRisk: 0,
     geoRisk: 1,
     redList: 1259,
     pas: 26,
     kbas: 2,
-    portfolio: 'ESP',
-    date: '22/09/23',
+    portfolio: "ESP",
+    date: "22/09/23",
   },
   // Add other site objects here as in the example image
 ];
 
-const riskColorMap = [
-  'green-500',
-  'orange-500',
-  'red-500',
-]
+const riskColorMap = ["green-500", "orange-500", "red-500"];
 
 const SitesTable = () => {
   const sites = initialSites;
@@ -54,13 +50,21 @@ const SitesTable = () => {
               <td className="p-3 text-left">{site.location}</td>
               <td className="p-3 text-center">
                 <span
-                  className={`inline-block rounded-full bg-color-${riskColorMap[site.speciesRisk]}`}
-                >●</span>
+                  className={`inline-block rounded-full bg-color-${
+                    riskColorMap[site.speciesRisk]
+                  }`}
+                >
+                  ●
+                </span>
               </td>
               <td className="p-3 text-center">
                 <span
-                  className={`inline-block rounded-full bg-color-${riskColorMap[site.geoRisk]}`}
-                >●</span>
+                  className={`inline-block rounded-full bg-color-${
+                    riskColorMap[site.geoRisk]
+                  }`}
+                >
+                  ●
+                </span>
               </td>
               <td className="p-3 text-left">{site.redList}</td>
               <td className="p-3 text-left">{site.pas}</td>

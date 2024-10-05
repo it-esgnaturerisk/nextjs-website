@@ -1,7 +1,6 @@
 import React from "react";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { ZAxis } from "recharts";
 
 const DownloadButton = ({ fileName }: { fileName: string }) => (
   <Link
