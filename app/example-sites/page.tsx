@@ -1,15 +1,16 @@
 import Image from "next/image";
 import NewSiteButton from "@/components/new-site-button";
+import Link from "next/link";
+import DownloadButton from "@/components/download-button";
 
 export default async function Home() {
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Sites</h1>
-        <div>
-          <NewSiteButton href="https://esg-reports-bucket.s3.amazonaws.com/ESG_Nature_Risk_Report_Example.pdf">
-            Download example
-          </NewSiteButton>
+
+        <div className="flex items-center space-x-4 ml-auto">
+          <DownloadButton></DownloadButton>
           <NewSiteButton></NewSiteButton>
         </div>
       </div>
