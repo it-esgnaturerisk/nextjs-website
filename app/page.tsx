@@ -1,18 +1,14 @@
 import RecentSitesTable from "@/components/recent-sites-table";
 import Link from "next/link";
 import Image from "next/image";
+import NewSiteButton from "@/components/new-site-button";
 
 export default function Home() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
-        <Link
-          href="/newSite"
-          className="bg-greendark text-white py-2 px-4 rounded-lg shadow-md"
-        >
-          + New Site
-        </Link>
+        <NewSiteButton />
       </div>
 
       <Image
