@@ -1,12 +1,22 @@
 import Link from "next/link";
 
-const NewSiteButton = () => {
+interface NewSiteButtonProps {
+  children?: React.ReactNode;
+  classNameArgs?: string;
+  href?: string;
+}
+
+const NewSiteButton = ({
+  classNameArgs,
+  children,
+  href,
+}: NewSiteButtonProps) => {
   return (
     <Link
-      href="/newSite"
-      className="bg-greendark text-white py-2 px-4 rounded-lg shadow-md"
+      href={href ? href : "/newSite"}
+      className={`${classNameArgs} bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md`}
     >
-      + New Site
+      {children ? children : "+ New Site"}
     </Link>
   );
 };

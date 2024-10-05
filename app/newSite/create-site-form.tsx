@@ -240,7 +240,7 @@ export default function CreateSiteForm({
           >
             {isLoading ? "Loading..." : "Add new site"}
           </button>
-          <Link href="examplesite">
+          <Link href="exampleSite">
             <button
               disabled={isLoading}
               className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "

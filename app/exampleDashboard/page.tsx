@@ -25,6 +25,7 @@ export default function Home() {
         quality={100}
       ></Image>
 
+      {/* Recent Sites Table */}
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
         <RecentSitesTable />
