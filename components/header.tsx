@@ -11,7 +11,7 @@ export default function Header() {
     <div className="bg-greenheader flex justify-between items-center min-h-12 w-full px-6">
       <Link href="/">
         <Image
-          src="/logo.png"
+          src="/logo-white.png"
           width={320}
           height={90}
           className="hidden md:block"
