@@ -4,7 +4,7 @@ export default defineConfig({
   schema: "./lib/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: process.env.POSTGRES_URL!,
+    url: process.env.ESGNATURERISK_POSTGRES_URL!,
   },
   extensionsFilters: ["postgis"],
   schemaFilter: "public",
@@ -14,7 +14,7 @@ export default defineConfig({
   },
   migrations: {
     prefix: "timestamp",
-    table: "__drizzle_migrations__", 
+    table: "__drizzle_migrations__",
     schema: "public",
   },
   breakpoints: true,
