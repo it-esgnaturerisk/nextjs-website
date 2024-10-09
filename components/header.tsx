@@ -8,7 +8,10 @@ import UserButton from "./user-button";
 
 export default function Header() {
   return (
-    <div className="bg-greenheader flex justify-between items-center min-h-12 w-full px-6">
+    <div
+      role="banner"
+      className="bg-greenheader flex justify-between items-center min-h-12 w-full px-6"
+    >
       <Link href="/">
         <Image
           src="/logo-white.png"

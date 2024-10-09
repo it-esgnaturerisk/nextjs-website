@@ -18,9 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        <div className="bg-greengray h-[calc(100vh-90px)]">{children}</div>
-        <FooterComponent />
+        <div className="flex-col h-screen">
+          <Header />
+          <div role="main" className="bg-greengray flex-grow h-screen">
+            {children}
+          </div>
+          <FooterComponent />
+        </div>
       </body>
     </html>
   );
