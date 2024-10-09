@@ -46,7 +46,7 @@ export default function UserButton() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem>Help</DropdownMenuItem>
         <DropdownMenuSeparator />
         {false ? ( // user ? (
           <DropdownMenuItem>
