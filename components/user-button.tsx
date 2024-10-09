@@ -11,10 +11,28 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PersonIcon } from "@radix-ui/react-icons";
 import { signIn, signOut } from "next-auth/react";
+import { NewUser, insertUser } from "@/lib/db";
+// export type User = {
+//   key: string;
+//   email: string;
+//   password: string;
+//   name: string;
+//   image: string;
+//   role: "admin" | "user";
+//   createdAt: Date;
+//   updatedAt: Date;
+// };
 
 export default function UserButton() {
   // const { data: session } = useSession()
 
+  function createUser() {
+    const newUser = {
+      name: "Test",
+      email: "hallvard.bjorgen@gmail.com",
+    };
+    insertUser(newUser);
+  }
   // if(session)
   return (
     <DropdownMenu>
@@ -39,6 +57,9 @@ export default function UserButton() {
             <Link href={"/api/auth/login"}>Login</Link>
           </DropdownMenuItem>
         )}
+        <DropdownMenuItem>
+          <button onClick={() => createUser()}>Dev: Create New User</button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
