@@ -1,10 +1,11 @@
+import "@lib/config";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 import { sql } from "@vercel/postgres";
-import { sites, users } from "./schema";
+import * as schema from "./schema";
 import { NewUser } from "./types";
 
 // Initialize the connection
-export const db = drizzle(sql);
+export const db = drizzle(sql, { schema }); // Drizzle ORM: schema needed; QueryBuilder: don't need schema.
 
 // Function to fetch all users
 export const getUsers = async () => {
@@ -25,7 +26,7 @@ export const insertUser = async (newUser: NewUser) => {
 };
 
 export const getSites = async () => {
-  const selectedResults = await db.select().from(sites);
+  const selectedResults = await db.select().from(schema.sites);
   console.log("Results:", selectedResults);
   return selectedResults;
 };
