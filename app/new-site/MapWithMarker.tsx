@@ -1,7 +1,7 @@
 import { SiteMarker } from "@/lib/types";
 import Map, { Marker } from "react-map-gl";
 
-export default function MapNewSite({
+export default function MapWithMarker({
   marker,
   setMarker,
 }: {

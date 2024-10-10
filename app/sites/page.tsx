@@ -1,5 +1,5 @@
-import RecentSitesTable from "@/components/recent-sites-table";
-import NewSiteButton from "@/components/new-site-button";
+import RecentSitesTable from "@/components/RecentSitesTable";
+import NewSiteButton from "@/components/NewSiteButton";
 
 export default function Home() {
   return (

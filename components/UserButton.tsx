@@ -10,8 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { signIn, signOut } from "next-auth/react";
-import { NewUser, insertUser } from "@/lib/db";
+import { NewUser } from "@/lib/db/types";
+import { insertUser } from "@/lib/db/queries";
 // export type User = {
 //   key: string;
 //   email: string;
@@ -26,13 +26,13 @@ import { NewUser, insertUser } from "@/lib/db";
 export default function UserButton() {
   // const { data: session } = useSession()
 
-  function createUser() {
-    const newUser = {
-      name: "Test",
-      email: "hallvard.bjorgen@gmail.com",
-    };
-    insertUser(newUser);
-  }
+  // async function createUser() {
+  //   const newUser: NewUser = {
+  //     name: "Test",
+  //     email: "hallvard.bjorgen@gmail.com",
+  //   };
+  //   insertUser(newUser);
+  // }
   // if(session)
   return (
     <DropdownMenu>
@@ -50,23 +50,18 @@ export default function UserButton() {
         <DropdownMenuSeparator />
         {false ? ( // user ? (
           <DropdownMenuItem>
-            <button onClick={() => signOut()}>Logout</button>
+            <button>Logout</button>
+            {/* onClick={() => signOut()} */}
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem>
-            <Link href={"/api/auth/login"}>Login</Link>
+            <Link href={"/"}>Login</Link>
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem>
+        {/* <DropdownMenuItem>
           <button onClick={() => createUser()}>Dev: Create New User</button>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
   );
 }

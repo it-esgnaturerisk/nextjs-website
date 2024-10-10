@@ -1,8 +1,9 @@
 import React, { useState, FormEvent } from "react";
-import SiteRange from "@/app/new-site/site-range";
+import SiteRange from "@/app/new-site/Range";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { Site, SiteMarker } from "@/lib/types";
+import { Site } from "@/lib/db/types";
+import { SiteMarker } from "@/lib/types";
 
 async function insertSite(
   event: FormEvent<HTMLFormElement>
@@ -31,7 +32,7 @@ async function insertSite(
   }
 }
 
-export default function CreateSiteForm({
+export default function Form({
   marker,
   setMarker,
 }: {

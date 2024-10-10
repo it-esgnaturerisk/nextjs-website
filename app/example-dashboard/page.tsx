@@ -1,4 +1,4 @@
-import RecentSitesTable from "@/components/recent-sites-table";
+import RecentSitesTable from "@/components/RecentSitesTable";
 import Link from "next/link";
 import Image from "next/image";
 

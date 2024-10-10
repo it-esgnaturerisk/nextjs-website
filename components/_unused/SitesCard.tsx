@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { Site } from "@/lib/types";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Site } from "@/lib/db/types";
 
 const SiteCard = (site: Site) => {
   const [removed, setRemoved] = React.useState(false);

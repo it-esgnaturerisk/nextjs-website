@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
-import HeaderButton from "./header-button";
+import HeaderButton from "./HeaderButton";
 import { HomeIcon } from "@radix-ui/react-icons";
 import { TfiBriefcase, TfiMap } from "react-icons/tfi";
-import UserButton from "./user-button";
+import UserButton from "./UserButton";
 
 export default function Header() {
   return (
@@ -15,11 +15,13 @@ export default function Header() {
       <Link href="/">
         <Image
           src="/logo-white.png"
-          width={320}
-          height={90}
+          width={750} // Set the original width of your logo
+          height={212} // Set the original height of your logo
+          priority
+          sizes="auto"
           className="hidden md:block"
           alt="logo"
-          priority={true}
+          style={{ width: "auto", height: "auto", maxHeight: "100px" }} // Adjust max height as needed
         />
       </Link>
 

@@ -1,9 +1,9 @@
-import RecentSitesTable from "@/components/recent-sites-table";
+import RecentSitesTable from "@/components/RecentSitesTable";
 import Image from "next/image";
-import DashboardItem from "@/components/dashboard-item";
-import StatsCard from "@/components/stats-card";
-import Heatmap from "@/components/heatmap";
-import NewSiteButton from "@/components/new-site-button";
+import DashboardItem from "@/app/dashboard/DashboardItem";
+import StatsCard from "@/app/dashboard/StatsCard";
+import NewSiteButton from "@/components/NewSiteButton";
+import Heatmap from "./Heatmap";
 
 export default function Home() {
   return (

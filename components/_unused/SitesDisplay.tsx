@@ -1,11 +1,12 @@
-import { Site, SiteMarker } from "@/lib/types";
+import { Site } from "@/lib/db/types";
+import { SiteMarker } from "@/lib/types";
 import { useState } from "react";
 
 export default function SitesDisplay({ markers }: { markers: SiteMarker[] }) {
   const [sites, setSites] = useState<Site[]>([]);
 
-  const onRemove = (key: number) => {
-    const newSites = sites.filter((site) => parseInt(site.key) !== key);
+  const onRemove = (id: number) => {
+    const newSites = sites.filter((site) => site.id !== id);
     setSites(newSites);
   };
 
@@ -50,70 +51,70 @@ export default function SitesDisplay({ markers }: { markers: SiteMarker[] }) {
 
 // const siteList=[
 //     {
-//         key: 1,
+//         id: 1,
 //         image: site1,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 2,
+//         id: 2,
 //         image: site2,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 3,
+//         id: 3,
 //         image: site3,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 4,
+//         id: 4,
 //         image: site4,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 5,
+//         id: 5,
 //         image: site5,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 6,
+//         id: 6,
 //         image: site6,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 7,
+//         id: 7,
 //         image: site7,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 8,
+//         id: 8,
 //         image: site8,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 9,
+//         id: 9,
 //         image: site9,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",
 //         address: "Adressen."
 //     },
 //     {
-//         key: 10,
+//         id: 10,
 //         image: site10,
 //         name: "Tittel på utslippsområdet.",
 //         siteStats: "Grad av miljøpåvirkning.",

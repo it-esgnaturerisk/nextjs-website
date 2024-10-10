@@ -6,7 +6,7 @@ import {
   integer,
   date,
   timestamp,
-  numeric,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 
 export const userElevationEnum = pgEnum("user_elevation_enum", [
@@ -18,8 +18,11 @@ export const userElevationEnum = pgEnum("user_elevation_enum", [
 export const sites = pgTable("sites", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  latitude: numeric("latitude").notNull(),
-  longitude: numeric("longitude").notNull(),
+  latitude: doublePrecision("latitude").notNull(),
+  longitude: doublePrecision("longitude").notNull(),
+  address: text(),
+  country: text(),
+  reportLink: text("report_link"),
   speciesRisk: text("species_risk"),
   geographicalRisk: text("geographical_risk"),
   lastUpdated: date("last_updated"),

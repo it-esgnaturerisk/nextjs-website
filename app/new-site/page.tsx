@@ -2,8 +2,8 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useState } from "react";
 import { SiteMarker } from "@/lib/types";
-import CreateSiteForm from "@/app/new-site/create-site-form";
-import MapNewSite from "@/app/new-site/map-new-site";
+import Form from "@/app/new-site/Form";
+import MapWithMarker from "@/app/new-site/MapWithMarker";
 
 export default function NewSite() {
   const [marker, setMarker] = useState<SiteMarker>();
@@ -11,9 +11,9 @@ export default function NewSite() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex h-full">
-        <CreateSiteForm marker={marker} setMarker={setMarker} />
+        <Form marker={marker} setMarker={setMarker} />
         <div className="flex-grow">
-          <MapNewSite marker={marker} setMarker={setMarker} />
+          <MapWithMarker marker={marker} setMarker={setMarker} />
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
-import RecentSitesTable from "@/components/recent-sites-table";
-import Link from "next/link";
+"use server";
+import RecentSitesTable from "@/components/RecentSitesTable";
 import Image from "next/image";
-import NewSiteButton from "@/components/new-site-button";
+import NewSiteButton from "@/components/NewSiteButton";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
