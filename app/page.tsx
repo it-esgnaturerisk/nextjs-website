@@ -2,8 +2,10 @@
 import RecentSitesTable from "@/components/RecentSitesTable";
 import Image from "next/image";
 import NewSiteButton from "@/components/NewSiteButton";
+import { selectSites } from "@/lib/db/queries";
 
 export default async function Home() {
+  const sites = await selectSites();
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -23,7 +25,7 @@ export default async function Home() {
 
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
-        <RecentSitesTable />
+        <RecentSitesTable sites={sites} />
       </div>
     </div>
   );
