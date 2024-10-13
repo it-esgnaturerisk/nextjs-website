@@ -4,8 +4,11 @@ import DashboardItem from "@/app/dashboard/DashboardItem";
 import StatsCard from "@/app/dashboard/StatsCard";
 import NewSiteButton from "@/components/NewSiteButton";
 import Heatmap from "./Heatmap";
+import { selectSites } from "@/lib/db/queries";
+import { SiteType } from "@/lib/types";
 
-export default function Home() {
+export default async function Home() {
+  const sites: SiteType[] = await selectSites();
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -47,7 +50,7 @@ export default function Home() {
       {/* Recent Sites Table */}
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
-        <RecentSitesTable />
+        <RecentSitesTable sites={sites} />
       </div>
     </div>
   );

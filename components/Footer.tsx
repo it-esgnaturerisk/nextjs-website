@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div role="contentinfo" className="w-full text-center">
-      <div className="flex justify-between items-center w-full">
+    <div role="contentinfo" className="w-full text-center bg-greenheader">
+      <div className="flex justify-between items-center w-full bg-white">
         <div className="flex h-full items-center">
           <Link className="justify-start" href="https://flowbite.com">
             <Image
@@ -17,10 +17,11 @@ export default function Footer() {
           <p className="font-bold justify-start">ESG Nature Risk</p>
         </div>
         <div className="justify-end mx-5">
-          Contact us:
+          Contact us at
           <Link className="mx-3" href="mailto:tom@esgnaturerisk.com">
             tom@esgnaturerisk.com
-          </Link>
+          </Link>{" "}
+          {" or "}
           <Link className="mx-3" href="mailto:anders@esgnaturerisk.com">
             anders@esgnaturerisk.com
           </Link>
@@ -36,8 +37,8 @@ export default function Footer() {
         </div>
       </div>
       <hr />
-      <p> ©2024 ESG Nature Risk</p>
-      <p>Bjønnstien 14, 2208 Kongsvinger</p>
+      <p className="text-white"> ©2024 ESG Nature Risk</p>
+      <p className="text-white">Bjønnstien 14, 2208 Kongsvinger</p>
     </div>
   );
 }

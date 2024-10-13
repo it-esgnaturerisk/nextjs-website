@@ -1,12 +1,12 @@
 "use client";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useState } from "react";
-import { SiteMarker } from "@/lib/types";
+import { SiteMarkerType } from "@/lib/types";
 import Form from "@/app/new-site/Form";
 import MapWithMarker from "@/app/new-site/MapWithMarker";
 
 export default function NewSite() {
-  const [marker, setMarker] = useState<SiteMarker>();
+  const [marker, setMarker] = useState<SiteMarkerType>();
 
   return (
     <div className="flex flex-col h-full">

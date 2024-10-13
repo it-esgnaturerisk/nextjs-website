@@ -1,13 +1,17 @@
-"server-only"; // Because of the get_sites with the API key.
+import { SiteType } from "@/lib/types";
 import NewSiteButton from "./NewSiteButton";
-import { getSites } from "@/lib/db/queries";
 
-export default async function RecentSitesTable() {
-  const sites = await getSites();
-  if (!sites) {
+interface RecentSitesTablePros {
+  sites: SiteType[];
+}
+
+const RecentSitesTable = ({ sites }: RecentSitesTablePros) => {
+  if (sites.length == 0) {
+    console.log("Database responded correctly, but no sites were found.");
     return (
       <div>
-        No sites found. Get started by pressing the <NewSiteButton />
+        No sites were found. Get started by pressing the <NewSiteButton />{" "}
+        button to mark your first site.
       </div>
     );
   } else {
@@ -17,17 +21,19 @@ export default async function RecentSitesTable() {
           <thead className="bg-greenlight">
             <tr>
               <th className="py-2 px-4 border-b text-left">Name</th>
-              <th className="py-2 px-4 border-b text-left">Country</th>
+              <th className="py-2 px-4 border-b text-left">Location</th>
               <th className="py-2 px-4 border-b text-center">Species Risk</th>
-              <th className="py-2 px-4 border-b text-center">
-                Geographical Risk
-              </th>
+              <th className="py-2 px-4 border-b text-center">Geo. Risk</th>
+              <th className="py-2 px-4 border-b text-left">Red List</th>
+              <th className="py-2 px-4 border-b text-left">PAs</th>
+              <th className="py-2 px-4 border-b text-left">KBAs</th>
               <th className="py-2 px-4 border-b text-left">Portfolio</th>
+              <th className="py-2 px-4 border-b text-left">Date</th>
               <th className="py-2 px-4 border-b text-left">Report</th>
             </tr>
           </thead>
           <tbody>
-            {/* {sites.map((site, index) => (
+            {sites.map((site, index) => (
               <tr key={index}>
                 <td className="py-2 px-4 border-b text-left">{site.name}</td>
                 <td className="py-2 px-4 border-b text-left">
@@ -39,8 +45,13 @@ export default async function RecentSitesTable() {
                 <td className="py-2 px-4 border-b text-center">
                   <span className={`text-${site.geographicalRisk}-500`}>●</span>
                 </td>
+                <td className="py-2 px-4 border-b text-center">N/A</td>
+                <td className="py-2 px-4 border-b text-center">N/A</td>
                 <td className="py-2 px-4 border-b text-left">
-                  {site.portfolioId}
+                  {site.portfolioId || "N/A"}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {site.created?.getDate() || "N/A"}
                 </td>
                 <td className="py-2 px-4 border-b text-left">
                   {site.reportLink ? (
@@ -52,10 +63,12 @@ export default async function RecentSitesTable() {
                   )}
                 </td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>
     );
   }
-}
+};
+
+export default RecentSitesTable;

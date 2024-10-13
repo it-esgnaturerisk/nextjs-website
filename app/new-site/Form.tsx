@@ -2,12 +2,12 @@ import React, { useState, FormEvent } from "react";
 import SiteRange from "@/app/new-site/Range";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { Site } from "@/lib/db/types";
-import { SiteMarker } from "@/lib/types";
+import { SiteType } from "@/lib/types";
+import { SiteMarkerType } from "@/lib/types";
 
 async function insertSite(
   event: FormEvent<HTMLFormElement>
-): Promise<Site[] | null> {
+): Promise<SiteType[] | null> {
   event.preventDefault();
   const formData = new FormData(event.currentTarget as HTMLFormElement);
   // formData.append("ranges", selectedRanges);
@@ -36,8 +36,8 @@ export default function Form({
   marker,
   setMarker,
 }: {
-  marker: SiteMarker | undefined;
-  setMarker: (newMarker: SiteMarker) => void;
+  marker: SiteMarkerType | undefined;
+  setMarker: (newMarker: SiteMarkerType) => void;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -89,7 +89,7 @@ export default function Form({
       }
 
       if (id === "latitude" && longitude) {
-        const newMarker: SiteMarker = {
+        const newMarker: SiteMarkerType = {
           longitude: longitude,
           latitude: floatValue,
         };
@@ -97,7 +97,7 @@ export default function Form({
       }
 
       if (id === "longitude" && latitude) {
-        const newMarker: SiteMarker = {
+        const newMarker: SiteMarkerType = {
           longitude: floatValue,
           latitude: latitude,
         };

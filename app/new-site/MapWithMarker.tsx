@@ -1,18 +1,18 @@
-import { SiteMarker } from "@/lib/types";
+import { SiteMarkerType } from "@/lib/types";
 import Map, { Marker } from "react-map-gl";
 
 export default function MapWithMarker({
   marker,
   setMarker,
 }: {
-  marker: SiteMarker | undefined;
-  setMarker: (newMarker: SiteMarker) => void;
+  marker: SiteMarkerType | undefined;
+  setMarker: (newMarker: SiteMarkerType) => void;
 }) {
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   function handleMapClick(event: any) {
     const { lngLat } = event;
-    const newMarker: SiteMarker = {
+    const newMarker: SiteMarkerType = {
       longitude: lngLat.lng,
       latitude: lngLat.lat,
     };

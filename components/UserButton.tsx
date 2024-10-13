@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { NewUser } from "@/lib/db/types";
+import { NewUserType } from "@/lib/types";
 import { insertUser } from "@/lib/db/queries";
 // export type User = {
 //   key: string;

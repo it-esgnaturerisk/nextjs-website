@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import { Site } from "@/lib/db/types";
+import { SiteType } from "@/lib/types";
 
-const SiteCard = (site: Site) => {
+const SiteCard = (site: SiteType) => {
   const [removed, setRemoved] = React.useState(false);
 
   const handleClick = () => {

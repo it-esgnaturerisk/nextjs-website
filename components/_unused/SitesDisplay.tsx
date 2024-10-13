@@ -1,9 +1,13 @@
-import { Site } from "@/lib/db/types";
-import { SiteMarker } from "@/lib/types";
+import { SiteType } from "@/lib/types";
+import { SiteMarkerType } from "@/lib/types";
 import { useState } from "react";
 
-export default function SitesDisplay({ markers }: { markers: SiteMarker[] }) {
-  const [sites, setSites] = useState<Site[]>([]);
+export default function SitesDisplay({
+  markers,
+}: {
+  markers: SiteMarkerType[];
+}) {
+  const [sites, setSites] = useState<SiteType[]>([]);
 
   const onRemove = (id: number) => {
     const newSites = sites.filter((site) => site.id !== id);

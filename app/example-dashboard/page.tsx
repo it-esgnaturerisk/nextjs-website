@@ -28,7 +28,7 @@ export default function Home() {
       {/* Recent Sites Table */}
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
-        <RecentSitesTable />
+        <RecentSitesTable sites={[]} />
       </div>
     </div>
   );
