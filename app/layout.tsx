@@ -23,7 +23,7 @@ export default function RootLayout({
           <div role="main" className="bg-greengray flex-grow h-screen">
             {children}
           </div>
-          <FooterComponent />
+          {/* <FooterComponent /> */}
         </div>
       </body>
     </html>
