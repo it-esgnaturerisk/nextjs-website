@@ -1,25 +1,25 @@
-import React from "react";
-import { FaDownload } from "react-icons/fa";
+import React from 'react';
+import { FaDownload } from 'react-icons/fa';
 
 const initialSites = [
   {
     id: 1,
-    name: "Crucerio II N 22",
-    location: "Spain",
+    name: 'Crucerio II N 22',
+    location: 'Spain',
     speciesRisk: 0,
     geoRisk: 1,
     redList: 1259,
     pas: 26,
     kbas: 2,
-    portfolio: "ESP",
-    date: "22/09/23",
+    portfolio: 'ESP',
+    date: '22/09/23',
   },
   // Add other site objects here as in the example image
 ];
 
-const riskColorMap = ["green-500", "orange-500", "red-500"];
+const riskColorMap = ['green-500', 'orange-500', 'red-500'];
 
-const SitesTable = () => {
+function SitesTable() {
   const sites = initialSites;
 
   return (
@@ -27,7 +27,7 @@ const SitesTable = () => {
       <table className="min-w-full bg-white border border-gray-300">
         <thead className="bg-gray-200">
           <tr>
-            <th className="p-3 text-left"></th>
+            <th className="p-3 text-left" />
             <th className="p-3 text-left">Name</th>
             <th className="p-3 text-left">Location</th>
             <th className="p-3 text-center">Species Risk</th>
@@ -80,6 +80,6 @@ const SitesTable = () => {
       </table>
     </div>
   );
-};
+}
 
 export default SitesTable;

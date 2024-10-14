@@ -1,8 +1,11 @@
-"use server";
-import RecentSitesTable from "@/components/RecentSitesTable";
-import Image from "next/image";
-import NewSiteButton from "@/components/NewSiteButton";
-import { selectSites } from "@/lib/db/queries";
+'use server';
+
+import React from 'react';
+
+import RecentSitesTable from '@/components/RecentSitesTable';
+import Image from 'next/image';
+import NewSiteButton from '@/components/NewSiteButton';
+import { selectSites } from '@/lib/db/queries';
 
 export default async function Home() {
   const sites = await selectSites();
@@ -19,9 +22,9 @@ export default async function Home() {
         width={0}
         height={0}
         sizes="100vw"
-        style={{ width: "100%", height: "auto" }}
+        style={{ width: '100%', height: 'auto' }}
         quality={100}
-      ></Image>
+      />
 
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>

@@ -1,15 +1,17 @@
+import React from 'react';
+
 interface HeaderButtonProps {
     children: React.ReactNode;
 }
 
-const HeaderButton=({ children }: HeaderButtonProps)=>{
-    return (
-    <button className="flex bg-white h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-        <div className="hidden md:block">
-            {children}
-        </div>
+function HeaderButton({ children }: HeaderButtonProps) {
+  return (
+    <button type="button" className="flex bg-white h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+      <div className="hidden md:block">
+        {children}
+      </div>
     </button>
-    )
+  );
 }
 
 export default HeaderButton;

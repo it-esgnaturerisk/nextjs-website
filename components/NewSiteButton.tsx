@@ -1,4 +1,5 @@
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 interface NewSiteButtonProps {
   classNameArgs?: string;
@@ -6,24 +7,30 @@ interface NewSiteButtonProps {
   href?: string;
 }
 
-const NewSiteButton = ({
+function NewSiteButton({
   classNameArgs,
   children,
   href,
-}: NewSiteButtonProps) => {
+}: NewSiteButtonProps) {
   return (
     <Link
-      href={href ? href : "/new-site"}
+      href={href || '/new-site'}
       aria-label={
         href
-          ? href.substring(1, href.length) + "-button"
-          : "button-label-no-href"
+          ? `${href.substring(1, href.length)}-button`
+          : 'button-label-no-href'
       }
       className={`${classNameArgs} bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md`}
     >
-      {children ? children : "+ New Site"}
+      {children || '+ New Site'}
     </Link>
   );
+}
+
+NewSiteButton.defaultProps = {
+  classNameArgs: '',
+  children: null,
+  href: '/new-site',
 };
 
 export default NewSiteButton;

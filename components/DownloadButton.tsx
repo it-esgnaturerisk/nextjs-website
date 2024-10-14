@@ -1,20 +1,23 @@
-import React from "react";
-import { DownloadIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from 'react';
+// import { DownloadIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 
-const DownloadButton = ({ fileName }: { fileName: string }) => (
-  <Link
-    href={`https://esg-reports-bucket.s3.amazonaws.com/${fileName}`}
-    legacyBehavior
-  >
-    <a
-      target="_blank"
-      className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md"
+function DownloadButton({ fileName }: { fileName: string }) {
+  return (
+    <Link
+      href={`https://esg-reports-bucket.s3.amazonaws.com/${fileName}`}
+      legacyBehavior
     >
-      {"Download Example Report"}
-      {/* <DownloadIcon /> */}
-    </a>
-  </Link>
-);
+      <a
+        target="_blank"
+        className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md"
+      >
+        Download Example Report
+        {/* <DownloadIcon /> */}
+      </a>
+    </Link>
+  );
+}
 
 export default DownloadButton;

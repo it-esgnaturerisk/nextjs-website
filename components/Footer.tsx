@@ -1,5 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -12,7 +13,8 @@ export default function Footer() {
               alt="ESG Nature Risk"
               width={50}
               height={50}
-            ></Image>{" "}
+            />
+            {' '}
           </Link>
           <p className="font-bold justify-start">ESG Nature Risk</p>
         </div>
@@ -20,8 +22,9 @@ export default function Footer() {
           Contact us at
           <Link className="mx-3" href="mailto:tom@esgnaturerisk.com">
             tom@esgnaturerisk.com
-          </Link>{" "}
-          {" or "}
+          </Link>
+          {' '}
+          {' or '}
           <Link className="mx-3" href="mailto:anders@esgnaturerisk.com">
             anders@esgnaturerisk.com
           </Link>

@@ -1,33 +1,32 @@
-import React, { useState, FormEvent } from "react";
-import SiteRange from "@/app/new-site/Range";
-import Link from "next/link";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { SiteType } from "@/lib/types";
-import { SiteMarkerType } from "@/lib/types";
+import React, { useState, FormEvent } from 'react';
+import SiteRange from '@/app/new-site/Range';
+import Link from 'next/link';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { SiteType, SiteMarkerType } from '@/lib/types';
 
 async function insertSite(
-  event: FormEvent<HTMLFormElement>
+  event: FormEvent<HTMLFormElement>,
 ): Promise<SiteType[] | null> {
   event.preventDefault();
-  const formData = new FormData(event.currentTarget as HTMLFormElement);
+  // const formData = new FormData(event.currentTarget as HTMLFormElement);
   // formData.append("ranges", selectedRanges);
 
   try {
-    const response = await fetch("http://localhost:3000/api/insert_new_site", {
-      method: "POST",
+    const response = await fetch('http://localhost:3000/api/insert_new_site', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     if (!response.ok) {
       throw new Error(
-        "Error inserting sites, response status: ${response.status}"
+        `Error inserting sites, response status: ${response.status}`,
       );
     }
     const data = await response.json(); // Parse the JSON response
     return data.sites; // Return the data
   } catch (error: any) {
-    console.error("Error inserting sites:", error);
+    console.error('Error inserting sites:', error);
     return null; // Return an error message
   }
 }
@@ -40,18 +39,21 @@ export default function Form({
   setMarker: (newMarker: SiteMarkerType) => void;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
   let latitude = marker ? marker.latitude : undefined;
   let longitude = marker ? marker.longitude : undefined;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
 
   function setRange(selectedValues: number[]) {
     setSelectedRanges(selectedValues);
   }
 
-  // Handle when the input field is no longer in focus. Should validate the input fields for latitude and longitude
+  // Handle when the input field is no longer in focus.
+  // Should validate the input fields for latitude and longitude
   // and update the marker if the input is valid.
   async function handleUpdateMarker(event: React.FocusEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -59,54 +61,54 @@ export default function Form({
     setError(null); // Clear previous errors when a new request starts
 
     try {
-      const id = event.currentTarget.id;
-      const value = event.currentTarget.value;
+      const { id } = event.currentTarget;
+      const { value } = event.currentTarget;
 
       const floatValue = parseFloat(value);
 
-      if (isNaN(floatValue)) {
+      if (Number.isNaN(floatValue)) {
         return;
       }
 
-      if (id === "latitude" && (floatValue < -90 || floatValue > 90)) {
-        console.log("Latitude must be between -90 and 90.");
+      if (id === 'latitude' && (floatValue < -90 || floatValue > 90)) {
+        console.log('Latitude must be between -90 and 90.');
         return;
-      } else if (id === "latitude") {
+      } if (id === 'latitude') {
         latitude = floatValue;
       }
 
-      if (id === "longitude" && (floatValue < -180 || floatValue > 180)) {
-        console.log("Longitude must be between -180 and 180.");
+      if (id === 'longitude' && (floatValue < -180 || floatValue > 180)) {
+        console.log('Longitude must be between -180 and 180.');
         return;
-      } else if (id === "longitude") {
+      } if (id === 'longitude') {
         longitude = floatValue;
       }
 
-      if (id === "latitude" && longitude == undefined) {
+      if (id === 'latitude' && longitude === undefined) {
         return;
-      } else if (id === "longitude" && latitude == undefined) {
+      } if (id === 'longitude' && latitude === undefined) {
         return;
       }
 
-      if (id === "latitude" && longitude) {
+      if (id === 'latitude' && longitude) {
         const newMarker: SiteMarkerType = {
-          longitude: longitude,
+          longitude,
           latitude: floatValue,
         };
         setMarker(newMarker);
       }
 
-      if (id === "longitude" && latitude) {
+      if (id === 'longitude' && latitude) {
         const newMarker: SiteMarkerType = {
           longitude: floatValue,
-          latitude: latitude,
+          latitude,
         };
         setMarker(newMarker);
       }
-    } catch (error: any) {
+    } catch (e: any) {
       // Capture the error message to display to the user
-      setError(error.message);
-      console.error(error);
+      setError(e.message);
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -120,9 +122,9 @@ export default function Form({
 
     try {
       insertSite(event);
-    } catch (error: any) {
-      setError(error.message);
-      console.error(error);
+    } catch (e: any) {
+      setError(e.message);
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -141,6 +143,7 @@ export default function Form({
 
       <form onSubmit={onSubmit}>
         <div className="mb-6">
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-gray-700 font-semibold mb-2">
             Site name*
             <input
@@ -167,7 +170,7 @@ export default function Form({
                 type="number"
                 id="latitude"
                 step={0.0001}
-                placeholder={"Latitude"}
+                placeholder="Latitude"
                 className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                 onBlur={(event) => handleUpdateMarker(event)}
               />
@@ -175,7 +178,7 @@ export default function Form({
                 type="number"
                 id="longitude"
                 step={0.0001}
-                placeholder={"Longitude"}
+                placeholder="Longitude"
                 className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                 onBlur={(event) => handleUpdateMarker(event)}
               />
@@ -183,13 +186,14 @@ export default function Form({
             <p className="pb-5">
               {marker
                 ? `Current marker location: ${latitude
-                    ?.toFixed(6)
-                    .toString()}, ${longitude?.toFixed(6).toString()}.`
-                : "No marker set."}
+                  ?.toFixed(6)
+                  .toString()}, ${longitude?.toFixed(6).toString()}.`
+                : 'No marker set.'}
             </p>
           </label>
         </div>
 
+        {/* eslint-disable-next-line react/jsx-no-bind */}
         <SiteRange onRangeUpdate={setRange} />
 
         {/* Portfolio */}
@@ -226,7 +230,7 @@ export default function Form({
             <Image src={logo_small} width={20} height={20} alt="Logo" />
             <span>Autofill with NatureRisk AI</span>
           </button>
-        </div> 
+        </div>
 
         {/* Add New Site Button */}
         <div className="text-center">
@@ -235,14 +239,15 @@ export default function Form({
             disabled={isLoading}
             className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
           >
-            {isLoading ? "Loading..." : "Add new site"}
+            {isLoading ? 'Loading...' : 'Add new site'}
           </button>
           <Link href="example-site">
             <button
+              type="button"
               disabled={isLoading}
               className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
             >
-              {isLoading ? "Loading..." : "Example"}
+              {isLoading ? 'Loading...' : 'Example'}
             </button>
           </Link>
         </div>

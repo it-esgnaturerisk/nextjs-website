@@ -1,4 +1,7 @@
-"use client";
+'use client';
+
+import React from 'react';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,12 +9,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { PersonIcon } from "@radix-ui/react-icons";
-import { NewUserType } from "@/lib/types";
-import { insertUser } from "@/lib/db/queries";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { PersonIcon } from '@radix-ui/react-icons';
+// import { NewUserType } from '@/lib/types';
+// import { insertUser } from '@/lib/db/queries';
 // export type User = {
 //   key: string;
 //   email: string;
@@ -48,14 +51,15 @@ export default function UserButton() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
+        {/* eslint-disable-next-line no-constant-condition */}
         {false ? ( // user ? (
           <DropdownMenuItem>
-            <button>Logout</button>
+            <button type="button">Logout</button>
             {/* onClick={() => signOut()} */}
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem>
-            <Link href={"/"}>Login</Link>
+            <Link href="/">Login</Link>
           </DropdownMenuItem>
         )}
         {/* <DropdownMenuItem>

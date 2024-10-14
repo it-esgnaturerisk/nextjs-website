@@ -1,6 +1,9 @@
-"use client";
-import { NewUserType } from "@/lib/types";
-import { ChangeEvent, FC, useState } from "react";
+'use client';
+
+/* eslint-disable react/function-component-definition */
+
+import React, { ChangeEvent, FC, useState } from 'react';
+import { NewUserType } from '@/lib/types';
 
 interface Props {
   createUser: (newUser: NewUserType) => void;
@@ -8,21 +11,21 @@ interface Props {
 
 const CreateUser: FC<Props> = ({ createUser }) => {
   // State for handling input values
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
   const [elevation, setElevation] = useState<
-    "regular" | "technician" | "admin"
-  >("regular");
-  const [company, setCompany] = useState<string>("");
+    'regular' | 'technician' | 'admin'
+  >('regular');
+  const [company, setCompany] = useState<string>('');
 
   // Event handler for input changes
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
-    setter: (value: any) => void
+    setter: (value: any) => void,
   ) => {
     const { value } = e.target;
-    setter(value === "" ? null : value);
+    setter(value === '' ? null : value);
   };
 
   //   const handleDateChange = (
@@ -34,16 +37,16 @@ const CreateUser: FC<Props> = ({ createUser }) => {
   //   };
 
   const handleElevationChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setElevation(e.target.value as "regular" | "technician" | "admin");
+    setElevation(e.target.value as 'regular' | 'technician' | 'admin');
   };
 
   // Event handler for adding a new user
   const handleAdd = async () => {
     const newUser: NewUserType = {
-      name: name,
-      email: email,
-      phone: phone,
-      elevation: elevation,
+      name,
+      email,
+      phone,
+      elevation,
       fkCompanies: company,
     };
     createUser(newUser);
@@ -57,26 +60,26 @@ const CreateUser: FC<Props> = ({ createUser }) => {
         placeholder="Name"
         className="w-full px-2 py-1 border border-gray-200 rounded outline-none"
         onChange={(e) => handleInputChange(e, setName)}
-        value={name || ""}
+        value={name || ''}
       />
       <input
         type="email"
         placeholder="Email"
         className="w-full px-2 py-1 border border-gray-200 rounded outline-none"
         onChange={(e) => handleInputChange(e, setEmail)}
-        value={email || ""}
+        value={email || ''}
       />
       <input
         type="tel"
         placeholder="Phone"
         className="w-full px-2 py-1 border border-gray-200 rounded outline-none"
         onChange={(e) => handleInputChange(e, setPhone)}
-        value={phone || ""}
+        value={phone || ''}
       />
       <select
         className="w-full px-2 py-1 border border-gray-200 rounded outline-none"
         onChange={handleElevationChange}
-        value={elevation || ""}
+        value={elevation || ''}
       >
         <option value="regular">regular</option>
         <option value="technician">technician</option>
@@ -87,9 +90,10 @@ const CreateUser: FC<Props> = ({ createUser }) => {
         placeholder="Company ID"
         className="w-full px-2 py-1 border border-gray-200 rounded outline-none"
         onChange={(e) => handleInputChange(e, setCompany)}
-        value={company || ""}
+        value={company || ''}
       />
       <button
+        type="button"
         className="flex items-center justify-center bg-green-600 text-green-50 rounded px-2 h-9 w-full py-1"
         onClick={handleAdd}
       >
