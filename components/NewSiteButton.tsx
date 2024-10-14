@@ -7,11 +7,7 @@ interface NewSiteButtonProps {
   href?: string;
 }
 
-const NewSiteButton = ({
-  classNameArgs = '',
-  children = null,
-  href = '',
-}: NewSiteButtonProps) => {
+function NewSiteButton({ classNameArgs, children, href }: NewSiteButtonProps) {
   return (
     <Link
       href={href || '/new-site'}
@@ -25,6 +21,6 @@ const NewSiteButton = ({
       {children || '+ New Site'}
     </Link>
   );
-};
+}
 
 export default NewSiteButton;
