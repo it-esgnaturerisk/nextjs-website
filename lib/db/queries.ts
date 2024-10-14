@@ -20,7 +20,6 @@ export const insertUser = async (newUser: NewUserType) => {
     .values(newUser)
     .returning()
     .then((u) => u[0]);
-  alert(`Success! Inserted user ${insertedUser.name} into database.`);
   return insertedUser;
 };
 

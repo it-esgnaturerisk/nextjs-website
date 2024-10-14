@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 interface NewSiteButtonProps {
   classNameArgs?: '';
-  children?: null;
+  children?: React.ReactNode;
   href?: string;
 }
 
@@ -22,5 +22,11 @@ function NewSiteButton({ classNameArgs, children, href }: NewSiteButtonProps) {
     </Link>
   );
 }
+
+NewSiteButton.defaultProps = {
+  classNameArgs: '',
+  children: null,
+  href: '/href',
+};
 
 export default NewSiteButton;
