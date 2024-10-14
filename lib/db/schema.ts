@@ -1,12 +1,11 @@
 import {
   pgEnum,
   pgTable,
-  serial,
   text,
-  integer,
   date,
   timestamp,
   doublePrecision,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 export const userElevationEnum = pgEnum("user_elevation_enum", [
@@ -16,7 +15,7 @@ export const userElevationEnum = pgEnum("user_elevation_enum", [
 ]);
 
 export const sites = pgTable("sites", {
-  id: serial("id").primaryKey(),
+  uuid: uuid("uuid").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   latitude: doublePrecision("latitude").notNull(),
   longitude: doublePrecision("longitude").notNull(),
@@ -27,34 +26,34 @@ export const sites = pgTable("sites", {
   geographicalRisk: text("geographical_risk"),
   lastUpdated: date("last_updated"),
   created: timestamp("created").defaultNow(),
-  ranges: integer("ranges"),
-  portfolioId: integer("portfolio_id").references(() => portfolio.id),
-  userId: integer("user_id").references(() => users.id),
+  ranges: text("ranges"),
+  fkPortfolios: uuid("fk_portfolios").references(() => portfolios.uuid),
+  fkUsers: uuid("fk_users").references(() => users.uuid),
 });
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  uuid: uuid("uuid").defaultRandom().primaryKey(),
   name: text("name"),
-  email: text("email"),
+  email: text("email").notNull(),
   phone: text("phone"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
-  elevation: userElevationEnum("elevation").default("regular"),
+  elevation: userElevationEnum("elevation").default("regular").notNull(),
   lastActive: timestamp("last_active"),
-  company: integer("company_id").references(() => companies.id),
+  fkCompanies: uuid("fk_companies").references(() => companies.uuid),
 });
 
-export const portfolio = pgTable("portfolio", {
-  id: serial("id").primaryKey(),
+export const portfolios = pgTable("portfolios", {
+  uuid: uuid("uuid").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
-  userId: integer("user_id").references(() => users.id),
+  fk_users: uuid("fk_users").references(() => users.uuid),
 });
 
 export const companies = pgTable("companies", {
-  id: serial("id").primaryKey(),
+  uuid: uuid("uuid").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   registrationNumber: text("registration_number").notNull(),
   address: text("address"),

@@ -15,6 +15,13 @@
       "when": 1728581435771,
       "tag": "20241010173035_handy_ikaris",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1728883401267,
+      "tag": "20241014052321_sleepy_kree",
+      "breakpoints": true
     }
   ]
 }
