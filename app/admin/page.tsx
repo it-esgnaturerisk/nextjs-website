@@ -1,6 +1,7 @@
-import { selectUsers, selectSites } from "@/lib/db/queries";
-import { SiteType, UserType } from "@/lib/types";
-import AdminDashboard from "./AdminDashboard";
+import React from 'react';
+import { selectUsers, selectSites } from '@/lib/db/queries';
+import { SiteType, UserType } from '@/lib/types';
+import AdminDashboard from './AdminDashboard';
 
 export default async function Home() {
   // Fetch data server-side

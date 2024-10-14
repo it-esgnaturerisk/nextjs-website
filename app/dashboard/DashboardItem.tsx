@@ -1,9 +1,11 @@
+import React from 'react';
+
 interface DashboardItemProps {
   children: React.ReactNode;
   classNameArgs?: string;
 }
 
-const DashboardItem = ({ classNameArgs, children }: DashboardItemProps) => {
+function DashboardItem({ classNameArgs, children }: DashboardItemProps) {
   return (
     <div
       className={`${classNameArgs} bg-greenlight p-6 rounded-lg shadow-md flex justify-between items-center `}
@@ -11,6 +13,10 @@ const DashboardItem = ({ classNameArgs, children }: DashboardItemProps) => {
       {children}
     </div>
   );
+}
+
+DashboardItem.defaultProps = {
+  classNameArgs: '',
 };
 
 export default DashboardItem;

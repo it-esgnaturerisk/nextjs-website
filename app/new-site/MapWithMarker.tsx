@@ -1,5 +1,6 @@
-import { SiteMarkerType } from "@/lib/types";
-import Map, { Marker } from "react-map-gl";
+import React from 'react';
+import { SiteMarkerType } from '@/lib/types';
+import Map, { Marker } from 'react-map-gl';
 
 export default function MapWithMarker({
   marker,
@@ -26,7 +27,8 @@ export default function MapWithMarker({
         latitude: 52.8,
         zoom: 3.2,
       }}
-      mapStyle={"mapbox://styles/mapbox/satellite-streets-v11"}
+      mapStyle="mapbox://styles/mapbox/satellite-streets-v11"
+      // eslint-disable-next-line react/jsx-no-bind
       onClick={handleMapClick}
     >
       {marker && (

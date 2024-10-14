@@ -1,11 +1,12 @@
-import RecentSitesTable from "@/components/RecentSitesTable";
-import Image from "next/image";
-import DashboardItem from "@/app/dashboard/DashboardItem";
-import StatsCard from "@/app/dashboard/StatsCard";
-import NewSiteButton from "@/components/NewSiteButton";
-import Heatmap from "./Heatmap";
-import { selectSites } from "@/lib/db/queries";
-import { SiteType } from "@/lib/types";
+import React from 'react';
+import RecentSitesTable from '@/components/RecentSitesTable';
+import Image from 'next/image';
+import DashboardItem from '@/app/dashboard/DashboardItem';
+import StatsCard from '@/app/dashboard/StatsCard';
+import NewSiteButton from '@/components/NewSiteButton';
+import { selectSites } from '@/lib/db/queries';
+import { SiteType } from '@/lib/types';
+import Heatmap from './Heatmap';
 
 export default async function Home() {
   const sites: SiteType[] = await selectSites();
@@ -31,7 +32,7 @@ export default async function Home() {
             width={400}
             height={400}
             quality={100}
-          ></Image>
+          />
           {/* <CircularProgress /> */}
           <div className="flex-1 ml-6">
             <div className="flex justify-between text-gray-600">

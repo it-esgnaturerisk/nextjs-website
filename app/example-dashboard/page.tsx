@@ -1,6 +1,7 @@
-import RecentSitesTable from "@/components/RecentSitesTable";
-import Link from "next/link";
-import Image from "next/image";
+import React from 'react';
+import RecentSitesTable from '@/components/RecentSitesTable';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -21,9 +22,9 @@ export default function Home() {
         width={0}
         height={0}
         sizes="100vw"
-        style={{ width: "100%", height: "auto" }}
+        style={{ width: '100%', height: 'auto' }}
         quality={100}
-      ></Image>
+      />
 
       {/* Recent Sites Table */}
       <div className="mt-8">

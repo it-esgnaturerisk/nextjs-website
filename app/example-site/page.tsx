@@ -1,4 +1,5 @@
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
 export default function ExampleSite() {
   return (
@@ -7,7 +8,7 @@ export default function ExampleSite() {
       <Image
         src="/figma/site.svg"
         alt="Example Site"
-        priority={true}
+        priority
         layout="responsive"
         width={5000}
         height={5000}

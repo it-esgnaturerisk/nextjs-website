@@ -1,6 +1,7 @@
-import Image from "next/image";
-import NewSiteButton from "@/components/NewSiteButton";
-import DownloadButton from "@/components/DownloadButton";
+import React from 'react';
+import Image from 'next/image';
+import NewSiteButton from '@/components/NewSiteButton';
+import DownloadButton from '@/components/DownloadButton';
 
 export default async function Home() {
   return (
@@ -9,22 +10,23 @@ export default async function Home() {
         <h1 className="text-2xl font-bold">Sites</h1>
 
         <div className="flex items-center space-x-4 ml-auto">
-          <DownloadButton fileName="ESG_Nature_Risk_Report_Example.pdf"></DownloadButton>
-          <NewSiteButton></NewSiteButton>
+          <DownloadButton fileName="ESG_Nature_Risk_Report_Example.pdf" />
+          <NewSiteButton />
         </div>
       </div>
 
       <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-4"></h2>
+        {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
+        <h2 className="text-lg font-semibold mb-4" />
         <Image
           src="/figma/sites-list.svg"
           alt="Sites example"
           width={0}
           height={0}
           sizes="100vw"
-          style={{ width: "100%", height: "auto" }}
+          style={{ width: '100%', height: 'auto' }}
           quality={100}
-        ></Image>
+        />
       </div>
     </div>
   );

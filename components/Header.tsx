@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
-import * as React from "react";
-import HeaderButton from "./HeaderButton";
-import { HomeIcon } from "@radix-ui/react-icons";
-import { TfiBriefcase, TfiMap } from "react-icons/tfi";
-import UserButton from "./UserButton";
+/* eslint-disable max-len */
+import Image from 'next/image';
+import Link from 'next/link';
+import * as React from 'react';
+import { HomeIcon } from '@radix-ui/react-icons';
+import { TfiBriefcase, TfiMap } from 'react-icons/tfi';
+import HeaderButton from './HeaderButton';
+import UserButton from './UserButton';
 
 export default function Header() {
   return (
@@ -21,7 +22,7 @@ export default function Header() {
           sizes="auto"
           className="hidden md:block"
           alt="logo"
-          style={{ width: "auto", height: "auto", maxHeight: "100px" }} // Adjust max height as needed
+          style={{ width: 'auto', height: 'auto', maxHeight: '100px' }} // Adjust max height as needed
         />
       </Link>
 

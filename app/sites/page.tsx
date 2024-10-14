@@ -1,5 +1,6 @@
-import RecentSitesTable from "@/components/RecentSitesTable";
-import NewSiteButton from "@/components/NewSiteButton";
+import React from 'react';
+import RecentSitesTable from '@/components/RecentSitesTable';
+import NewSiteButton from '@/components/NewSiteButton';
 
 export default function Home() {
   return (
@@ -13,7 +14,8 @@ export default function Home() {
       </div>
 
       <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-4"></h2>
+        {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
+        <h2 className="text-lg font-semibold mb-4" />
         <RecentSitesTable sites={[]} />
       </div>
     </div>

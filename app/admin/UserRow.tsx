@@ -1,6 +1,8 @@
-"use client";
-import { ChangeEvent, FC, useState } from "react";
-import { UserType } from "@/lib/types";
+'use client';
+
+/* eslint-disable react/function-component-definition */
+import React, { ChangeEvent, FC, useState } from 'react';
+import { UserType } from '@/lib/types';
 
 interface Props {
   user: UserType;
@@ -22,6 +24,7 @@ const UserRow: FC<Props> = ({
   const [name, setName] = useState(user.name);
 
   // State for handling "done" status
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isDone, setIsDone] = useState(user.elevation);
 
   // Event handler for text input change
@@ -54,7 +57,8 @@ const UserRow: FC<Props> = ({
 
   // Event handler for deleting a user item
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this user?")) {
+    // eslint-disable-next-line no-restricted-globals, no-alert
+    if (confirm('Are you sure you want to delete this user?')) {
       // deleteUserItem(user.id);
     }
   };
@@ -75,12 +79,13 @@ const UserRow: FC<Props> = ({
         value={name!}
         onChange={handleTextChange}
         readOnly={!editing}
-        className={`outline-none read-only:border-transparent focus:border border-gray-200 rounded px-2 py-1 w-full`}
+        className="outline-none read-only:border-transparent focus:border border-gray-200 rounded px-2 py-1 w-full"
       />
       {/* Action buttons for editing, saving, canceling, and deleting */}
       <div className="flex gap-1 ml-auto">
         {editing ? (
           <button
+            type="button"
             onClick={handleSave}
             className="bg-green-600 text-green-50 rounded px-2 w-14 py-1"
           >
@@ -88,6 +93,7 @@ const UserRow: FC<Props> = ({
           </button>
         ) : (
           <button
+            type="button"
             onClick={handleEdit}
             className="bg-blue-400 text-blue-50 rounded w-14 px-2 py-1"
           >
@@ -96,6 +102,7 @@ const UserRow: FC<Props> = ({
         )}
         {editing ? (
           <button
+            type="button"
             onClick={handleCancel}
             className="bg-red-400 w-16 text-red-50 rounded px-2 py-1"
           >
@@ -103,6 +110,7 @@ const UserRow: FC<Props> = ({
           </button>
         ) : (
           <button
+            type="button"
             onClick={handleDelete}
             className="bg-red-400 w-16 text-red-50 rounded px-2 py-1"
           >
