@@ -14,7 +14,7 @@ const CreateUser: FC<Props> = ({ createUser }) => {
   const [elevation, setElevation] = useState<
     "regular" | "technician" | "admin"
   >("regular");
-  const [companyId, setCompanyId] = useState<string>("");
+  const [company, setCompany] = useState<string>("");
 
   // Event handler for input changes
   const handleInputChange = (
@@ -40,11 +40,11 @@ const CreateUser: FC<Props> = ({ createUser }) => {
   // Event handler for adding a new user
   const handleAdd = async () => {
     const newUser: NewUserType = {
-      name,
-      email,
-      phone,
-      elevation,
-      companyId: companyId ? parseInt(companyId.toString()) : null,
+      name: name,
+      email: email,
+      phone: phone,
+      elevation: elevation,
+      fkCompanies: company,
     };
     createUser(newUser);
   };
@@ -86,8 +86,8 @@ const CreateUser: FC<Props> = ({ createUser }) => {
         type="number"
         placeholder="Company ID"
         className="w-full px-2 py-1 border border-gray-200 rounded outline-none"
-        onChange={(e) => handleInputChange(e, setCompanyId)}
-        value={companyId || ""}
+        onChange={(e) => handleInputChange(e, setCompany)}
+        value={company || ""}
       />
       <button
         className="flex items-center justify-center bg-green-600 text-green-50 rounded px-2 h-9 w-full py-1"

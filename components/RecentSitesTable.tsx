@@ -48,7 +48,7 @@ const RecentSitesTable = ({ sites }: RecentSitesTablePros) => {
                 <td className="py-2 px-4 border-b text-center">N/A</td>
                 <td className="py-2 px-4 border-b text-center">N/A</td>
                 <td className="py-2 px-4 border-b text-left">
-                  {site.portfolioId || "N/A"}
+                  {site.fkPortfolios || "N/A"}
                 </td>
                 <td className="py-2 px-4 border-b text-left">
                   {site.created?.getDate() || "N/A"}
