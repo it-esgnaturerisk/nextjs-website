@@ -26,8 +26,7 @@ async function insertSite(
     const data = await response.json(); // Parse the JSON response
     return data.sites; // Return the data
   } catch (error: any) {
-    console.error('Error inserting sites:', error);
-    return null; // Return an error message
+    throw new Error(`Error inserting sites, error: ${error}`);
   }
 }
 
@@ -71,22 +70,23 @@ export default function Form({
       }
 
       if (id === 'latitude' && (floatValue < -90 || floatValue > 90)) {
-        console.log('Latitude must be between -90 and 90.');
         return;
-      } if (id === 'latitude') {
+      }
+      if (id === 'latitude') {
         latitude = floatValue;
       }
 
       if (id === 'longitude' && (floatValue < -180 || floatValue > 180)) {
-        console.log('Longitude must be between -180 and 180.');
         return;
-      } if (id === 'longitude') {
+      }
+      if (id === 'longitude') {
         longitude = floatValue;
       }
 
       if (id === 'latitude' && longitude === undefined) {
         return;
-      } if (id === 'longitude' && latitude === undefined) {
+      }
+      if (id === 'longitude' && latitude === undefined) {
         return;
       }
 
@@ -107,8 +107,7 @@ export default function Form({
       }
     } catch (e: any) {
       // Capture the error message to display to the user
-      setError(e.message);
-      console.error(e);
+      throw new Error(`Error: ${e}`);
     } finally {
       setIsLoading(false);
     }
@@ -116,7 +115,6 @@ export default function Form({
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(event.currentTarget);
     setIsLoading(true);
     setError(null); // Clear previous errors when a new request starts
 
@@ -124,7 +122,7 @@ export default function Form({
       insertSite(event);
     } catch (e: any) {
       setError(e.message);
-      console.error(e);
+      throw new Error(`Error: ${e}`);
     } finally {
       setIsLoading(false);
     }
@@ -185,9 +183,8 @@ export default function Form({
             </div>
             <p className="pb-5">
               {marker
-                ? `Current marker location: ${latitude
-                  ?.toFixed(6)
-                  .toString()}, ${longitude?.toFixed(6).toString()}.`
+                ? `Current marker location: 
+                ${latitude?.toFixed(6).toString()}, ${longitude?.toFixed(6).toString()}.`
                 : 'No marker set.'}
             </p>
           </label>

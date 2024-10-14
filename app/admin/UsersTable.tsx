@@ -26,10 +26,8 @@ const UsersTable: FC<UsersTableProps> = ({ users }) => {
   //   setUserItems((prev) => prev.filter((user) => user.id !== id));
   //   deleteUser(id);
   // };
-  console.log('users:', users);
 
   if (users.length === 0) {
-    console.log('Database responded correctly, but no users were found.');
     return <div>No users were found.</div>;
   }
   return (

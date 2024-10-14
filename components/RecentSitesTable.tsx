@@ -8,13 +8,10 @@ interface RecentSitesTablePros {
 
 function RecentSitesTable({ sites }: RecentSitesTablePros) {
   if (sites.length === 0) {
-    console.log('Database responded correctly, but no sites were found.');
     return (
       <div>
         No sites were found. Get started by pressing the
-        {' '}
         <NewSiteButton />
-        {' '}
         button to mark your first site.
       </div>
     );

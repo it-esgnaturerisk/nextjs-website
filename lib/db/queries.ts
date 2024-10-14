@@ -10,8 +10,7 @@ export const selectUsers = async () => {
     const results = await db.select().from(users);
     return results;
   } catch (error) {
-    console.error('Error selecting users:', error);
-    return [];
+    throw new Error(`Error selecting users: ${error}`);
   }
 };
 
@@ -21,7 +20,7 @@ export const insertUser = async (newUser: NewUserType) => {
     .values(newUser)
     .returning()
     .then((u) => u[0]);
-  console.log(`Inserted user ${insertedUser.name} into database.`);
+  alert(`Success! Inserted user ${insertedUser.name} into database.`);
   return insertedUser;
 };
 
@@ -30,7 +29,6 @@ export const selectSites = async () => {
     const results = await db.select().from(sites);
     return results;
   } catch (error) {
-    console.error('Error selecting sites:', error);
-    return [];
+    throw new Error(`Error: ${error}`);
   }
 };
