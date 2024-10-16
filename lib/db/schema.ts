@@ -5,7 +5,6 @@ import {
   date,
   timestamp,
   doublePrecision,
-  PgNumericBuilder,
   uuid,
 } from 'drizzle-orm/pg-core';
 
