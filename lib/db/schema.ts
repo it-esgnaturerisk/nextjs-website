@@ -5,6 +5,7 @@ import {
   date,
   timestamp,
   doublePrecision,
+  PgNumericBuilder,
   uuid,
 } from 'drizzle-orm/pg-core';
 
@@ -29,12 +30,12 @@ export const companies = pgTable('companies', {
 
 export const users = pgTable('users', {
   uuid: uuid('uuid').defaultRandom().primaryKey(),
-  name: text('name'),
   email: text('email').notNull(),
+  elevation: userElevationEnum('elevation').default('regular').notNull(),
+  name: text('name'),
   phone: text('phone'),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at'),
-  elevation: userElevationEnum('elevation').default('regular').notNull(),
   lastActive: timestamp('last_active'),
   fkCompanies: uuid('fk_companies').references(() => companies.uuid),
 });
@@ -45,7 +46,7 @@ export const portfolios = pgTable('portfolios', {
   description: text('description'),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at'),
-  fk_users: uuid('fk_users').references(() => users.uuid),
+  fkCompanies: uuid('fk_companies').references(() => companies.uuid),
 });
 
 export const sites = pgTable('sites', {
@@ -53,8 +54,8 @@ export const sites = pgTable('sites', {
   name: text('name').notNull(),
   latitude: doublePrecision('latitude').notNull(),
   longitude: doublePrecision('longitude').notNull(),
-  address: text(),
-  country: text(),
+  address: text('address'),
+  country: text('country'),
   reportLink: text('report_link'),
   speciesRisk: text('species_risk'),
   geographicalRisk: text('geographical_risk'),
@@ -62,5 +63,4 @@ export const sites = pgTable('sites', {
   created: timestamp('created').defaultNow(),
   ranges: text('ranges'),
   fkPortfolios: uuid('fk_portfolios').references(() => portfolios.uuid),
-  fkUsers: uuid('fk_users').references(() => users.uuid),
 });
