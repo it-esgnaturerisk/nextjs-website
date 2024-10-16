@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "schgen": "npx drizzle-kit generate",
+    "schmig": "npx drizzle-kit migrate"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
@@ -92,7 +94,6 @@
     "postcss": "^8",
     "prettier": "3.3.3",
     "tailwindcss": "^3.4.1",
-    "tsx": "^4.19.1",
     "typescript": "^5"
   }
 }
