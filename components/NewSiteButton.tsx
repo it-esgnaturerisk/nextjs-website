@@ -23,10 +23,4 @@ function NewSiteButton({ classNameArgs, children, href }: NewSiteButtonProps) {
   );
 }
 
-NewSiteButton.defaultProps = {
-  classNameArgs: '',
-  children: null,
-  href: '/href',
-};
-
 export default NewSiteButton;
