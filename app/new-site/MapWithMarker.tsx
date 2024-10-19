@@ -4,11 +4,12 @@ import Map, { MapRef, Marker } from 'react-map-gl';
 import GeocoderControl from '@/misc/Geocoder/GeocoderControl'; // Import the GeocoderControl component correctly
 
 export default function MapWithMarker({
-  setMarker,
+  updateMarker,
+  marker,
 }: {
-  setMarker: (newMarker: SiteMarkerType) => void;
+  updateMarker: (newMarker: SiteMarkerType) => void;
+  marker: React.ReactElement | null;
 }) {
-  const [localMarker, setLocalMarker] = useState<React.ReactElement | null>(null);
   const mapRef = useRef<MapRef>(null);
   let mapboxToken: string = '';
   if (process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
@@ -18,49 +19,20 @@ export default function MapWithMarker({
     const { result } = event;
     const location = result
     && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
-    if (location) {
-      setLocalMarker(
-        <Marker
-          longitude={location[0]}
-          latitude={location[1]}
-          offset={[0, -10]}
-        >
-          <div className="text-3xl">📍</div>
-        </Marker>,
-      );
-      setMarker({
-        longitude: location[0],
-        latitude: location[1],
-      });
-    } else {
-      setLocalMarker(null);
-      setMarker({
-        longitude: 0,
-        latitude: 0,
-      });
-    }
+    updateMarker({
+      lng: location ? location[0] : 0,
+      lat: location ? location[1] : 0,
+    });
   };
 
   function handleMapClick(event: any) {
     const { lngLat } = event;
-    const newMarker: SiteMarkerType = {
-      longitude: lngLat.lng,
-      latitude: lngLat.lat,
-    };
     if (lngLat) {
-      setLocalMarker(
-        <Marker
-          longitude={lngLat.lng}
-          latitude={lngLat.lat}
-          offset={[0, -10]}
-        >
-          <div className="text-3xl">📍</div>
-        </Marker>,
-      );
-    } else {
-      setLocalMarker(null);
+      updateMarker({
+        lng: lngLat.lng,
+        lat: lngLat.lat,
+      });
     }
-    setMarker(newMarker);
   }
 
   if (!mapboxToken) {
@@ -79,7 +51,7 @@ export default function MapWithMarker({
       // eslint-disable-next-line react/jsx-no-bind
       onClick={handleMapClick}
     >
-      {localMarker}
+      {marker}
       <GeocoderControl
         mapboxAccessToken={mapboxToken}
         position="top-left"

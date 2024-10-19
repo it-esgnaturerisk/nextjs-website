@@ -6,6 +6,6 @@ export type SiteType = typeof sites.$inferSelect;
 export type NewSiteType = typeof sites.$inferInsert;
 
 export type SiteMarkerType = {
-  longitude: number;
-  latitude: number;
+  lng: number;
+  lat: number;
 };

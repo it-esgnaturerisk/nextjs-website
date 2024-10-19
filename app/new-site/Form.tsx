@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import SiteRange from '@/app/new-site/Range';
 import Link from 'next/link';
 import { IoMdArrowRoundBack } from 'react-icons/io';
@@ -31,18 +31,21 @@ async function insertSite(
 }
 
 export default function Form({
-  marker,
+  markerLng,
+  markerLat,
   setMarker,
 }: {
-  marker: SiteMarkerType | undefined;
+  markerLng: number | undefined;
+  markerLat: number | undefined;
   setMarker: (newMarker: SiteMarkerType) => void;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
-
-  let latitude = marker ? marker.latitude : undefined;
-  let longitude = marker ? marker.longitude : undefined;
+  const [latitudeVal, setLatitudeVal] = useState<number | string | undefined>();
+  const [longitudeVal, setLongitudeVal] = useState<number | string | undefined>();
+  let latitude = markerLat;
+  let longitude = markerLng;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
@@ -50,6 +53,11 @@ export default function Form({
   function setRange(selectedValues: number[]) {
     setSelectedRanges(selectedValues);
   }
+
+  useEffect(() => {
+    setLatitudeVal(markerLat);
+    setLongitudeVal(markerLng);
+  }, [markerLat, markerLng]);
 
   // Handle when the input field is no longer in focus.
   // Should validate the input fields for latitude and longitude
@@ -92,16 +100,16 @@ export default function Form({
 
       if (id === 'latitude' && longitude) {
         const newMarker: SiteMarkerType = {
-          longitude,
-          latitude: floatValue,
+          lng: longitude,
+          lat: floatValue,
         };
         setMarker(newMarker);
       }
 
       if (id === 'longitude' && latitude) {
         const newMarker: SiteMarkerType = {
-          longitude: floatValue,
-          latitude,
+          lng: floatValue,
+          lat: latitude,
         };
         setMarker(newMarker);
       }
@@ -112,6 +120,16 @@ export default function Form({
       setIsLoading(false);
     }
   }
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.currentTarget;
+    if (id === 'latitude') {
+      setLatitudeVal(parseFloat(value) || value);
+    }
+    if (id === 'longitude') {
+      setLongitudeVal(parseFloat(value) || value);
+    }
+  };
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -171,6 +189,8 @@ export default function Form({
                 placeholder="Latitude"
                 className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                 onBlur={(event) => handleUpdateMarker(event)}
+                value={latitudeVal}
+                onChange={onChange}
               />
               <input
                 type="number"
@@ -179,14 +199,10 @@ export default function Form({
                 placeholder="Longitude"
                 className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                 onBlur={(event) => handleUpdateMarker(event)}
+                value={longitudeVal}
+                onChange={onChange}
               />
             </div>
-            <p className="pb-5">
-              {marker
-                ? `Current marker location: 
-                ${latitude?.toFixed(6).toString()}, ${longitude?.toFixed(6).toString()}.`
-                : 'No marker set.'}
-            </p>
           </label>
         </div>
 
