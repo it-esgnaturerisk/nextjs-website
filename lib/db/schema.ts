@@ -6,6 +6,8 @@ import {
   timestamp,
   doublePrecision,
   uuid,
+  serial,
+  integer,
 } from 'drizzle-orm/pg-core';
 
 export const userElevationEnum = pgEnum('user_elevation_enum', [
@@ -15,7 +17,8 @@ export const userElevationEnum = pgEnum('user_elevation_enum', [
 ]);
 
 export const companies = pgTable('companies', {
-  uuid: uuid('uuid').defaultRandom().primaryKey(),
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom(),
   name: text('name').notNull(),
   registrationNumber: text('registration_number').notNull(),
   address: text('address'),
@@ -28,7 +31,8 @@ export const companies = pgTable('companies', {
 });
 
 export const users = pgTable('users', {
-  uuid: uuid('uuid').defaultRandom().primaryKey(),
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom(),
   email: text('email').notNull(),
   elevation: userElevationEnum('elevation').default('regular').notNull(),
   name: text('name'),
@@ -36,20 +40,22 @@ export const users = pgTable('users', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at'),
   lastActive: timestamp('last_active'),
-  fkCompanies: uuid('fk_companies').references(() => companies.uuid),
+  fkCompanies: integer('fk_companies').references(() => companies.id),
 });
 
 export const portfolios = pgTable('portfolios', {
-  uuid: uuid('uuid').defaultRandom().primaryKey(),
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom(),
   name: text('name').notNull(),
   description: text('description'),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at'),
-  fkCompanies: uuid('fk_companies').references(() => companies.uuid),
+  fkCompanies: integer('fk_companies').references(() => companies.id),
 });
 
 export const sites = pgTable('sites', {
-  uuid: uuid('uuid').defaultRandom().primaryKey(),
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom(),
   name: text('name').notNull(),
   latitude: doublePrecision('latitude').notNull(),
   longitude: doublePrecision('longitude').notNull(),
@@ -61,5 +67,5 @@ export const sites = pgTable('sites', {
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
   ranges: text('ranges'),
-  fkPortfolios: uuid('fk_portfolios').references(() => portfolios.uuid),
+  fkPortfolios: integer('fk_portfolios').references(() => portfolios.id),
 });

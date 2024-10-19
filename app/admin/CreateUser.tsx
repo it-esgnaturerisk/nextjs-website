@@ -17,7 +17,7 @@ const CreateUser: FC<Props> = ({ createUser }) => {
   const [elevation, setElevation] = useState<
     'regular' | 'technician' | 'admin'
   >('regular');
-  const [company, setCompany] = useState<string>('');
+  const [company, setCompany] = useState<number>(0);
 
   // Event handler for input changes
   const handleInputChange = (
