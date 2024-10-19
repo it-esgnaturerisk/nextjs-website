@@ -34,10 +34,12 @@ export default function Form({
   markerLng,
   markerLat,
   setMarker,
+  setCircles,
 }: {
   markerLng: number | undefined;
   markerLat: number | undefined;
   setMarker: (newMarker: SiteMarkerType) => void;
+  setCircles: (newCircles: number[]) => void;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,6 +53,7 @@ export default function Form({
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
 
   function setRange(selectedValues: number[]) {
+    setCircles(selectedValues);
     setSelectedRanges(selectedValues);
   }
 

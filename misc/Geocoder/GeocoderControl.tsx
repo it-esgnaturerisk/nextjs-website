@@ -20,6 +20,7 @@ type GeocoderControlProps = Omit<GeocoderOptions, 'accessToken' | 'mapboxgl' | '
 /* eslint-disable complexity,max-statements */
 export default function GeocoderControl(props: GeocoderControlProps) {
   const { onLoading, onResult, onError, onResults } = props;
+  // @ts-ignore 
   const geocoder = useControl<MapboxGeocoder>(
     () => {
       const ctrl = new MapboxGeocoder({
@@ -37,7 +38,6 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       position: props.position
     }
   );
-
   // @ts-ignore (TS2339) private member
   if (geocoder._map) {
     if (geocoder.getProximity() !== props.proximity && props.proximity !== undefined) {

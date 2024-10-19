@@ -10,6 +10,7 @@ export default function NewSite() {
   const [markerLng, setMarkerLng] = useState<number>();
   const [markerLat, setMarkerLat] = useState<number>();
   const [markerElement, setMarkerElement] = useState<React.ReactElement | null>(null);
+  const [circles, setCircles] = useState<number[]>([]);
 
   const updateMarker = ({ lng, lat }: { lng: number | undefined, lat: number | undefined }) => {
     if (!lng || !lat) setMarkerElement(null);
@@ -31,9 +32,20 @@ export default function NewSite() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex h-full">
-        <Form markerLng={markerLng} markerLat={markerLat} setMarker={updateMarker} />
+        <Form
+          markerLng={markerLng}
+          markerLat={markerLat}
+          setMarker={updateMarker}
+          setCircles={setCircles}
+        />
         <div className="flex-grow">
-          <MapWithMarker marker={markerElement} updateMarker={updateMarker} />
+          <MapWithMarker
+            marker={markerElement}
+            updateMarker={updateMarker}
+            markerLng={markerLng}
+            markerLat={markerLat}
+            circles={circles}
+          />
         </div>
       </div>
     </div>
