@@ -1,0 +1,59 @@
+Enum user_elevation_enum {
+  regular
+  technician
+  admin
+}
+
+Table companies {
+  id int [pk, increment] // Serial (primary key)
+  uuid uuid [default: "random()"]
+  name text [not null]
+  registration_number text [not null]
+  address text
+  city text
+  country text
+  phone_number text
+  created_at timestamp [default: "now()"]
+  updated_at timestamp
+  contact_email text
+}
+
+Table users {
+  id int [pk, increment] // Serial (primary key)
+  uuid uuid [default: "random()"]
+  email text [not null]
+  elevation user_elevation_enum [default: "regular", not null]
+  name text
+  phone text
+  created_at timestamp [default: "now()"]
+  updated_at timestamp
+  last_active timestamp
+  fk_companies int [ref: > companies.id]
+}
+
+Table portfolios {
+  id int [pk, increment] // Serial (primary key)
+  uuid uuid [default: "random()"]
+  name text [not null]
+  description text
+  created_at timestamp [default: "now()"]
+  updated_at timestamp
+  fk_companies int [ref: > companies.id]
+}
+
+Table sites {
+  id int [pk, increment] // Serial (primary key)
+  uuid uuid [default: "random()"]
+  name text [not null]
+  latitude doubleprecision [not null]
+  longitude doubleprecision [not null]
+  address text
+  country text
+  report_link text
+  species_risk text
+  geographical_risk text
+  last_updated date
+  created timestamp [default: "now()"]
+  ranges text
+  fk_portfolios int [ref: > portfolios.id]
+}
