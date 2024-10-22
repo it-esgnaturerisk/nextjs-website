@@ -2,33 +2,8 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import SiteRange from '@/app/new-site/Range';
 import Link from 'next/link';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { SiteType, SiteMarkerType } from '@/lib/types';
-
-async function insertSite(
-  event: FormEvent<HTMLFormElement>,
-): Promise<SiteType[] | null> {
-  event.preventDefault();
-  // const formData = new FormData(event.currentTarget as HTMLFormElement);
-  // formData.append("ranges", selectedRanges);
-
-  try {
-    const response = await fetch('http://localhost:3000/api/insert_new_site', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error(
-        `Error inserting sites, response status: ${response.status}`,
-      );
-    }
-    const data = await response.json(); // Parse the JSON response
-    return data.sites; // Return the data
-  } catch (error: any) {
-    throw new Error(`Error inserting sites, error: ${error}`);
-  }
-}
+import { SiteType, SiteMarkerType, PortfolioType } from '@/lib/types';
+import { selectPortfolios, insertSite } from '@/lib/db/queries';
 
 export default function Form({
   markerLng,
@@ -36,8 +11,8 @@ export default function Form({
   setMarker,
   setCircles,
 }: {
-  markerLng: number | undefined;
-  markerLat: number | undefined;
+  markerLng: number;
+  markerLat: number;
   setMarker: (newMarker: SiteMarkerType) => void;
   setCircles: (newCircles: number[]) => void;
 }) {
@@ -46,11 +21,23 @@ export default function Form({
   const [error, setError] = useState<string | null>(null);
   const [latitudeVal, setLatitudeVal] = useState<number | string | undefined>();
   const [longitudeVal, setLongitudeVal] = useState<number | string | undefined>();
+  const [portfolios, setPortfolios] = useState<PortfolioType[]>([]);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<string | null>(null);
+  const [siteName, setSiteName] = useState<string>('');
+
   let latitude = markerLat;
   let longitude = markerLng;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchPortfolios = async () => {
+      const response = await selectPortfolios();
+      setPortfolios(response);
+    };
+    fetchPortfolios();
+  }, []);
 
   function setRange(selectedValues: number[]) {
     setCircles(selectedValues);
@@ -140,7 +127,21 @@ export default function Form({
     setError(null); // Clear previous errors when a new request starts
 
     try {
-      insertSite(event);
+      const newSite = {
+        name: siteName,
+        latitude: markerLat,
+        longitude: markerLng,
+        address: 'Address',
+        country: 'Country',
+        reportLink: 'Report Link',
+        speciesRisk: 'Species Risk',
+        geographicalRisk: 'Geographical Risk',
+      };
+      try {
+        await insertSite(newSite);
+      } catch (e: any) {
+        setError(e.message);
+      }
     } catch (e: any) {
       setError(e.message);
       throw new Error(`Error: ${e}`);
@@ -170,6 +171,8 @@ export default function Form({
               id="siteName"
               placeholder="Define site name"
               className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
+              value={siteName}
+              onChange={(e) => setSiteName(e.target.value)}
             />
           </label>
         </div>
@@ -222,9 +225,18 @@ export default function Form({
             <select
               id="portfolio"
               className="w-full border-b-2 border-gray-300 py-2 px-4 bg-white focus:outline-none focus:border-green-500"
+              value={selectedPortfolio || ''}
+              onChange={(e) => setSelectedPortfolio(e.target.value)}
             >
-              <option>Select Portfolio</option>
-              {/* Add options here */}
+              <option value="" disabled>Select Portfolio</option>
+              {portfolios.map((portfolio) => (
+                <option
+                  key={portfolio.uuid}
+                  value={portfolio.uuid}
+                >
+                  {portfolio.name}
+                </option>
+              ))}
             </select>
           </label>
         </div>

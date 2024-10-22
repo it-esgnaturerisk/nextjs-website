@@ -1,16 +1,29 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import React, { useState } from 'react';
 import Form from '@/app/new-site/Form';
 import { Marker } from 'react-map-gl';
 import MapWithMarker from '@/app/new-site/MapWithMarker';
+import { selectPortfolios } from '@/lib/db/queries';
 
 export default function NewSite() {
   const [markerLng, setMarkerLng] = useState<number>();
   const [markerLat, setMarkerLat] = useState<number>();
   const [markerElement, setMarkerElement] = useState<React.ReactElement | null>(null);
+  const [portfolios, setPortfolios] = useState([]);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<string | null>(null);
   const [circles, setCircles] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchPortfolios = async () => {
+      const response = await selectPortfolios();
+      console.log(response);
+      setPortfolios(response);
+    };
+    fetchPortfolios();
+  }, []);
 
   const updateMarker = ({ lng, lat }: { lng: number | undefined, lat: number | undefined }) => {
     if (!lng || !lat) setMarkerElement(null);

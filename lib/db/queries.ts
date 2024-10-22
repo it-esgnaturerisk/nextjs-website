@@ -1,8 +1,10 @@
 'use server';
 
 import { db } from '@/lib/db/config';
-import { users, sites } from './schema';
-import { NewUserType, UserType } from '../types';
+import { users, sites, portfolios } from './schema';
+import {
+  NewSiteType, NewUserType, SiteType, UserType,
+} from '../types';
 
 // Function to fetch all users
 export const selectUsers = async () => {
@@ -26,6 +28,24 @@ export const insertUser = async (newUser: NewUserType) => {
 export const selectSites = async () => {
   try {
     const results = await db.select().from(sites);
+    return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const insertSite = async (newSite: NewSiteType) => {
+  const insertedSite: SiteType = await db
+    .insert(sites)
+    .values(newSite)
+    .returning()
+    .then((s) => s[0]);
+  return insertedSite;
+};
+
+export const selectPortfolios = async () => {
+  try {
+    const results = await db.select().from(portfolios);
     return results;
   } catch (error) {
     throw new Error(`Error: ${error}`);
