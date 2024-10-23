@@ -66,6 +66,19 @@ export const sites = pgTable('sites', {
   geographicalRisk: text('geographical_risk'),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
-  ranges: text('ranges'),
   fkPortfolios: integer('fk_portfolios').references(() => portfolios.id),
+});
+
+export const ranges = pgTable('ranges', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom(),
+  value: integer('value').notNull(),
+  label: text('label').notNull(),
+});
+
+export const siteRanges = pgTable('site_ranges', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom(),
+  fkSites: integer('fk_sites').references(() => sites.id),
+  fkRanges: integer('fk_ranges').references(() => ranges.id),
 });

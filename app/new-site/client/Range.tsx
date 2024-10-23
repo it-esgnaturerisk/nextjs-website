@@ -1,37 +1,21 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { RangesType } from '@/lib/types';
 import Select from 'react-select';
 
 export default function Range({
   onRangeUpdate,
+  allRanges,
 }: {
   onRangeUpdate: (selectedValues: number[]) => void;
+  allRanges: RangesType[];
 }) {
-  const options = [
-    { value: 1, label: '1 km' },
-    { value: 2, label: '2 km' },
-    { value: 3, label: '3 km' },
-    { value: 4, label: '4 km' },
-    { value: 5, label: '5 km' },
-    { value: 10, label: '10 km' },
-    { value: 15, label: '15 km' },
-    { value: 20, label: '20 km' },
-    { value: 25, label: '25 km' },
-    { value: 30, label: '30 km' },
-    { value: 35, label: '35 km' },
-    { value: 40, label: '40 km' },
-    { value: 45, label: '45 km' },
-    { value: 50, label: '50 km' },
-    { value: 55, label: '55 km' },
-  ];
-
   const [nOptionsSelected, setNOptionsSelected] = useState<number>(0);
-
   const handleRangeUpdate = (selectedOptions: number[]) => {
     setNOptionsSelected(selectedOptions.length);
     onRangeUpdate(selectedOptions);
   };
-
+  const sortedRanges = useMemo(() => allRanges.sort((a, b) => a.value - b.value), [allRanges]);
   return (
     <div className="mb-6">
       <label
@@ -46,9 +30,10 @@ export default function Range({
       </p>
       <Select
         onChange={(selectedOptions) => handleRangeUpdate(selectedOptions.map((option) => option.value))}
+        isOptionDisabled={() => nOptionsSelected >= 3}
         isMulti
         isSearchable
-        options={options}
+        options={sortedRanges}
         className="basic"
         backspaceRemovesValue
         closeMenuOnSelect={nOptionsSelected === 2}

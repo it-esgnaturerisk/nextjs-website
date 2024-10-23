@@ -1,43 +1,61 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import SiteRange from '@/app/new-site/Range';
+import SiteRange from '@/app/new-site/client/Range';
 import Link from 'next/link';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { SiteType, SiteMarkerType, PortfolioType } from '@/lib/types';
-import { selectPortfolios, insertSite } from '@/lib/db/queries';
+import {
+  SiteMarkerType, PortfolioType, RangesType, ValidationType,
+} from '@/lib/types';
+import { insertSite } from '@/lib/db/queries';
+import { useToast } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function Form({
   markerLng,
   markerLat,
   setMarker,
   setCircles,
+  portfolios,
+  allRanges,
 }: {
-  markerLng: number;
-  markerLat: number;
+  markerLng: number | undefined;
+  markerLat: number | undefined;
   setMarker: (newMarker: SiteMarkerType) => void;
   setCircles: (newCircles: number[]) => void;
+  portfolios: PortfolioType[];
+  allRanges: RangesType[];
 }) {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
   const [latitudeVal, setLatitudeVal] = useState<number | string | undefined>();
   const [longitudeVal, setLongitudeVal] = useState<number | string | undefined>();
-  const [portfolios, setPortfolios] = useState<PortfolioType[]>([]);
-  const [selectedPortfolio, setSelectedPortfolio] = useState<string | null>(null);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<string>('');
   const [siteName, setSiteName] = useState<string>('');
-
-  let latitude = markerLat;
-  let longitude = markerLng;
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedRanges, setSelectedRanges] = useState<number[]>([]);
-
-  useEffect(() => {
-    const fetchPortfolios = async () => {
-      const response = await selectPortfolios();
-      setPortfolios(response);
-    };
-    fetchPortfolios();
-  }, []);
+  const [nameError, setNameError] = useState<ValidationType | null>({
+    valid: true,
+    message: '',
+  });
+  const [latitudeError, setLatitudeError] = useState<ValidationType | null>({
+    valid: true,
+    message: '',
+  });
+  const [longitudeError, setLongitudeError] = useState<ValidationType | null>({
+    valid: true,
+    message: '',
+  });
+  const [selectedPortfolioError, setSelectedPortfolioError] = useState<ValidationType | null>({
+    valid: true,
+    message: '',
+  });
+  const [selectedRangesError, setSelectedRangesError] = useState<ValidationType | null>({
+    valid: true,
+    message: '',
+  });
+  let latitude = markerLat;
+  let longitude = markerLng;
 
   function setRange(selectedValues: number[]) {
     setCircles(selectedValues);
@@ -121,16 +139,89 @@ export default function Form({
     }
   };
 
+  const validate = () => {
+    let valid = true;
+    if (siteName === '') {
+      setNameError({
+        valid: false,
+        message: 'Site name is required',
+      });
+      valid = false;
+    } else {
+      setNameError({
+        valid: true,
+        message: '',
+      });
+    }
+
+    if (latitudeVal === '' || latitudeVal === undefined) {
+      setLatitudeError({
+        valid: false,
+        message: 'Latitude is required',
+      });
+      valid = false;
+    } else {
+      setLatitudeError({
+        valid: true,
+        message: '',
+      });
+    }
+
+    if (longitudeVal === '' || longitudeVal === undefined) {
+      setLongitudeError({
+        valid: false,
+        message: 'Longitude is required',
+      });
+      valid = false;
+    } else {
+      setLongitudeError({
+        valid: true,
+        message: '',
+      });
+    }
+
+    if (selectedPortfolio === '') {
+      setSelectedPortfolioError({
+        valid: false,
+        message: 'Portfolio is required',
+      });
+      valid = false;
+    } else {
+      setSelectedPortfolioError({
+        valid: true,
+        message: '',
+      });
+    }
+
+    if (selectedRanges.length === 0) {
+      setSelectedRangesError({
+        valid: false,
+        message: 'Range is required',
+      });
+      valid = false;
+    } else {
+      setSelectedRangesError({
+        valid: true,
+        message: '',
+      });
+    }
+
+    return valid;
+  };
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!validate()) {
+      return;
+    }
     setIsLoading(true);
     setError(null); // Clear previous errors when a new request starts
 
     try {
       const newSite = {
         name: siteName,
-        latitude: markerLat,
-        longitude: markerLng,
+        latitude: markerLat || 0,
+        longitude: markerLng || 0,
         address: 'Address',
         country: 'Country',
         reportLink: 'Report Link',
@@ -138,7 +229,11 @@ export default function Form({
         geographicalRisk: 'Geographical Risk',
       };
       try {
-        await insertSite(newSite);
+        await insertSite(newSite, selectedPortfolio, selectedRanges);
+        toast({
+          title: 'success',
+          description: 'Site created successfully',
+        });
       } catch (e: any) {
         setError(e.message);
       }
@@ -174,6 +269,9 @@ export default function Form({
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
             />
+            {nameError && !nameError.valid && (
+              <p className="text-red text-sm">{nameError.message}</p>
+            )}
           </label>
         </div>
 
@@ -188,32 +286,49 @@ export default function Form({
               ⚠ Pin point on map or write in Latitude and Longitude
             </p>
             <div className="flex space-x-4">
-              <input
-                type="number"
-                id="latitude"
-                step={0.0001}
-                placeholder="Latitude"
-                className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
-                onBlur={(event) => handleUpdateMarker(event)}
-                value={latitudeVal}
-                onChange={onChange}
-              />
-              <input
-                type="number"
-                id="longitude"
-                step={0.0001}
-                placeholder="Longitude"
-                className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
-                onBlur={(event) => handleUpdateMarker(event)}
-                value={longitudeVal}
-                onChange={onChange}
-              />
+              <div className="w-full">
+                <input
+                  type="number"
+                  id="latitude"
+                  step={0.0001}
+                  placeholder="Latitude"
+                  className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 w-full"
+                  onBlur={(event) => handleUpdateMarker(event)}
+                  value={latitudeVal}
+                  onChange={onChange}
+                />
+                {latitudeError && !latitudeError.valid && (
+                  <p className="text-red text-sm">{latitudeError.message}</p>
+                )}
+
+              </div>
+              <div className="w-full">
+                <input
+                  type="number"
+                  id="longitude"
+                  step={0.0001}
+                  placeholder="Longitude"
+                  className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 w-full"
+                  onBlur={(event) => handleUpdateMarker(event)}
+                  value={longitudeVal}
+                  onChange={onChange}
+                />
+                {longitudeError && !longitudeError.valid && (
+                  <p className="text-red text-sm">{longitudeError.message}</p>
+                )}
+              </div>
             </div>
           </label>
         </div>
 
-        {/* eslint-disable-next-line react/jsx-no-bind */}
-        <SiteRange onRangeUpdate={setRange} />
+        <SiteRange
+          // eslint-disable-next-line react/jsx-no-bind
+          onRangeUpdate={setRange}
+          allRanges={allRanges}
+        />
+        {selectedRangesError && !selectedRangesError.valid && (
+          <p className="text-red text-sm">{selectedRangesError.message}</p>
+        )}
 
         {/* Portfolio */}
         <div className="mb-6">
@@ -232,13 +347,16 @@ export default function Form({
               {portfolios.map((portfolio) => (
                 <option
                   key={portfolio.uuid}
-                  value={portfolio.uuid}
+                  value={portfolio.uuid || ''}
                 >
                   {portfolio.name}
                 </option>
               ))}
             </select>
           </label>
+          {selectedPortfolioError && !selectedPortfolioError.valid && (
+            <p className="text-red text-sm">{selectedPortfolioError.message}</p>
+          )}
         </div>
 
         {/* Add Notes
@@ -280,6 +398,7 @@ export default function Form({
           </Link>
         </div>
       </form>
+      <Toaster />
     </div>
   );
 }
