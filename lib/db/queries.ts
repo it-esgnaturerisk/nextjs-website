@@ -2,9 +2,11 @@
 
 import { db } from '@/lib/db/config';
 import { eq } from 'drizzle-orm';
+import axios from 'axios';
 import {
   users, sites, portfolios, ranges,
   siteRanges,
+  companies,
 } from './schema';
 import {
   NewSiteType, NewUserType, SiteType, UserType,
@@ -52,6 +54,12 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
     .from(portfolios)
     .where(eq(portfolios.uuid, selectedPortfolio))
     .then((p) => p[0]);
+  const { latitude, longitude } = newSite;
+  console.log(process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY);
+  const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
+  console.log(response.data.results[0].components);
+  const { country } = response.data.results[0].components;
+  console.log(country);
   const site = {
     ...newSite,
     fkPortfolios: portfolio.id,
@@ -80,6 +88,17 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
 export const selectPortfolios = async () => {
   try {
     const results = await db.select().from(portfolios);
+    return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const selectPortfoliosWithCompanies = async () => {
+  try {
+    const results = await db.select()
+      .from(portfolios)
+      .innerJoin(companies, eq(portfolios.fkCompanies, companies.id));
     return results;
   } catch (error) {
     throw new Error(`Error: ${error}`);

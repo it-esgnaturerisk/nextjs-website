@@ -1,6 +1,8 @@
 import React from 'react';
+// import { selectPortfoliosWithCompanies } from '@/lib/db/queries';
 
-export default function NewSite() {
+export default async function NewSite() {
+  // const portfolios = await selectPortfoliosWithCompanies();
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
