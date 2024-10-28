@@ -3,6 +3,8 @@ import { SiteMarkerType } from '@/lib/types';
 import Map, { MapRef, Source, Layer } from 'react-map-gl';
 import GeocoderControl from '@/misc/Geocoder/GeocoderControl'; // Import the GeocoderControl component correctly
 import { createCircle } from '@/misc/helpers';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 
 export default function MapWithMarker({
   updateMarker,
@@ -73,14 +75,22 @@ export default function MapWithMarker({
       {marker}
       {circleData && (
         <Source id="circleSource" type="geojson" data={circleData}>
-          <Layer
-            id="circleLayer"
-            type="fill"
-            paint={{
-              'fill-color': '#ebebeb',
-              'fill-opacity': 0.2,
-            }}
-          />
+        <Layer
+          id="circleFillLayer"
+          type="fill"
+          paint={{
+            'fill-color': '#ebebeb',
+            'fill-opacity': 0.2,
+          }}
+        />
+        <Layer
+          id="circleBorderLayer"
+          type="line"
+          paint={{
+            'line-color': '#88A189', // Change to desired border color
+            'line-width': 3, // Change to desired border thickness
+          }}
+        />
         </Source>
       )}
       <GeocoderControl

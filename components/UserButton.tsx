@@ -13,6 +13,8 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PersonIcon } from '@radix-ui/react-icons';
+import { handleLogout } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 // import { NewUserType } from '@/lib/types';
 // import { insertUser } from '@/lib/db/queries';
 // export type User = {
@@ -27,6 +29,7 @@ import { PersonIcon } from '@radix-ui/react-icons';
 // };
 
 export default function UserButton() {
+  const { user, error, isLoading } = useUser();
   // const { data: session } = useSession()
 
   // async function createUser() {
@@ -37,35 +40,55 @@ export default function UserButton() {
   //   insertUser(newUser);
   // }
   // if(session)
+  console.log(user);
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        {/* eslint-disable-next-line no-constant-condition */}
-        {false ? ( // user ? (
-          <DropdownMenuItem>
-            <button type="button">Logout</button>
-            {/* onClick={() => signOut()} */}
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem>
-            <Link href="/">Login</Link>
-          </DropdownMenuItem>
-        )}
-        {/* <DropdownMenuItem>
-          <button onClick={() => createUser()}>Dev: Create New User</button>
-        </DropdownMenuItem> */}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <PersonIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {isLoading && (
+            <DropdownMenuItem>
+              Loading...
+            </DropdownMenuItem>
+          )}
+          {error && (
+            <>
+              <DropdownMenuItem>
+                Error loading user
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/api/auth/login">Login</Link>
+              </DropdownMenuItem>
+            </>
+          )}
+          {user && (
+            <>
+              <DropdownMenuLabel>{user.email || 'My Account'}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* eslint-disable-next-line no-constant-condition */}
+              {false ? ( // user ? (
+                <DropdownMenuItem>
+                  <button type="button">Logout</button>
+                  {/* onClick={() => signOut()} */}
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem>
+                  <a href="/api/auth/logout">Logout</a>
+                </DropdownMenuItem>
+              )}
+              {/* <DropdownMenuItem>
+                <button onClick={() => createUser()}>Dev: Create New User</button>
+              </DropdownMenuItem> */}
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
 }

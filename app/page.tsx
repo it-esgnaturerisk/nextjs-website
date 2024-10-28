@@ -15,7 +15,8 @@ export default async function Home() {
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <NewSiteButton />
       </div>
-
+      <a href="api/auth/login">Login</a>
+      <a href="/api/auth/logout">Logout</a>
       <Image
         src="/figma/dashboard.svg"
         alt="Dashboard Status Example"
