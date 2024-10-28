@@ -55,15 +55,21 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
     .where(eq(portfolios.uuid, selectedPortfolio))
     .then((p) => p[0]);
   const { latitude, longitude } = newSite;
-  console.log(process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY);
   const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
-  console.log(response.data.results[0].components);
-  const { country } = response.data.results[0].components;
-  console.log(country);
   const site = {
     ...newSite,
     fkPortfolios: portfolio.id,
   };
+  const respData = response.data.results[0].components;
+  if (respData.country) {
+    site.country = respData.country;
+  }
+  if (respData.street_name) {
+    site.address = respData.street_name;
+  }
+  if (respData.road) {
+    site.address = respData.road;
+  }
   const insertedSite: SiteType = await db
     .insert(sites)
     .values(site)

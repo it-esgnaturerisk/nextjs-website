@@ -25,6 +25,6 @@ export type ValidationType = {
 };
 
 export type PortfolioWithCompaniesType = {
-  portfolio: PortfolioType;
+  portfolios: PortfolioType;
   companies: CompaniesType;
 };

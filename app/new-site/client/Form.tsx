@@ -222,11 +222,11 @@ export default function Form({
         name: siteName,
         latitude: markerLat || 0,
         longitude: markerLng || 0,
-        address: 'Address',
-        country: 'Country',
-        reportLink: 'Report Link',
-        speciesRisk: 'Species Risk',
-        geographicalRisk: 'Geographical Risk',
+        address: null,
+        country: null,
+        reportLink: null,
+        speciesRisk: null,
+        geographicalRisk: null,
       };
       try {
         await insertSite(newSite, selectedPortfolio, selectedRanges);

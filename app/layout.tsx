@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex-col h-screen">
           <Header />
-          <div role="main" className="bg-greengray flex-grow h-screen">
+          <div role="main" className="bg-greengray flex-grow h-[calc(100vh-100px)]">
             {children}
           </div>
           {/* <FooterComponent /> */}
