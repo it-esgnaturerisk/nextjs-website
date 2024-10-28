@@ -30,17 +30,6 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function UserButton() {
   const { user, error, isLoading } = useUser();
-  // const { data: session } = useSession()
-
-  // async function createUser() {
-  //   const newUser: NewUser = {
-  //     name: "Test",
-  //     email: "hallvard.bjorgen@gmail.com",
-  //   };
-  //   insertUser(newUser);
-  // }
-  // if(session)
-  console.log(user);
   return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
