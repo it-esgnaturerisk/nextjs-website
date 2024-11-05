@@ -1,5 +1,4 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import SiteRange from '@/app/new-site/client/Range';
 import Link from 'next/link';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import {
@@ -8,6 +7,7 @@ import {
 import { insertSite } from '@/lib/db/queries';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
+import SiteRange from '@/app/sites/new-site/client/Range';
 
 export default function Form({
   markerLng,

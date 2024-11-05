@@ -9,6 +9,7 @@ import {
   companies,
 } from './schema';
 import {
+  NewPortfolioType,
   NewSiteType, NewUserType, SiteType, UserType,
 } from '../types';
 
@@ -47,6 +48,15 @@ export const selectRanges = async () => {
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
+};
+
+export const insertPortfolio = async (newPortfolio: NewPortfolioType) => {
+  const insertedPortfolio = await db
+    .insert(portfolios)
+    .values(newPortfolio)
+    .returning()
+    .then((p) => p[0]);
+  return insertedPortfolio;
 };
 
 export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string, selectedRanges: number[]) => {

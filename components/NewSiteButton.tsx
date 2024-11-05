@@ -10,7 +10,7 @@ interface NewSiteButtonProps {
 function NewSiteButton({ classNameArgs, children, href }: NewSiteButtonProps) {
   return (
     <Link
-      href={href || '/new-site'}
+      href={href || '/sites/new-site'}
       aria-label={
         href
           ? `${href.substring(1, href.length)}-button`

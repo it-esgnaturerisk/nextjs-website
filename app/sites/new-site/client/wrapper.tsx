@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Marker } from 'react-map-gl';
-import MapWithMarker from '@/app/new-site/client/MapWithMarker';
+import MapWithMarker from '@/app/sites/new-site/client/MapWithMarker';
 import { PortfolioType, RangesType } from '@/lib/types';
-import Form from '@/app/new-site/client/Form';
+import Form from '@/app/sites/new-site/client/Form';
 
 export default function NewSite({
   allPortfolios,

@@ -10,3 +10,10 @@ export function createCircle(lng: number, lat: number, radiusInKm: number) {
 
   return circle;
 }
+
+export function formatDateLocale(dateString: Date | null) {
+  if (!dateString) return null;
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
+  return date.toLocaleDateString('en-GB', options);
+}

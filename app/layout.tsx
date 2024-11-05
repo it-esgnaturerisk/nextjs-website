@@ -22,15 +22,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserProvider>
-      <body className={inter.className}>
-        <div className="flex-col h-screen">
-          <Header />
-          <div role="main" className="bg-greengray flex-grow h-[calc(100vh-100px)]">
-            {children}
+        <body className={inter.className}>
+          <div className="flex-col h-screen">
+            <Header />
+            <div className="bg-greenheader h-full overflow-auto h-[calc(100vh-101px)]">
+              <div role="main" className="bg-greengray h-full overflow-auto rounded-t-3xl mx- flex-grow h-[calc(100vh-100)]">
+                {children}
+              </div>
+            </div>
+            {/* <FooterComponent /> */}
           </div>
-          {/* <FooterComponent /> */}
-        </div>
-      </body>
+        </body>
       </UserProvider>
     </html>
   );
