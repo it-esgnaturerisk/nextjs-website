@@ -387,7 +387,7 @@ export default function Form({
           >
             {isLoading ? 'Loading...' : 'Add new site'}
           </button>
-          <Link href="example-site">
+          <Link href="/example-site">
             <button
               type="button"
               disabled={isLoading}
