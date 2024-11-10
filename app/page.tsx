@@ -107,7 +107,7 @@ export default async function Home() {
     <div>
       No sites were found. Get started by pressing the
       <NewSiteButton />
-      button to mark your first site
+      button to mark your first site!
     </div>
   );
 
