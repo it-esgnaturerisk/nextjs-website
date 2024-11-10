@@ -6,7 +6,7 @@
 import React, { FC } from 'react';
 import { SiteType, UserType } from '@/lib/types';
 import { insertUser } from '@/lib/db/queries';
-import RecentSitesTable from '@/components/RecentSitesTable';
+// import RecentSitesTable from '@/components/RecentSitesTable';
 import UsersTable from './UsersTable';
 import CreateUser from './CreateUser';
 
@@ -22,11 +22,11 @@ const AdminDashboard: FC<Props> = ({ users, sites }) => (
       <UsersTable users={users} />
     </div>
 
-    <div className="mt-8">
+    {/* <div className="mt-8">
       <h2 className="text-lg font-semibold mb-4">All Existing Sites</h2>
       <RecentSitesTable sites={sites} />
     </div>
-
+ */}
     <div className="mt-8">
       <h2 className="text-lg font-semibold mb-4">Create a new user</h2>
       <CreateUser createUser={insertUser} />

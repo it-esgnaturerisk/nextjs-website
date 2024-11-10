@@ -1,8 +1,17 @@
 'use server';
 
 import { db } from '@/lib/db/config';
-import { users, sites } from './schema';
-import { NewUserType, UserType } from '../types';
+import { eq } from 'drizzle-orm';
+import axios from 'axios';
+import {
+  users, sites, portfolios, ranges,
+  siteRanges,
+  companies,
+} from './schema';
+import {
+  NewPortfolioType,
+  NewSiteType, NewUserType, SiteType, UserType,
+} from '../types';
 
 // Function to fetch all users
 export const selectUsers = async () => {
@@ -26,6 +35,86 @@ export const insertUser = async (newUser: NewUserType) => {
 export const selectSites = async () => {
   try {
     const results = await db.select().from(sites);
+    return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const selectRanges = async () => {
+  try {
+    const results = await db.select().from(ranges);
+    return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const insertPortfolio = async (newPortfolio: NewPortfolioType) => {
+  const insertedPortfolio = await db
+    .insert(portfolios)
+    .values(newPortfolio)
+    .returning()
+    .then((p) => p[0]);
+  return insertedPortfolio;
+};
+
+export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string, selectedRanges: number[]) => {
+  const portfolio = await db.select()
+    .from(portfolios)
+    .where(eq(portfolios.uuid, selectedPortfolio))
+    .then((p) => p[0]);
+  const { latitude, longitude } = newSite;
+  const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
+  const site = {
+    ...newSite,
+    fkPortfolios: portfolio.id,
+  };
+  const respData = response.data.results[0].components;
+  if (respData.country) {
+    site.country = respData.country;
+  }
+  if (respData.street_name) {
+    site.address = respData.street_name;
+  }
+  if (respData.road) {
+    site.address = respData.road;
+  }
+  const insertedSite: SiteType = await db
+    .insert(sites)
+    .values(site)
+    .returning()
+    .then((s) => s[0]);
+
+  await Promise.all(selectedRanges.map((range) => db
+    .select()
+    .from(ranges)
+    .where(eq(ranges.value, range))
+    .then((r) => r[0])
+    .then((r) => db
+      .insert(siteRanges)
+      .values({
+        fkSites: insertedSite.id,
+        fkRanges: r.id,
+      })
+      .returning())));
+  return insertedSite;
+};
+
+export const selectPortfolios = async () => {
+  try {
+    const results = await db.select().from(portfolios);
+    return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const selectPortfoliosWithCompanies = async () => {
+  try {
+    const results = await db.select()
+      .from(portfolios)
+      .innerJoin(companies, eq(portfolios.fkCompanies, companies.id));
     return results;
   } catch (error) {
     throw new Error(`Error: ${error}`);

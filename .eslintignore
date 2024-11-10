@@ -1,3 +1,4 @@
 components/ui/*
 node_modules/*
 drizzle/*
+misc/Geocoder/*

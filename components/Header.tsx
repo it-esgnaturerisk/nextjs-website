@@ -26,23 +26,32 @@ export default function Header() {
         />
       </Link>
 
-      <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
-        <Link href="/">
-          <HeaderButton>
-            <HomeIcon />
-          </HeaderButton>
-        </Link>
-        <Link href="/sites">
-          <HeaderButton>
-            <TfiMap />
-          </HeaderButton>
-        </Link>
+      <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-8 h-100px items-center">
+        <HeaderButton
+          activeLocations={['/']}
+          href="/"
+        >
+          <HomeIcon
+            className="h-8 w-8 text-white"
+          />
+        </HeaderButton>
+        <HeaderButton
+          activeLocations={['/sites', '/sites/new-site']}
+          href="/sites"
+        >
+          <TfiMap
+            className="h-8 w-8 text-white"
+          />
+        </HeaderButton>
 
-        <Link href="/portfolio">
-          <HeaderButton>
-            <TfiBriefcase />
-          </HeaderButton>
-        </Link>
+        <HeaderButton
+          activeLocations={['/portfolio']}
+          href="/portfolio"
+        >
+          <TfiBriefcase
+            className="h-8 w-8 text-white"
+          />
+        </HeaderButton>
       </div>
 
       <div className="flex justify-end flex-1">

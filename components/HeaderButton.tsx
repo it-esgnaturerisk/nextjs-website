@@ -1,16 +1,44 @@
+'use client';
+
 import React from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface HeaderButtonProps {
     children: React.ReactNode;
+    activeLocations: string[];
+    href: string;
 }
 
-function HeaderButton({ children }: HeaderButtonProps) {
+function HeaderButton({ children, activeLocations, href }: HeaderButtonProps) {
+  const path = usePathname();
+  const isActive = activeLocations.includes(path);
   return (
-    <button type="button" className="flex bg-white h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-      <div className="hidden md:block">
+    <div
+      className="flex items-center justify-center p-6 h-100px rounded-lg"
+      // Tailwind is not my strong suit, but bg-color was not working for me so i used inline styles for now..
+      style={{
+        backgroundImage: isActive ? 'linear-gradient(#272D2A, #8D908F)' : 'inherit',
+        position: 'relative',
+        opacity: isActive ? 1 : 0.3,
+        borderRadius: '8px 8px 0 0',
+      }}
+    >
+      <Link href={href} className="bg-gray-700">
         {children}
-      </div>
-    </button>
+      </Link>
+      {isActive && (
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        height: 12,
+        width: '50%',
+        borderRadius: '8px 8px 0 0',
+        backgroundColor: 'white',
+      }}
+      />
+      )}
+    </div>
   );
 }
 

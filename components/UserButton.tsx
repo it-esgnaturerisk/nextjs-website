@@ -13,6 +13,8 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PersonIcon } from '@radix-ui/react-icons';
+// import { handleLogout } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 // import { NewUserType } from '@/lib/types';
 // import { insertUser } from '@/lib/db/queries';
 // export type User = {
@@ -27,16 +29,7 @@ import { PersonIcon } from '@radix-ui/react-icons';
 // };
 
 export default function UserButton() {
-  // const { data: session } = useSession()
-
-  // async function createUser() {
-  //   const newUser: NewUser = {
-  //     name: "Test",
-  //     email: "hallvard.bjorgen@gmail.com",
-  //   };
-  //   insertUser(newUser);
-  // }
-  // if(session)
+  const { user, error, isLoading } = useUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,25 +39,38 @@ export default function UserButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        {/* eslint-disable-next-line no-constant-condition */}
-        {false ? ( // user ? (
-          <DropdownMenuItem>
-            <button type="button">Logout</button>
-            {/* onClick={() => signOut()} */}
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem>
-            <Link href="/">Login</Link>
-          </DropdownMenuItem>
+        {isLoading && <DropdownMenuItem>Loading...</DropdownMenuItem>}
+        {error && (
+          <>
+            <DropdownMenuItem>Error loading user</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/api/auth/login">Login</Link>
+            </DropdownMenuItem>
+          </>
         )}
-        {/* <DropdownMenuItem>
-          <button onClick={() => createUser()}>Dev: Create New User</button>
-        </DropdownMenuItem> */}
+        {user && (
+          <>
+            <DropdownMenuLabel>{user.email || 'My Account'}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {/* eslint-disable-next-line no-constant-condition */}
+            {false ? ( // user ? (
+              <DropdownMenuItem>
+                <button type="button">Logout</button>
+                {/* onClick={() => signOut()} */}
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem>
+                <a href="/api/auth/logout">Logout</a>
+              </DropdownMenuItem>
+            )}
+            {/* <DropdownMenuItem>
+                <button onClick={() => createUser()}>Dev: Create New User</button>
+              </DropdownMenuItem> */}
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
