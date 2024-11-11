@@ -9,9 +9,9 @@ import { formatDateLocale } from '@/misc/helpers';
 
 export default async function Home() {
   const sites = await selectSites();
-  const randomColor = (min: number, max: number) => (
-    Math.floor(Math.random() * (max - min + 1) + min)
-  );
+  // const randomColor = (min: number, max: number) => (
+  //   Math.floor(Math.random() * (max - min + 1) + min)
+  // );
   const colors = ['#79937A', '#FFAE73', '#B93E3E'];
   const headStyle = 'py-2 px-4 border-b text-left';
   const bodyStyle = 'py-2 px-4 border-b text-left';
