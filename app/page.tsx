@@ -9,6 +9,10 @@ import { formatDateLocale } from '@/misc/helpers';
 
 export default async function Home() {
   const sites = await selectSites();
+  // const randomColor = (min: number, max: number) => (
+  //   Math.floor(Math.random() * (max - min + 1) + min)
+  // );
+  const colors = ['#79937A', '#FFAE73', '#B93E3E'];
   const headStyle = 'py-2 px-4 border-b text-left';
   const bodyStyle = 'py-2 px-4 border-b text-left';
   const siteTable = {
@@ -54,7 +58,7 @@ export default async function Home() {
         style: headStyle,
       },
     ],
-    body: sites.map((site) => [
+    body: sites.map((site, i) => [
       {
         label: site.name,
         style: bodyStyle,
@@ -64,11 +68,11 @@ export default async function Home() {
         style: bodyStyle,
       },
       {
-        label: <span className={`text-${site.speciesRisk}-500`}>●</span>,
+        label: <span style={{ backgroundColor: colors[(i * 7 + 13 + 0) % 3] }} className="inline-block w-4 h-4 rounded-full" />,
         style: bodyStyle,
       },
       {
-        label: <span className={`text-${site.geographicalRisk}-500`}>●</span>,
+        label: <span style={{ backgroundColor: colors[(i * 7 + 13 + 1) % 3] }} className="inline-block w-4 h-4 rounded-full" />,
         style: bodyStyle,
       },
       {
