@@ -5,7 +5,6 @@ import GeocoderControl from '@/misc/Geocoder/GeocoderControl'; // Import the Geo
 import { createCircle } from '@/misc/helpers';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-
 export default function MapWithMarker({
   updateMarker,
   marker,
@@ -39,7 +38,8 @@ export default function MapWithMarker({
   const updateLocalMarker = (event: { result: any }) => {
     const { result } = event;
     const location = result
-    && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
+    && (result.center
+      || (result.geometry?.type === 'Point' && result.geometry.coordinates));
     updateMarker({
       lng: location ? location[0] : 0,
       lat: location ? location[1] : 0,
@@ -75,22 +75,22 @@ export default function MapWithMarker({
       {marker}
       {circleData && (
         <Source id="circleSource" type="geojson" data={circleData}>
-        <Layer
-          id="circleFillLayer"
-          type="fill"
-          paint={{
-            'fill-color': '#ebebeb',
-            'fill-opacity': 0.2,
-          }}
-        />
-        <Layer
-          id="circleBorderLayer"
-          type="line"
-          paint={{
-            'line-color': '#88A189', // Change to desired border color
-            'line-width': 3, // Change to desired border thickness
-          }}
-        />
+          <Layer
+            id="circleFillLayer"
+            type="fill"
+            paint={{
+              'fill-color': '#ebebeb',
+              'fill-opacity': 0.2,
+            }}
+          />
+          <Layer
+            id="circleBorderLayer"
+            type="line"
+            paint={{
+              'line-color': '#88A189', // Change to desired border color
+              'line-width': 3, // Change to desired border thickness
+            }}
+          />
         </Source>
       )}
       <GeocoderControl

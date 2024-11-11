@@ -1,5 +1,5 @@
 import React from 'react';
-import RecentSitesTable from '@/components/RecentSitesTable';
+import SitesTable from '@/components/SitesTable';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -29,7 +29,7 @@ export default function Home() {
       {/* Recent Sites Table */}
       <div className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
-        <RecentSitesTable sites={[]} />
+        <SitesTable />
       </div>
     </div>
   );
