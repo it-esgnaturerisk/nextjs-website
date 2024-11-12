@@ -344,14 +344,14 @@ export default function Form({
               onChange={(e) => setSelectedPortfolio(e.target.value)}
             >
               <option value="" disabled>Select Portfolio</option>
-              {portfolios.map((portfolio) => (
+              {(portfolios) ? portfolios.map((portfolio) => (
                 <option
                   key={portfolio.uuid}
                   value={portfolio.uuid || ''}
                 >
                   {portfolio.name}
                 </option>
-              ))}
+              )) : <option>Example Portfolio</option>}
             </select>
           </label>
           {selectedPortfolioError && !selectedPortfolioError.valid && (
@@ -387,7 +387,7 @@ export default function Form({
           >
             {isLoading ? 'Loading...' : 'Add new site'}
           </button>
-          <Link href="example-site">
+          <Link href="/example-site">
             <button
               type="button"
               disabled={isLoading}

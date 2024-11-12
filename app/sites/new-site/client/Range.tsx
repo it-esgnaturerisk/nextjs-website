@@ -33,7 +33,10 @@ export default function Range({
         isOptionDisabled={() => nOptionsSelected >= 3}
         isMulti
         isSearchable
-        options={sortedRanges}
+        options={sortedRanges.map((range) => ({
+          value: range.value,
+          label: `${range.value}km`,
+        }))}
         className="basic"
         backspaceRemovesValue
         closeMenuOnSelect={nOptionsSelected === 2}
