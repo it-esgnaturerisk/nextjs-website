@@ -2,7 +2,9 @@ import DataTable from '@/components/DataTable';
 import { selectPortfoliosWithCompanies } from '@/lib/db/queries';
 import { formatDateLocale } from '@/misc/helpers';
 import React from 'react';
+import Image from 'next/image';
 import AddPortfolio from './client/AddPortfolio';
+import PortfolioScatter from './client/PortfolioScatter';
 // import { selectPortfoliosWithCompanies } from '@/lib/db/queries';
 
 export default async function NewSite() {
@@ -69,10 +71,11 @@ export default async function NewSite() {
         <h1 className="text-2xl font-bold">Portfolio</h1>
       </div>
       <div className="mt-8">
+        <PortfolioScatter pData={pData} />
         <h2 className="text-lg font-semibold mb-4">Recent Portfolios</h2>
         <DataTable data={portfolioTable} emptyMessage={<p>No portfolios yet..</p>} />
       </div>
-      <AddPortfolio />
+      <AddPortfolio disabled={pData.length >= 3} />
     </div>
   );
 }

@@ -26,6 +26,9 @@ const config = {
       greenlight: '#E1E5E1',
       greenheader: '#272D2A',
       greengray: '#F4F4F4',
+      scattergreen: '#90C692',
+      scatterblue: '#A1B8E1',
+      scatteryellow: '#FFDB70',
       red: '#FF0000',
     },
     extend: {
@@ -88,6 +91,7 @@ const config = {
       },
     },
   },
+  // eslint-disable-next-line global-require
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
 

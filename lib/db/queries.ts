@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db/config';
-import { eq } from 'drizzle-orm';
+import { eq, getTableColumns } from 'drizzle-orm';
 import axios from 'axios';
 import {
   users, sites, portfolios, ranges,
@@ -116,6 +116,25 @@ export const selectPortfoliosWithCompanies = async () => {
       .from(portfolios)
       .innerJoin(companies, eq(portfolios.fkCompanies, companies.id));
     return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const getSiteDataByUuid = async (uuid: string) => {
+  try {
+    const data = await db.select()
+      .from(sites)
+      .where(eq(sites.uuid, uuid))
+      .innerJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
+      .innerJoin(siteRanges, eq(sites.id, siteRanges.fkSites))
+      .innerJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
+      .then((s) => s);
+    if (data.length > 0) {
+      const d = { ...data[0].sites, portfolio: data[0].portfolios, ranges: data.map((r) => r.ranges) };
+      return d;
+    }
+    return {latitude: null, longitude: null, ranges: []};
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }

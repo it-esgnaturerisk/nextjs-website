@@ -25,8 +25,8 @@ export default function RootLayout({
         <body className={inter.className}>
           <div className="flex-col h-screen">
             <Header />
-            <div className="bg-greenheader h-full overflow-auto h-[calc(100vh-101px)]">
-              <div role="main" className="bg-greengray h-full overflow-auto rounded-t-3xl mx- flex-grow h-[calc(100vh-100)]">
+            <div className="bg-greenheader overflow-auto h-[calc(100vh-100px)]">
+              <div role="main" className="bg-greengray overflow-auto rounded-t-3xl max-w-[2000px] m-auto flex-grow h-[calc(100vh-100px)]">
                 {children}
               </div>
             </div>

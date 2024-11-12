@@ -3,7 +3,7 @@
 import { insertPortfolio } from '@/lib/db/queries';
 import React, { useState } from 'react';
 
-export default function AddPortfolio() {
+export default function AddPortfolio({ disabled = false } : { disabled: boolean }) {
   const [portfolioName, setPortfolioName] = useState('');
 
   const onSubmit = (e: React.FormEvent) => {
@@ -37,7 +37,8 @@ export default function AddPortfolio() {
           </div>
           <button
             type="submit"
-            className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md mt-auto "
+            disabled={disabled}
+            className={`bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md mt-auto ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Add Portfolio
           </button>
