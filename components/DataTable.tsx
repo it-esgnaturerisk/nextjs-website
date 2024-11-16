@@ -19,7 +19,8 @@ interface DataTableProps {
   emptyMessage?: React.JSX.Element;
   redirectPath?: string | undefined;
 }
-function DataTable({ data, emptyMessage, redirectPath }: DataTableProps) {
+
+function DataTable({ data, emptyMessage=undefined, redirectPath=undefined }: DataTableProps) {
   const router = useRouter();
   if (data.body.length === 0 && emptyMessage) {
     return emptyMessage;
@@ -61,10 +62,5 @@ function DataTable({ data, emptyMessage, redirectPath }: DataTableProps) {
     </Table>
   );
 }
-
-DataTable.defaultProps = {
-  emptyMessage: null,
-  redirectPath: undefined,
-};
 
 export default DataTable;
