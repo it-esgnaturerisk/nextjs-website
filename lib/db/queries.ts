@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db/config';
-import { eq, getTableColumns } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import axios from 'axios';
 import {
   users, sites, portfolios, ranges,
@@ -134,7 +134,7 @@ export const getSiteDataByUuid = async (uuid: string) => {
       const d = { ...data[0].sites, portfolio: data[0].portfolios, ranges: data.map((r) => r.ranges) };
       return d;
     }
-    return {latitude: null, longitude: null, ranges: []};
+    return { latitude: null, longitude: null, ranges: [] }; // Why not just return null?
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }

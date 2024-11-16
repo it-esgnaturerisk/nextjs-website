@@ -2,7 +2,7 @@ import DataTable from '@/components/DataTable';
 import { selectPortfoliosWithCompanies } from '@/lib/db/queries';
 import { formatDateLocale } from '@/misc/helpers';
 import React from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import AddPortfolio from './client/AddPortfolio';
 import PortfolioScatter from './client/PortfolioScatter';
 // import { selectPortfoliosWithCompanies } from '@/lib/db/queries';
@@ -42,26 +42,38 @@ export default async function NewSite() {
       {
         label: p.portfolios.name || '-',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: p.portfolios.description || '-',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: formatDateLocale(p.portfolios.createdAt) || '-',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: formatDateLocale(p.portfolios.updatedAt) || '-',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: p.companies.name || '-',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: p.companies.country || '-',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
     ]),
   };

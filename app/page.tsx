@@ -12,7 +12,7 @@ export default async function Home() {
   const siteTable = generateSiteTable(sites);
   const emptyMessage = (
     <div>
-      No sites were found. Get started by pressing the
+      No sites were found. Get started by pressing
       <NewSiteButton />
       button to mark your first site!
     </div>
@@ -36,7 +36,11 @@ export default async function Home() {
 
       <div className="mt-8 overflow-scroll max-h-400 h-100">
         <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
-        <DataTable data={siteTable} emptyMessage={emptyMessage} redirectPath={'/sites/'} />
+        <DataTable
+          data={siteTable}
+          emptyMessage={emptyMessage}
+          redirectPath="/sites/"
+        />
       </div>
     </div>
   );

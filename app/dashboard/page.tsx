@@ -60,38 +60,56 @@ export default async function Home() {
       {
         label: site.name,
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: (site.country && site.country) || 'N/A',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: <span className={`text-${site.speciesRisk}-500`}>●</span>,
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: <span className={`text-${site.geographicalRisk}-500`}>●</span>,
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: 'N/A',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: 'N/A',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: 'N/A',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: site.fkPortfolios || 'N/A',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: formatDateLocale(site.created) || 'N/A',
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
       {
         label: site.reportLink ? (
@@ -102,6 +120,8 @@ export default async function Home() {
           'Processing...'
         ),
         style: bodyStyle,
+        hidden: false,
+        idColumn: false,
       },
     ]),
   };

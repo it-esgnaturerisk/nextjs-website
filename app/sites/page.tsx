@@ -31,7 +31,11 @@ export default async function Home() {
       <div className="mt-8">
         {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
         <h2 className="text-lg font-semibold mb-4" />
-        <DataTable data={siteTable} emptyMessage={emptyMessage} redirectPath={'/sites/'} />
+        <DataTable
+          data={siteTable}
+          emptyMessage={emptyMessage}
+          redirectPath="/sites/"
+        />
       </div>
     </div>
   );

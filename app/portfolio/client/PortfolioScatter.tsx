@@ -14,7 +14,7 @@ export default function PortfolioScatter({ pData } : { pData: PortfolioWithCompa
     setSelected(slcted);
   }, [pData]);
 
-  const handleSelect = (e, i) => {
+  const handleSelect = (e: React.MouseEvent, i: number) => {
     e.preventDefault();
     if (selected.includes(i)) {
       setSelected(selected.filter((s) => s !== i));
