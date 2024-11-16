@@ -120,3 +120,22 @@ export const selectPortfoliosWithCompanies = async () => {
     throw new Error(`Error: ${error}`);
   }
 };
+
+export const getSiteDataByUuid = async (uuid: string) => {
+  try {
+    const data = await db.select()
+      .from(sites)
+      .where(eq(sites.uuid, uuid))
+      .innerJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
+      .innerJoin(siteRanges, eq(sites.id, siteRanges.fkSites))
+      .innerJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
+      .then((s) => s);
+    if (data.length > 0) {
+      const d = { ...data[0].sites, portfolio: data[0].portfolios, ranges: data.map((r) => r.ranges) };
+      return d;
+    }
+    return { latitude: null, longitude: null, ranges: [] }; // Why not just return null?
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
