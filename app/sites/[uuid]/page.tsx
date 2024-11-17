@@ -8,7 +8,7 @@ export default async function Site({ params }: { params: { uuid: string } }) {
   const { uuid } = params;
   const site = await getSiteDataByUuid(uuid);
   if (site.longitude === null || site.latitude === null) {
-    return <div>Site not found</div>;
+    return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">This site is still under construction.</h1>);
   }
   return (
     <div className="flex flex-col h-[calc(100vh-200px)]">
@@ -32,10 +32,15 @@ export default async function Site({ params }: { params: { uuid: string } }) {
             <div className="flex w-[100%] m-3">
               <p className="w-[100%]">
                 Location:
-                <span className="font-bold">{site.country}</span>
+                {' '}
+                {' '}
+                <span className="font-bold">{site.country || `${site.longitude.toFixed(6)} / ${site.latitude.toFixed(6)} ` }</span>
+
               </p>
               <p className="w-[100%]">
                 Portfolio:
+                {' '}
+                {' '}
                 <span className="font-bold">{site.portfolio.name}</span>
               </p>
             </div>
