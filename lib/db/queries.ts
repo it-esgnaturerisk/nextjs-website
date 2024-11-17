@@ -72,7 +72,6 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
   try {
     const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
     const respData = response.data.results[0].components;
-    console.log("🚀 ~ insertSite ~ respData:", respData)
     if (respData.country) {
       site.country = respData.country;
     }
@@ -82,17 +81,21 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
     if (respData.road) {
       site.address = respData.road;
     }
-  } catch (error) {   if (axios.isAxiosError(error)) {
-    console.error("Axios error occurred while fetching geocode data:", error.response?.data || error.message);
-  } else {
-    console.error("Unexpected error occurred:", error);
-  } }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Axios error occurred while fetching geocode data: ${error.response?.data || error.message}`);
+    } else {
+      throw error;
+    }
+  }
+
   const insertedSite: SiteType = await db
     .insert(sites)
     .values(site)
     .returning()
     .then((s) => s[0]);
 
+  // Link site with the ranges
   await Promise.all(selectedRanges.map((range) => db
     .select()
     .from(ranges)
@@ -105,6 +108,7 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
         fkRanges: r.id,
       })
       .returning())));
+
   return insertedSite;
 };
 
