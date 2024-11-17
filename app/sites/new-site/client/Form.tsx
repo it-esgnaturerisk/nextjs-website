@@ -28,8 +28,8 @@ export default function Form({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
-  const [latitudeVal, setLatitudeVal] = useState<number | string | undefined>();
-  const [longitudeVal, setLongitudeVal] = useState<number | string | undefined>();
+  const [latitudeVal, setLatitudeVal] = useState<number | string >();
+  const [longitudeVal, setLongitudeVal] = useState<number | string >();
   const [selectedPortfolio, setSelectedPortfolio] = useState<string>('');
   const [siteName, setSiteName] = useState<string>('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -129,7 +129,7 @@ export default function Form({
     }
   }
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onLatLonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.currentTarget;
     if (id === 'latitude') {
       setLatitudeVal(parseFloat(value) || value);
@@ -292,10 +292,10 @@ export default function Form({
                   id="latitude"
                   step={0.0001}
                   placeholder="Latitude"
-                  className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 w-full"
+                  className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                   onBlur={(event) => handleUpdateMarker(event)}
                   value={latitudeVal}
-                  onChange={onChange}
+                  onChange={onLatLonChange}
                 />
                 {latitudeError && !latitudeError.valid && (
                   <p className="text-red text-sm">{latitudeError.message}</p>
@@ -308,10 +308,10 @@ export default function Form({
                   id="longitude"
                   step={0.0001}
                   placeholder="Longitude"
-                  className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 w-full"
+                  className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                   onBlur={(event) => handleUpdateMarker(event)}
                   value={longitudeVal}
-                  onChange={onChange}
+                  onChange={onLatLonChange}
                 />
                 {longitudeError && !longitudeError.valid && (
                   <p className="text-red text-sm">{longitudeError.message}</p>
