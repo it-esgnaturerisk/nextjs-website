@@ -83,9 +83,9 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(`Axios error occurred while fetching geocode data: ${error.response?.data || error.message}`);
+      console.error(`Axios error occurred while fetching geocode data (country and address): ${error}`);
     } else {
-      throw error;
+      console.error(error);
     }
   }
 
