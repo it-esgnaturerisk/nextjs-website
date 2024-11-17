@@ -5,6 +5,7 @@ import { SiteMarkerType } from '@/lib/types';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 
+const noop = () => {};
 
 type GeocoderControlProps = Omit<GeocoderOptions, 'accessToken' | 'mapboxgl' | 'marker'> & {
   mapboxAccessToken: string;
@@ -16,13 +17,14 @@ type GeocoderControlProps = Omit<GeocoderOptions, 'accessToken' | 'mapboxgl' | '
   onResults?: (e: object) => void;
   onResult?: (e: { result: any }) => void;
   onError?: (e: object) => void;
-  contextMarker: SiteMarkerType;
-  setContextMarker: (newMarker: SiteMarkerType) => void;
+  contextMarker?: SiteMarkerType;
+  setContextMarker?: (newMarker: SiteMarkerType) => void;
 };
+
 
 /* eslint-disable complexity,max-statements */
 export default function GeocoderControl(props: GeocoderControlProps) {
-  const { onLoading, onResult, onError, onResults } = props;
+  const { onLoading = noop, onResult = noop, onError = noop, onResults = noop } = props;
   // @ts-ignore 
   const geocoder = useControl<MapboxGeocoder>(
     () => {
@@ -95,15 +97,3 @@ export default function GeocoderControl(props: GeocoderControlProps) {
   }
   return null;
 }
-
-const noop = () => {};
-
-GeocoderControl.defaultProps = {
-  marker: true,
-  onLoading: noop,
-  onResults: noop,
-  onResult: noop,
-  onError: noop,
-  contextMarker: null,
-  setContextMarker: noop,
-};

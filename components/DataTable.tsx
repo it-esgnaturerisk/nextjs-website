@@ -14,12 +14,13 @@ import {
 interface DataTableProps {
   data: {
     head: { label: string; style: string }[];
-    body: { label: string | number | React.JSX.Element | null; style: string; hidden: boolean; idColumn: boolean }[][]
+    body: { label: string | number | React.JSX.Element | null | Promise<string> ; style: string; hidden: boolean; idColumn: boolean }[][]
   };
   emptyMessage?: React.JSX.Element;
   redirectPath?: string | undefined;
 }
-function DataTable({ data, emptyMessage, redirectPath }: DataTableProps) {
+
+export default function DataTable({ data, emptyMessage = undefined, redirectPath = undefined }: DataTableProps) {
   const router = useRouter();
   if (data.body.length === 0 && emptyMessage) {
     return emptyMessage;
@@ -61,10 +62,3 @@ function DataTable({ data, emptyMessage, redirectPath }: DataTableProps) {
     </Table>
   );
 }
-
-DataTable.defaultProps = {
-  emptyMessage: null,
-  redirectPath: undefined,
-};
-
-export default DataTable;

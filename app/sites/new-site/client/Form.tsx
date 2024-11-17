@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import {
   SiteMarkerType, PortfolioType, RangesType, ValidationType,
+  NewSiteType,
 } from '@/lib/types';
 import { insertSite } from '@/lib/db/queries';
 import { useToast } from '@/components/ui/use-toast';
@@ -28,8 +29,8 @@ export default function Form({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
-  const [latitudeVal, setLatitudeVal] = useState<number | string | undefined>();
-  const [longitudeVal, setLongitudeVal] = useState<number | string | undefined>();
+  const [latitude, setLatitude] = useState<number | string >();
+  const [longitude, setLongitude] = useState<number | string >();
   const [selectedPortfolio, setSelectedPortfolio] = useState<string>('');
   const [siteName, setSiteName] = useState<string>('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,8 +55,6 @@ export default function Form({
     valid: true,
     message: '',
   });
-  let latitude = markerLat;
-  let longitude = markerLng;
 
   function setRange(selectedValues: number[]) {
     setCircles(selectedValues);
@@ -63,8 +62,8 @@ export default function Form({
   }
 
   useEffect(() => {
-    setLatitudeVal(markerLat);
-    setLongitudeVal(markerLng);
+    setLatitude(markerLat);
+    setLongitude(markerLng);
   }, [markerLat, markerLng]);
 
   // Handle when the input field is no longer in focus.
@@ -89,26 +88,26 @@ export default function Form({
         return;
       }
       if (id === 'latitude') {
-        latitude = floatValue;
+        setLatitude(floatValue);
       }
 
       if (id === 'longitude' && (floatValue < -180 || floatValue > 180)) {
         return;
       }
       if (id === 'longitude') {
-        longitude = floatValue;
+        setLongitude(floatValue);
       }
 
-      if (id === 'latitude' && longitude === undefined) {
+      if (id === 'latitude' && !longitude) {
         return;
       }
-      if (id === 'longitude' && latitude === undefined) {
+      if (id === 'longitude' && !latitude) {
         return;
       }
 
       if (id === 'latitude' && longitude) {
         const newMarker: SiteMarkerType = {
-          lng: longitude,
+          lng: longitude as number,
           lat: floatValue,
         };
         setMarker(newMarker);
@@ -117,7 +116,7 @@ export default function Form({
       if (id === 'longitude' && latitude) {
         const newMarker: SiteMarkerType = {
           lng: floatValue,
-          lat: latitude,
+          lat: latitude as number,
         };
         setMarker(newMarker);
       }
@@ -129,13 +128,13 @@ export default function Form({
     }
   }
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onLatLonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.currentTarget;
     if (id === 'latitude') {
-      setLatitudeVal(parseFloat(value) || value);
+      setLatitude(parseFloat(value) || value);
     }
     if (id === 'longitude') {
-      setLongitudeVal(parseFloat(value) || value);
+      setLongitude(parseFloat(value) || value);
     }
   };
 
@@ -154,7 +153,7 @@ export default function Form({
       });
     }
 
-    if (latitudeVal === '' || latitudeVal === undefined) {
+    if (latitude === '' || latitude === undefined) {
       setLatitudeError({
         valid: false,
         message: 'Latitude is required',
@@ -167,7 +166,7 @@ export default function Form({
       });
     }
 
-    if (longitudeVal === '' || longitudeVal === undefined) {
+    if (longitude === '' || longitude === undefined) {
       setLongitudeError({
         valid: false,
         message: 'Longitude is required',
@@ -218,10 +217,10 @@ export default function Form({
     setError(null); // Clear previous errors when a new request starts
 
     try {
-      const newSite = {
+      const newSite: NewSiteType = {
         name: siteName,
-        latitude: markerLat || 0,
-        longitude: markerLng || 0,
+        latitude: latitude as number,
+        longitude: longitude as number,
         address: null,
         country: null,
         reportLink: null,
@@ -292,10 +291,10 @@ export default function Form({
                   id="latitude"
                   step={0.0001}
                   placeholder="Latitude"
-                  className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 w-full"
+                  className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                   onBlur={(event) => handleUpdateMarker(event)}
-                  value={latitudeVal}
-                  onChange={onChange}
+                  value={latitude}
+                  onChange={onLatLonChange}
                 />
                 {latitudeError && !latitudeError.valid && (
                   <p className="text-red text-sm">{latitudeError.message}</p>
@@ -308,10 +307,10 @@ export default function Form({
                   id="longitude"
                   step={0.0001}
                   placeholder="Longitude"
-                  className="w-1/2 border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500 w-full"
+                  className="w-full border-b-2 border-gray-300 py-2 px-4 focus:outline-none focus:border-green-500"
                   onBlur={(event) => handleUpdateMarker(event)}
-                  value={longitudeVal}
-                  onChange={onChange}
+                  value={longitude}
+                  onChange={onLatLonChange}
                 />
                 {longitudeError && !longitudeError.valid && (
                   <p className="text-red text-sm">{longitudeError.message}</p>

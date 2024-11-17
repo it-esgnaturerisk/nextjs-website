@@ -65,27 +65,37 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
     .where(eq(portfolios.uuid, selectedPortfolio))
     .then((p) => p[0]);
   const { latitude, longitude } = newSite;
-  const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
   const site = {
     ...newSite,
     fkPortfolios: portfolio.id,
   };
-  const respData = response.data.results[0].components;
-  if (respData.country) {
-    site.country = respData.country;
+  try {
+    const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
+    const respData = response.data.results[0].components;
+    if (respData.country) {
+      site.country = respData.country;
+    }
+    if (respData.street_name) {
+      site.address = respData.street_name;
+    }
+    if (respData.road) {
+      site.address = respData.road;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`Axios error occurred while fetching geocode data (country and address): ${error}`);
+    } else {
+      console.error(error);
+    }
   }
-  if (respData.street_name) {
-    site.address = respData.street_name;
-  }
-  if (respData.road) {
-    site.address = respData.road;
-  }
+
   const insertedSite: SiteType = await db
     .insert(sites)
     .values(site)
     .returning()
     .then((s) => s[0]);
 
+  // Link site with the ranges
   await Promise.all(selectedRanges.map((range) => db
     .select()
     .from(ranges)
@@ -98,6 +108,7 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
         fkRanges: r.id,
       })
       .returning())));
+
   return insertedSite;
 };
 
@@ -105,6 +116,15 @@ export const selectPortfolios = async () => {
   try {
     const results = await db.select().from(portfolios);
     return results;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const selectPortfolioWhereID = async (selectID: number) => {
+  try {
+    const results = await db.select().from(portfolios).where(eq(portfolios.id, selectID));
+    return results[0];
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
