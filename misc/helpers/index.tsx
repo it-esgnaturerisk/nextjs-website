@@ -2,6 +2,7 @@
 import * as turf from '@turf/turf';
 import { Units } from '@turf/helpers';
 import { SiteType } from '@/lib/types';
+import { selectPortfolioWhereID } from '@/lib/db/queries';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createCircle(lng: number, lat: number, radiusInKm: number) {
@@ -19,7 +20,7 @@ export function formatDateLocale(dateString: Date | null) {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
     day: '2-digit',
-    month: 'long',
+    month: '2-digit',
     year: 'numeric',
   };
   return date.toLocaleDateString('en-GB', options);
@@ -122,7 +123,7 @@ export function generateSiteTable(sites: SiteType[]) {
         idColumn: false,
       },
       {
-        label: site.fkPortfolios || 'N/A',
+        label: site.fkPortfolios ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name) : 'N/A',
         style: bodyStyle,
         hidden: false,
         idColumn: false,

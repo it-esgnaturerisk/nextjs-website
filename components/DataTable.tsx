@@ -14,7 +14,7 @@ import {
 interface DataTableProps {
   data: {
     head: { label: string; style: string }[];
-    body: { label: string | number | React.JSX.Element | null; style: string; hidden: boolean; idColumn: boolean }[][]
+    body: { label: string | number | React.JSX.Element | null | Promise<string> ; style: string; hidden: boolean; idColumn: boolean }[][]
   };
   emptyMessage?: React.JSX.Element;
   redirectPath?: string | undefined;
