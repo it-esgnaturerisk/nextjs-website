@@ -20,7 +20,7 @@ interface DataTableProps {
   redirectPath?: string | undefined;
 }
 
-function DataTable({ data, emptyMessage=undefined, redirectPath=undefined }: DataTableProps) {
+function DataTable({ data, emptyMessage = undefined, redirectPath = undefined }: DataTableProps) {
   const router = useRouter();
   if (data.body.length === 0 && emptyMessage) {
     return emptyMessage;
