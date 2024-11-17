@@ -234,8 +234,8 @@ export default function Form({
           title: 'Success',
           description: 'Site created successfully.',
         });
-        revalidatePath("/");
-        revalidatePath("/sites");
+        revalidatePath('/');
+        revalidatePath('/sites');
       } catch (e: any) {
         setError(e.message);
       }
