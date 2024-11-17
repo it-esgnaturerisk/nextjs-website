@@ -9,6 +9,7 @@ import { insertSite } from '@/lib/db/queries';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import SiteRange from '@/app/sites/new-site/client/Range';
+import { revalidatePath } from 'next/cache';
 
 export default function Form({
   markerLng,
@@ -230,9 +231,11 @@ export default function Form({
       try {
         await insertSite(newSite, selectedPortfolio, selectedRanges);
         toast({
-          title: 'success',
-          description: 'Site created successfully',
+          title: 'Success',
+          description: 'Site created successfully.',
         });
+        revalidatePath('/');
+        revalidatePath('/sites');
       } catch (e: any) {
         setError(e.message);
       }
