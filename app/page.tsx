@@ -34,14 +34,21 @@ export default async function Home() {
         quality={100}
       />
 
-      <div className="mt-8 overflow-scroll max-h-400 h-100">
-        <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
-        <DataTable
-          data={siteTable}
-          emptyMessage={emptyMessage}
-          redirectPath="/sites/"
-        />
-      </div>
+      <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
+      {sites.length > 0
+        ? (
+          <div className="mt-8 overflow-scroll max-h-400 h-100">
+            <DataTable
+              data={siteTable}
+              redirectPath="/sites/"
+            />
+          </div>
+        )
+        : (
+          <div className="mt-8 max-h-400 h-100">
+            {emptyMessage}
+          </div>
+        )}
     </div>
   );
 }
