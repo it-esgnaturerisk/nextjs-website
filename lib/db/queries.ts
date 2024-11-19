@@ -34,7 +34,7 @@ export const insertUser = async (newUser: NewUserType) => {
 
 export const selectSites = async () => {
   try {
-    const results = await db.select().from(sites);
+    const results = await db.select().from(sites).execute({ cache: 'no-store' });
     return results;
   } catch (error) {
     throw new Error(`Error: ${error}`);
