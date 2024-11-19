@@ -1,11 +1,11 @@
-'use server';
-
 import React from 'react';
 import NewSiteButton from '@/components/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import DataTable from '@/components/DataTable';
 import { generateSiteTable } from '@/misc/helpers';
 import { SiteType } from '@/lib/types';
+
+export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
 export default async function Home() {
   const sites: SiteType[] = await selectSites();
