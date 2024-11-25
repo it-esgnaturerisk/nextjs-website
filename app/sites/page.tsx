@@ -1,9 +1,10 @@
 import React from 'react';
-import NewSiteButton from '@/components/NewSiteButton';
+import NewSiteButton from '@/components/buttons/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import DataTable from '@/components/DataTable';
 import { generateSiteTable } from '@/misc/helpers';
 import { SiteType } from '@/lib/types';
+import Button from '@/components/buttons/Button';
 
 export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
@@ -24,7 +25,7 @@ export default async function Home() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Sites</h1>
         <div>
-          <NewSiteButton href="example-sites"> Example </NewSiteButton>
+          <Button href="example-sites" text='Example'/>
           <NewSiteButton />
         </div>
       </div>
