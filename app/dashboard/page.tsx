@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import DashboardItem from '@/app/dashboard/DashboardItem';
 import StatsCard from '@/app/dashboard/StatsCard';
-import NewSiteButton from '@/components/NewSiteButton';
+import NewSiteButton from '@/components/buttons/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import { SiteType } from '@/lib/types';
 import { formatDateLocale } from '@/misc/helpers';
