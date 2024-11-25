@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
-import NewSiteButton from '@/components/NewSiteButton';
+import NewSiteButton from '@/components/buttons/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import DataTable from '@/components/DataTable';
 import { generateSiteTable } from '@/misc/helpers';
+import { SiteType } from '@/lib/types';
 
 export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
@@ -13,7 +14,7 @@ export default async function Home() {
   const emptyMessage = (
     <div>
       No sites were found. Get started by pressing
-      <NewSiteButton />
+      <NewSiteButton/>
       button to mark your first site!
     </div>
   );
@@ -37,7 +38,7 @@ export default async function Home() {
       <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
       {sites.length > 0
         ? (
-          <div className="mt-8 overflow-scroll max-h-400 h-100">
+          <div className="mt-8 max-h-400 h-100">
             <DataTable
               data={siteTable}
               redirectPath="/sites/"
