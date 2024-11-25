@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import NewSiteButton from '@/components/NewSiteButton';
-import DownloadButton from '@/components/DownloadButton';
+import NewSiteButton from '@/components/buttons/NewSiteButton';
 
 export default async function Home() {
   return (
@@ -10,7 +9,7 @@ export default async function Home() {
         <h1 className="text-2xl font-bold">Sites</h1>
 
         <div className="flex items-center space-x-4 ml-auto">
-          <DownloadButton fileName="ESG_Nature_Risk_Report_Example.pdf" />
+          {/* <DownloadButton fileName="ESG_Nature_Risk_Report_Example.pdf" /> */}
           <NewSiteButton />
         </div>
       </div>
