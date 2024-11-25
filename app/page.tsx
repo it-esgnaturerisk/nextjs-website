@@ -4,7 +4,6 @@ import NewSiteButton from '@/components/buttons/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import DataTable from '@/components/DataTable';
 import { generateSiteTable } from '@/misc/helpers';
-import { SiteType } from '@/lib/types';
 
 export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
@@ -14,7 +13,7 @@ export default async function Home() {
   const emptyMessage = (
     <div>
       No sites were found. Get started by pressing
-      <NewSiteButton/>
+      <NewSiteButton />
       button to mark your first site!
     </div>
   );

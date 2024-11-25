@@ -3,6 +3,6 @@ import Button from './Button';
 
 export default function NewSiteButton() {
   return (
-    <Button href={'sites/new-site'} text='New Site'/>
+    <Button href="sites/new-site" text="New Site" />
   );
 }

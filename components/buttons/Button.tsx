@@ -7,9 +7,9 @@ interface NewSiteButtonProps {
   href: string ;
 }
 
-const standardClassName = 'bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md'
+const standardClassName = 'bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md';
 
-export default function Button({ classNameArgs=null, text='Button', href='' }: NewSiteButtonProps) {
+export default function Button({ classNameArgs = null, text = 'Button', href = '' }: NewSiteButtonProps) {
   return (
     <Link
       href={href}
@@ -18,7 +18,7 @@ export default function Button({ classNameArgs=null, text='Button', href='' }: N
           ? `${text}-button`
           : 'button-label-no-href'
       }
-      className={`${classNameArgs|| standardClassName}`}
+      className={`${classNameArgs || standardClassName}`}
     >
       {text}
     </Link>
