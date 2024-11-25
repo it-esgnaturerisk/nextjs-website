@@ -159,3 +159,32 @@ export const getSiteDataByUuid = async (uuid: string) => {
     throw new Error(`Error: ${error}`);
   }
 };
+
+export const removeSite = async (uuid: string) => {
+  try {
+    // Find the site by its UUID
+    const siteToDelete = await db
+      .select()
+      .from(sites)
+      .where(eq(sites.uuid, uuid))
+      .then((results) => results[0]);
+
+    if (!siteToDelete) {
+      throw new Error('Site not found');
+    }
+
+    // Delete associated siteRanges first
+    await db
+      .delete(siteRanges)
+      .where(eq(siteRanges.fkSites, siteToDelete.id));
+
+    // Delete the site itself
+    await db
+      .delete(sites)
+      .where(eq(sites.uuid, uuid));
+
+    return { success: true, message: 'Site deleted successfully' };
+  } catch (error) {
+    throw new Error(`Error deleting site: ${error}`);
+  }
+};
