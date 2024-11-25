@@ -8,7 +8,7 @@ export default async function Site({ params }: { params: { uuid: string } }) {
   const { uuid } = params;
   const site = await getSiteDataByUuid(uuid);
   if (site.longitude === null || site.latitude === null) {
-    return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">This site is still under construction.</h1>);
+    return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">This site is still being processed.</h1>);
   }
   return (
     <div className="flex flex-col h-[calc(100vh-200px)]">
