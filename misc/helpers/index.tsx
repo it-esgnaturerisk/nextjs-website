@@ -3,15 +3,22 @@ import * as turf from '@turf/turf';
 import { Units } from '@turf/helpers';
 import { SiteType } from '@/lib/types';
 import { selectPortfolioWhereID } from '@/lib/db/queries';
+import Button from '@/components/buttons/Button';
+import { DownloadIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { FaDownload } from 'react-icons/fa';
+import { TfiDownload } from 'react-icons/tfi';
+import { IoMdDownload } from 'react-icons/io';
+
 
 // eslint-disable-next-line import/prefer-default-export
 export function createCircle(lng: number, lat: number, radiusInKm: number) {
   const center = [lng, lat];
   const units: Units = 'kilometers';
   const options = { steps: 64, units };
-
+  
   const circle = turf.circle(center, radiusInKm, options);
-
+  
   return circle;
 }
 
@@ -26,15 +33,22 @@ export function formatDateLocale(dateString: Date | null) {
   return date.toLocaleDateString('en-GB', options);
 }
 
+function sitesCompareFn(a: SiteType, b: SiteType){
+  if (!a.reportLink && !b.reportLink){ return 0; } 
+  else if (a.reportLink && !b.reportLink){return -1}
+  else {return 1}
+} 
+
 export function generateSiteTable(sites: SiteType[]) {
-  const colors = ['#79937A', '#FFAE73', '#B93E3E'];
-  const headStyle = 'py-2 px-4 border-b text-left';
-  const bodyStyle = 'py-2 px-4 border-b text-left';
-  const siteTable = {
+  sites.sort(sitesCompareFn);
+  const riskCircleColors = ['#79937A', '#FFAE73', '#B93E3E', '#808080'];
+  const headStyle = 'py-2 px-4 border-b text-center text-bold';
+  const bodyStyle = 'py-2 px-4 border-b text-center';
+   const siteTable = {
     head: [
       {
         label: 'Name',
-        style: headStyle,
+        style: 'py-2 px-4 border-b text-left text-bold',
       },
       {
         label: 'Location',
@@ -69,7 +83,7 @@ export function generateSiteTable(sites: SiteType[]) {
         style: headStyle,
       },
       {
-        label: 'Report',
+        label: 'Analysis',
         style: headStyle,
       },
     ],
@@ -82,7 +96,7 @@ export function generateSiteTable(sites: SiteType[]) {
       },
       {
         label: site.name,
-        style: bodyStyle,
+        style: 'py-2 px-4 border-b text-left',
         hidden: false,
         idColumn: false,
       },
@@ -93,31 +107,31 @@ export function generateSiteTable(sites: SiteType[]) {
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: colors[(i * 7 + 13 + i + 0) % 3] }} className="inline-block w-4 h-4 rounded-full" />,
+        label: <span style={{ backgroundColor: riskCircleColors[site.reportLink ? (i * 7 + 13 + i + 0) % 3: 3] }} className="inline-block w-4 h-4 rounded-full" />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: colors[(i * 7 + 13 + i + 1) % 3] }} className="inline-block w-4 h-4 rounded-full" />,
+        label: <span style={{ backgroundColor: riskCircleColors[site.reportLink ? (i * 7 + 13 + i + 1) % 3: 3] }} className="inline-block w-4 h-4 rounded-full" />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: 1259,
+        label: site.reportLink ? 1200+i*10+i : 'N/A',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: 16,
+        label: site.reportLink ? (i*14+1)%20 : "N/A",
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: 2,
+        label: site.reportLink ? (i*14+1)%5 : 'N/A',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
@@ -136,9 +150,22 @@ export function generateSiteTable(sites: SiteType[]) {
       },
       {
         label: site.reportLink ? (
-          <a href={site.reportLink} className="text-blue-500">
-            Download
-          </a>
+          <div className='flex align-center justify-center'>
+            <div className='bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md'>
+            <Button 
+              href={site.uuid!} 
+              text='Visit' 
+              classNameArgs='bg-greendark' 
+              />
+              </div>
+              <div className='py-2 px-5'>
+            <Link 
+              // This link not functional atm (which is good, as the reportlinks are dysfunctional)
+              href={`https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}`}>
+              <IoMdDownload width={20} height={20}/>
+            </Link>
+                </div>
+          </div>
         ) : (
           'Processing...'
         ),

@@ -35,10 +35,10 @@ export default async function Home() {
         quality={100}
       />
 
-      <h2 className="text-lg font-semibold mb-4">Recent Sites</h2>
+      <h2 className="text-lg font-semibold mb-2 mt-8">Recent Sites</h2>
       {sites.length > 0
         ? (
-          <div className="mt-8 max-h-400 h-100">
+          <div className="max-h-400 h-100">
             <DataTable
               data={siteTable}
               redirectPath="/sites/"
@@ -46,7 +46,7 @@ export default async function Home() {
           </div>
         )
         : (
-          <div className="mt-8 max-h-400 h-100">
+          <div className="max-h-400 h-100">
             {emptyMessage}
           </div>
         )}
