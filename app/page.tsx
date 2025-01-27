@@ -35,20 +35,13 @@ export default async function Home() {
       />
 
       <h2 className="text-lg font-semibold mb-2 mt-8">Recent Sites</h2>
-      {sites.length > 0
-        ? (
-          <div className="max-h-400 h-100">
-            <DataTable
-              data={siteTable}
-              redirectPath="/sites/"
-            />
-          </div>
-        )
-        : (
-          <div className="max-h-400 h-100">
-            {emptyMessage}
-          </div>
-        )}
+      {sites.length > 0 ? (
+        <div className="max-h-400 h-100">
+          <DataTable data={siteTable} />
+        </div>
+      ) : (
+        <div className="max-h-400 h-100">{emptyMessage}</div>
+      )}
     </div>
   );
 }
