@@ -8,7 +8,7 @@ import {
 import { insertSite } from '@/lib/db/queries';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
-import SiteRange from '@/app/sites/new-site/client/Range';
+import SiteRange from '@/app/new-site/client/Range';
 import { revalidatePath } from 'next/cache';
 
 export default function Form({
