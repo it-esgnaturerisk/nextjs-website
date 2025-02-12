@@ -147,13 +147,11 @@ export function generateSiteTable(sites: SiteType[]) {
       {
         label: site.reportLink ? (
           <div className="flex align-center justify-center">
-            <div className="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md">
-              <Button
-                href={site.uuid!}
-                text="Visit"
-                classNameArgs="bg-greendark"
-              />
-            </div>
+            <Button
+              href={site.uuid!}
+              text="Visit"
+              classNameArgs="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md"
+            />
             <div className="py-2 px-5">
               <Link
               // This link not functional atm (which is good, as the reportlinks are dysfunctional)
