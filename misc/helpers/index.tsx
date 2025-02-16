@@ -47,7 +47,7 @@ const getLabel = (site: SiteType) => {
   return (
     <div className="flex align-center justify-center">
       <Button
-        href={site.uuid!}
+        href={"sites/"+site.uuid!}
         text="Visit"
         classNameArgs="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md"
       />
