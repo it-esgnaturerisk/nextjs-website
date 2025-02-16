@@ -7,7 +7,7 @@ interface NewSiteButtonProps {
   href: string ;
 }
 
-const standardClassName = 'bg-greendark text-white font-bold py-2 px-4 m-2 rounded-lg shadow-md';
+const standardClassName = 'bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md';
 
 export default function Button({ classNameArgs = null, text = 'Button', href = '' }: NewSiteButtonProps) {
   return (
