@@ -35,6 +35,34 @@ function sitesCompareFn(a: SiteType, b: SiteType) {
   return 1;
 }
 
+const getLabel = (site: SiteType) => {
+  if (site.reportLink === 'PROCESS') {
+    return 'Being processed';
+  }
+
+  if (!site.reportLink) {
+    return 'Not ready';
+  }
+
+  return (
+    <div className="flex align-center justify-center">
+      <Button
+        href={site.uuid!}
+        text="Visit"
+        classNameArgs="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md"
+      />
+      <div className="py-2 px-5">
+        <Link
+          // This link not functional atm (which is good, as the reportLinks are dysfunctional)
+          href={`https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}`}
+        >
+          <IoMdDownload width={20} height={20} />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 export function generateSiteTable(sites: SiteType[]) {
   sites.sort(sitesCompareFn);
   const riskCircleColors = ['#79937A', '#FFAE73', '#B93E3E', '#808080'];
@@ -145,25 +173,7 @@ export function generateSiteTable(sites: SiteType[]) {
         idColumn: false,
       },
       {
-        label: site.reportLink ? (
-          <div className="flex align-center justify-center">
-            <Button
-              href={site.uuid!}
-              text="Visit"
-              classNameArgs="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md"
-            />
-            <div className="py-2 px-5">
-              <Link
-              // This link not functional atm (which is good, as the reportlinks are dysfunctional)
-                href={`https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}`}
-              >
-                <IoMdDownload width={20} height={20} />
-              </Link>
-            </div>
-          </div>
-        ) : (
-          'Processing...'
-        ),
+        label: getLabel(site),
         style: bodyStyle,
         hidden: false,
         idColumn: false,

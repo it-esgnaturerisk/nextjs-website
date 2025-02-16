@@ -82,11 +82,7 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
       site.address = respData.road;
     }
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(`Axios error occurred while fetching geocode data (country and address): ${error}`);
-    } else {
-      console.error(error);
-    }
+    console.error(error);
   }
 
   const insertedSite: SiteType = await db
@@ -157,6 +153,25 @@ export const getSiteDataByUuid = async (uuid: string) => {
     return { latitude: null, longitude: null, ranges: [] }; // Why not just return null?
   } catch (error) {
     throw new Error(`Error: ${error}`);
+  }
+};
+
+export const updateSiteReportLink = async (uuid: string) => {
+  try {
+    const updatedSite = await db
+      .update(sites)
+      .set({ reportLink: 'PROCESS' })
+      .where(eq(sites.uuid, uuid))
+      .returning()
+      .then((s) => s[0]);
+
+    if (!updatedSite) {
+      throw new Error('Site not found');
+    }
+
+    return { success: true, message: 'Site updated successfully', site: updatedSite };
+  } catch (error) {
+    throw new Error(`Error updating site reportLink: ${error}`);
   }
 };
 
