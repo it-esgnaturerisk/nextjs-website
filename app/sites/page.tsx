@@ -25,7 +25,7 @@ export default async function Home() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Sites</h1>
         <div>
-          <Button href="example-sites" text="Example" />
+          <Button href="example-site" text="Example" />
           <NewSiteButton />
         </div>
       </div>
