@@ -1,5 +1,4 @@
 import React from 'react';
-import NewSiteButton from '@/components/buttons/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import DataTable from '@/components/DataTable';
 import { generateSiteTable } from '@/misc/helpers';
@@ -15,7 +14,7 @@ export default async function Home() {
   const emptyMessage = (
     <div>
       No sites were found. Get started by pressing the
-      <NewSiteButton />
+      <Button href="new-site" text="New Site" />
       button to mark your first site
     </div>
   );
@@ -26,7 +25,7 @@ export default async function Home() {
         <h1 className="text-2xl font-bold">Sites</h1>
         <div>
           <Button href="example-sites" text="Example" />
-          <NewSiteButton />
+          <Button href="new-site" text="New Site" />
         </div>
       </div>
 

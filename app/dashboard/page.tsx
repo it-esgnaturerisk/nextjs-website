@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
-import NewSiteButton from '@/components/buttons/NewSiteButton';
 import { selectSites } from '@/lib/db/queries';
 import DataTable from '@/components/DataTable';
 import { generateSiteTable } from '@/misc/helpers';
+import Button from '@/components/buttons/Button';
 
 export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
@@ -13,7 +13,7 @@ export default async function Home() {
   const emptyMessage = (
     <div>
       No sites were found. Get started by pressing
-      <NewSiteButton />
+      <Button href="new-site" text="New Site" />
       button to mark your first site!
     </div>
   );
@@ -22,7 +22,7 @@ export default async function Home() {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
-        <NewSiteButton />
+        <Button href="new-site" text="New Site" />
       </div>
       <Image
         src="/figma/dashboard.svg"
