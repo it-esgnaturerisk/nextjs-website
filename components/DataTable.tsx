@@ -101,7 +101,9 @@ export default function DataTable({
   }
 
   // filter out the columns where email is not equal to the user email
-  data.body = data.body.filter((row) => row[1].label === user.email);
+  if (typeof data.body[0][1].label === 'string' && data.body[0][1].label.includes('@')) {
+    data.body = data.body.filter((row) => row[1].label === user.email);
+  }
 
   return (
     <div>
