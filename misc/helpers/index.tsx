@@ -36,25 +36,40 @@ function sitesCompareFn(a: SiteType, b: SiteType) {
 }
 
 const getLabel = (site: SiteType) => {
-  if (site.reportLink === 'PROCESS') {
-    return 'Being processed';
-  }
-
   if (!site.reportLink) {
-    return 'Not ready';
+    return 'Processing...';
+  }
+  if (site.reportLink === 'PROCESS') {
+    return (
+      <div className="flex align-center justify-center">
+        <Button
+          href={`sites/${site.uuid!}`}
+          text="Visit"
+          classNameArgs="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md"
+        />
+        <div className="py-2 px-5">
+          <Link
+          // This link not functional atm (which is good, as the reportLinks are dysfunctional)
+            href={`sites/${site.uuid!}`}
+          >
+            <IoMdDownload width={20} height={20} />
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="flex align-center justify-center">
       <Button
-        href={"sites/"+site.uuid!}
+        href={`sites/${site.uuid!}`}
         text="Visit"
         classNameArgs="bg-greendark text-white py-2 px-4 m-1 rounded-lg shadow-md"
       />
       <div className="py-2 px-5">
         <Link
           // This link not functional atm (which is good, as the reportLinks are dysfunctional)
-          href={`https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}`}
+          href="not-found"// https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}
         >
           <IoMdDownload width={20} height={20} />
         </Link>
@@ -116,6 +131,12 @@ export function generateSiteTable(sites: SiteType[]) {
         label: site.uuid,
         hidden: true,
         idColumn: true,
+        style: bodyStyle,
+      },
+      {
+        label: site.email,
+        hidden: true,
+        idColumn: false,
         style: bodyStyle,
       },
       {

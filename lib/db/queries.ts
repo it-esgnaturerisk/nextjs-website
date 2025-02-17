@@ -69,20 +69,16 @@ export const insertSite = async (newSite: NewSiteType, selectedPortfolio: string
     ...newSite,
     fkPortfolios: portfolio.id,
   };
-  try {
-    const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
-    const respData = response.data.results[0].components;
-    if (respData.country) {
-      site.country = respData.country;
-    }
-    if (respData.street_name) {
-      site.address = respData.street_name;
-    }
-    if (respData.road) {
-      site.address = respData.road;
-    }
-  } catch (error) {
-    console.error(error);
+  const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_OPENCAGEDATA_KEY}`);
+  const respData = response.data.results[0].components;
+  if (respData.country) {
+    site.country = respData.country;
+  }
+  if (respData.street_name) {
+    site.address = respData.street_name;
+  }
+  if (respData.road) {
+    site.address = respData.road;
   }
 
   const insertedSite: SiteType = await db
@@ -169,13 +165,13 @@ export const updateSiteReportLink = async (uuid: string) => {
       throw new Error('Site not found');
     }
 
-    return { success: true, message: 'Site updated successfully', site: updatedSite };
+    return { success: true };
   } catch (error) {
     throw new Error(`Error updating site reportLink: ${error}`);
   }
 };
 
-export const removeSite = async (uuid: string) => {
+export const deleteSite = async (uuid: string) => {
   try {
     // Find the site by its UUID
     const siteToDelete = await db

@@ -10,6 +10,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import SiteRange from '@/app/new-site/client/Range';
 import { revalidatePath } from 'next/cache';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function Form({
   markerLng,
@@ -26,10 +27,11 @@ export default function Form({
   portfolios: PortfolioType[];
   allRanges: RangesType[];
 }) {
+  const { user, error, isLoading } = useUser();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingState, setIsLoadingState] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [error, setError] = useState<string | null>(null);
+  const [errorState, setErrorState] = useState<string | null>(null);
   const [latitude, setLatitude] = useState<number | string >();
   const [longitude, setLongitude] = useState<number | string >();
   const [selectedPortfolio, setSelectedPortfolio] = useState<string>('');
@@ -72,8 +74,8 @@ export default function Form({
   // and update the marker if the input is valid.
   async function handleUpdateMarker(event: React.FocusEvent<HTMLInputElement>) {
     event.preventDefault();
-    setIsLoading(true);
-    setError(null); // Clear previous errors when a new request starts
+    setIsLoadingState(true);
+    setErrorState(null); // Clear previous errors when a new request starts
 
     try {
       const { id } = event.currentTarget;
@@ -125,7 +127,7 @@ export default function Form({
       // Capture the error message to display to the user
       throw new Error(`Error: ${e}`);
     } finally {
-      setIsLoading(false);
+      setIsLoadingState(false);
     }
   }
 
@@ -214,8 +216,8 @@ export default function Form({
     if (!validate()) {
       return;
     }
-    setIsLoading(true);
-    setError(null); // Clear previous errors when a new request starts
+    setIsLoadingState(true);
+    setErrorState(null); // Clear previous errors when a new request starts
 
     try {
       const newSite: NewSiteType = {
@@ -227,25 +229,30 @@ export default function Form({
         reportLink: null,
         speciesRisk: null,
         geographicalRisk: null,
+        email: user ? user.email : null,
       };
       try {
         await insertSite(newSite, selectedPortfolio, selectedRanges);
         toast({
           title: 'Success',
-          description: 'Site created successfully.',
+          description: 'Site created and sent to processing.',
         });
         revalidatePath('/');
         revalidatePath('/sites');
       } catch (e: any) {
-        setError(e.message);
+        setErrorState(e.message);
       }
     } catch (e: any) {
-      setError(e.message);
+      setErrorState(e.message);
       throw new Error(`Error: ${e}`);
     } finally {
-      setIsLoading(false);
+      setIsLoadingState(false);
     }
   }
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+  if (!user) return <Link href="/api/auth/login">Login</Link>;
 
   return (
     <div className="max-w-xxl mx-auto bg-white p-8 rounded-lg shadow-md">
@@ -387,17 +394,8 @@ export default function Form({
             disabled={isLoading}
             className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
           >
-            {isLoading ? 'Loading...' : 'Add new site'}
+            {isLoading || isLoadingState ? 'Loading...' : 'Add new site'}
           </button>
-          <Link href="/example-site">
-            <button
-              type="button"
-              disabled={isLoading}
-              className="bg-greenlight text-black py-2 px-8 mx-2 rounded-lg shadow-md "
-            >
-              {isLoading ? 'Loading...' : 'Example'}
-            </button>
-          </Link>
         </div>
       </form>
       <Toaster />

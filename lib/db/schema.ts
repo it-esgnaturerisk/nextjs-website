@@ -67,6 +67,7 @@ export const sites = pgTable('sites', {
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
   fkPortfolios: integer('fk_portfolios').references(() => portfolios.id),
+  email: text('email'),
 });
 
 export const ranges = pgTable('ranges', {
