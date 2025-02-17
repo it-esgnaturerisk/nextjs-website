@@ -195,6 +195,7 @@ export function generateSiteTable(sites: SiteType[]) {
       },
       {
         label: getLabel(site),
+        label: getLabel(site),
         style: bodyStyle,
         hidden: false,
         idColumn: false,
