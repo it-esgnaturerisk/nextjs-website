@@ -25,15 +25,14 @@ export default async function Home() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Sites</h1>
         <div>
-          <Button href="example-sites" text="Example" />
-          <NewSiteButton />
+          <Button href="new-site" text="New Site" />
         </div>
       </div>
 
       <div className="mt-8">
         {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
         <h2 className="text-lg font-semibold mb-4" />
-        <DataTable data={siteTable} emptyMessage={emptyMessage} />
+        <DataTable data={siteTable} emptyMessage={emptyMessage} actionButtons />
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ interface HeaderButtonProps {
 }
 
 function HeaderButton({ children, activeLocations, href }: HeaderButtonProps) {
-  const path = usePathname();
+  const path = usePathname() ?? '';
   const isActive = activeLocations.includes(path);
   return (
     <div
