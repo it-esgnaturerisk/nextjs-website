@@ -69,7 +69,7 @@ const getLabel = (site: SiteType) => {
       <div className="py-2 px-5">
         <Link
           // This link not functional atm (which is good, as the reportLinks are dysfunctional)
-          href="not-found"//https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}
+          href="not-found"// https://esg-reports-bucket.s3.amazonaws.com/${site.reportLink}
         >
           <IoMdDownload width={20} height={20} />
         </Link>
