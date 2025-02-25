@@ -64,7 +64,7 @@ export default function SiteMap({
         mapStyle="mapbox://styles/mapbox/satellite-streets-v11"
         style={{
           borderTopLeftRadius: '1rem',
-          borderBottomLeftRadius: '1rem', // Fixed borderBottomLeftRadius
+          borderBottomLeftRadius: '1rem',
           borderWidth: 1,
         }}
         initialViewState={
