@@ -4,9 +4,46 @@ import DataTable from '@/components/DataTable';
 import { siteTableData, geoSiteTableData } from '@/misc/helpers/siteTableData';
 import SiteMap from './client/SiteMap';
 
-export default async function Site({ params }: { params: { uuid: string } }) {
+interface AreaOverviewData {
+  [key: string]: {
+    threatenedSpecies: number;
+    totalSpecies: number;
+    keyBiodiversityAreas: number;
+    protectedAreas: number;
+  };
+}
+
+const areaOverviewData: AreaOverviewData = {
+  2010: {
+    threatenedSpecies: 63,
+    totalSpecies: 633,
+    keyBiodiversityAreas: 80,
+    protectedAreas: 0,
+  },
+  2015: {
+    threatenedSpecies: 85,
+    totalSpecies: 615,
+    keyBiodiversityAreas: 60,
+    protectedAreas: 5,
+  },
+  2020: {
+    threatenedSpecies: 83,
+    totalSpecies: 600,
+    keyBiodiversityAreas: 52,
+    protectedAreas: 10,
+  },
+  2025: {
+    threatenedSpecies: 93,
+    totalSpecies: 533,
+    keyBiodiversityAreas: 41,
+    protectedAreas: 15,
+  },
+};
+
+export default async function Site({ params, searchParams }: { params: { uuid: string }, searchParams: { year: keyof typeof geoSiteTableData } }) {
   const { uuid } = params;
   const site = await getSiteDataByUuid(uuid);
+  const year = searchParams?.year || 2015;
   if (site.longitude === null || site.latitude === null) {
     return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">This site is still being processed.</h1>);
   }
@@ -14,7 +51,6 @@ export default async function Site({ params }: { params: { uuid: string } }) {
     <div className="flex flex-col h-[calc(100vh-200px)]">
       <div className="p-6 py-3 m-3 mb-0">
         <h1 className="text-4xl">{site.name}</h1>
-        {/* <p className="text-gray-500">{site.description}</p> */}
       </div>
       <div className="flex h-full p-6 m-3 mt-0">
         <div className="flex-grow w-[100%]">
@@ -63,25 +99,25 @@ export default async function Site({ params }: { params: { uuid: string } }) {
                 <p className="text-bold text-xs text-center my-2">
                   Threatened Species:
                 </p>
-                <p className="text-2xl content-center text-center my-2">63</p>
+                <p className="text-2xl content-center text-center my-2">{areaOverviewData[year].threatenedSpecies}</p>
               </div>
               <div className="my-6">
                 <p className="text-bold text-xs text-center my-2">
                   Total Species:
                 </p>
-                <p className="text-2xl content-center text-center my-2">633</p>
+                <p className="text-2xl content-center text-center my-2">{areaOverviewData[year].totalSpecies}</p>
               </div>
               <div className="my-6">
                 <p className="text-bold text-xs text-center my-2">
                   Key Biodiversity areas
                 </p>
-                <p className="text-2xl content-center text-center my-2">80</p>
+                <p className="text-2xl content-center text-center my-2">{areaOverviewData[year].keyBiodiversityAreas}</p>
               </div>
               <div className="my-6">
                 <p className="text-bold text-xs text-center my-2">
                   Protected Areas:
                 </p>
-                <p className="text-2xl content-center text-center my-2">0</p>
+                <p className="text-2xl content-center text-center my-2">{areaOverviewData[year].protectedAreas}</p>
               </div>
             </div>
             <div className="m-3 mt-6 mb-0">
@@ -90,14 +126,14 @@ export default async function Site({ params }: { params: { uuid: string } }) {
           </div>
           <div className="h-1 w-full bg-gradient-to-r from-[#C3C7C3] to-white" />
           <div className="px-16 my-3 mb-0">
-            <DataTable data={siteTableData} />
+            <DataTable data={siteTableData[year]} />
             <div className="m-3 mt-6 mb-0">
               <h3 className="text-2xl">Geographical Risk</h3>
             </div>
           </div>
           <div className="h-1 w-full bg-gradient-to-r from-[#C3C7C3] to-white" />
           <div className="px-16 my-3">
-            <DataTable data={geoSiteTableData} />
+            <DataTable data={geoSiteTableData[year]} />
           </div>
         </div>
       </div>
