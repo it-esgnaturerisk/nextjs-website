@@ -107,7 +107,6 @@ export default function DataTable({
 
   return (
     <div>
-      <Button className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md" onClick={handleSendToEmail}> Process </Button>
       <Table className="min-w-full bg-white">
         <TableHeader className="bg-greenlight">
           <TableRow>
