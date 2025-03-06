@@ -26,7 +26,7 @@ export default function SiteMap({
   const [circleData, setCircleData] = useState<any | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialYear = searchParams.get('year') || years[0].toString();
+  const initialYear = searchParams.get('year') || years[years.length - 1].toString();
   const [year, setYear] = useState<number>(parseInt(initialYear, 10));
   let mapboxToken: string = '';
   if (process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
