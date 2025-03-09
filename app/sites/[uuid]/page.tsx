@@ -34,7 +34,7 @@ const images = {
 export default async function Site({ params, searchParams }: { params: { uuid: string }, searchParams: { year: keyof typeof geoSiteTableData, tab: string } }) {
   const { uuid } = params;
   const site = await getSiteDataByUuid(uuid);
-  const year = searchParams?.year || 2015;
+  const year = searchParams?.year || 2025;
   const tab = searchParams?.tab || 'map';
   if (site.longitude === null || site.latitude === null) {
     return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">This site is still being processed.</h1>);
