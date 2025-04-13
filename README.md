@@ -26,3 +26,6 @@ eslint --fix .
 ```
 to fix what it detects automatically. Some errors might remain, resolve these manually before pushing the code.
 You might also want to stage changes before fixing, so you can see what the linter has adjusted.
+
+### Database updates
+Update database by modifying lib->db->schema.ts, once changes are made run npx drizzle-kit generate, then npx drizzle-kit migrate.

@@ -82,10 +82,51 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
             </div>
             <div className="m-3 text-sm">
               <p>
-                lorem ipsum dolor sit amet lorem i lorem ipsum dolor sit amet
-                lorem ilorem ipsum dolor sit amet lorem ilorem ipsum dolor sit
-                amet lorem ilorem ipsum dolor sit amet lorem ilorem ipsum dolor
-                sit amet lorem i
+                This text is an automatically generated summary of the sites state.
+                <br />
+                🔍 1. Biodiversity Composition
+                Total observations: 1,049
+                Species groups (Artsgrupper): Dominated by Leddormer (annelids) at 54%, followed by mollusks (Bløtdyr) and birds (Fugler).
+                Conservation concern: 7 bird species are listed with IUCN statuses:
+                CR (Critically Endangered): Hettemåke
+                EN (Endangered): Makrellterne
+                VU (Vulnerable): Grønfink, Gråmåke, Ærfugl, Granmeis, Hønsehauk
+                <br />
+                📌 ESG Insight:
+                This shows a substantial presence of vulnerable and endangered bird species, which highlights the ecological sensitivity of the observed areas.
+                Conservation metrics like these are essential in biodiversity risk assessments and natural capital accounting.
+                <br />
+                🏢 2. Institutional Contributions
+                Most active: Miljødirektoratet (Norwegian Environment Agency) — 910 observations and 252 unique species.
+                Others include: Birdlife Norge, Norsk botanisk forening, and NTNU.
+                <br />
+                📌 ESG Insight:
+                Strong involvement from government and scientific institutions supports governance transparency and data credibility.
+                Such institutional diversity is critical for ESG reporting, lending confidence to ecological baselines and biodiversity impact assessments.
+                <br />
+                📈 3. Temporal Trends
+                Most active year: 2024 with 314 observations.
+                Other peaks: 2018, 2022, and 2021.
+                Data spans from 1986 to 2024, with observations in 17 years.
+                <br />
+                📌 ESG Insight:
+                This reflects a growing awareness or funding for biodiversity monitoring, possibly tied to evolving ESG and sustainability frameworks.
+                Data continuity is vital for tracking nature-related disclosures (e.g., TNFD, CSRD).
+                <br />
+                🌿 Environmental Materiality
+                This data can support:
+                Impact assessments for infrastructure or land use projects.
+                ESG reporting compliance, especially under frameworks like:
+                TNFD (Taskforce on Nature-related Financial Disclosures)
+                CSRD (EU Corporate Sustainability Reporting Directive)
+                SFDR (Sustainable Finance Disclosure Regulation)
+                <br />
+                🔎 Potential ESG Recommendations:
+                Enhance species monitoring in underrepresented taxa (e.g., amphibians, reptiles, fungi).
+                Focus conservation actions on habitats with vulnerable species.
+                Track changes in abundance, not just presence, for ESG performance metrics.
+                Increase frequency of observations and fill gaps (e.g., 1990s and early 2000s were sparse).
+                Link species data to land use or corporate activities in proximity to identify potential biodiversity dependencies and impacts.
               </p>
             </div>
             <div className="m-3 mt-6 mb-0">

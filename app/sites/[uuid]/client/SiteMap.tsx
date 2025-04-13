@@ -72,7 +72,7 @@ export default function SiteMap({
         ? {
           latitude,
           longitude,
-          zoom: 7.5,
+          zoom: 12,
         }
         : {}
     }
