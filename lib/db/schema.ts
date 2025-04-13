@@ -80,7 +80,7 @@ export const sites = pgTable('sites', {
 export const speciesGroups = pgTable('species_groups', {
   id: serial('id').primaryKey(),
   uuid: uuid('uuid').defaultRandom(),
-  speciesGroupName: text('species_group_name').notNull(),
+  name: text('name').notNull(),
   description: text('description'),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
@@ -109,8 +109,8 @@ export const redListStatus = pgEnum('red_list_status', [
 export const species = pgTable('species', {
   id: serial('id').primaryKey(),
   uuid: uuid('uuid').defaultRandom(),
-  commonName: text('species_name').notNull(),
-  greekName: text('greek_species_name'),
+  commonName: text('common_name').notNull(),
+  scientificName: text('scientific_name'),
   description: text('description'),
   fkSpeciesGroup: integer('fk_species_group').references(() => speciesGroups.id),
   redListStatus: redListStatus('red_list_status'),
@@ -121,8 +121,8 @@ export const species = pgTable('species', {
 export const speciesObserved = pgTable('species_observed', {
   id: serial('id').primaryKey(),
   uuid: uuid('uuid').defaultRandom(),
-  numberOfObservations: integer('number_of_observations').notNull(),
-  fkSpecies: integer('species').references(() => species.id),
+  numberOfObservations: integer('number_of_observations'),
+  fkSpecies: integer('fk_species').references(() => species.id),
   fkSites: integer('fk_sites').references(() => sites.id),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
@@ -148,7 +148,7 @@ export const institutionsObservations = pgTable('institutions_observations', {
   created: timestamp('created').defaultNow(),
 });
 
-export const yearsOfObservations = pgTable('yearsOfObservations', {
+export const yearsOfObservations = pgTable('years_of_observations', {
   id: serial('id').primaryKey(),
   uuid: uuid('uuid').defaultRandom(),
   year: integer('year').notNull(),
