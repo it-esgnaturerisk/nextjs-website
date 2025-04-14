@@ -11,13 +11,13 @@ import { createCircle } from '@/misc/helpers';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function SiteMap({
-  ranges,
   latitude,
   longitude,
+  ranges,
 }: {
-  ranges: RangesType[];
   latitude: number | null;
   longitude: number | null;
+  ranges: RangesType[] | null;
 }) {
   const mapRef = useRef<MapRef>(null);
   const [circleData, setCircleData] = useState<any | null>(null);
@@ -27,12 +27,16 @@ export default function SiteMap({
   }
 
   useEffect(() => {
-    if (longitude && latitude) {
+    if (ranges && longitude && latitude) {
       const circleFeatures = ranges.map((c) => createCircle(longitude, latitude, c.value));
-      setCircleData({
-        type: 'FeatureCollection',
-        features: circleFeatures,
-      });
+      if (circleFeatures.length === 0) {
+        setCircleData(null);
+      } else {
+        setCircleData({
+          type: 'FeatureCollection',
+          features: circleFeatures,
+        });
+      }
     }
   }, [ranges, latitude, longitude]);
 
@@ -56,7 +60,7 @@ export default function SiteMap({
         ? {
           latitude,
           longitude,
-          zoom: 7.5,
+          zoom: 12,
         }
         : {}
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const colors = ['#79937A', '#FFAE73', '#B93E3E'];
+const colors = ['#79937A', '#FFAE73', '#B93E3E', '#808080'];
 
 export const siteTableData = {
   2025: {
@@ -182,10 +182,10 @@ export const siteTableData = {
 export const geoSiteTableData = {
   2025: {
     head: [
-      { label: ' ', style: 'py-2 px-4 border-b text-left' },
-      { label: '5 km', style: 'py-2 px-4 border-b text-left' },
-      { label: '15 km', style: 'py-2 px-4 border-b text-left' },
-      { label: '50 km', style: 'py-2 px-4 border-b text-left' },
+      { label: ' ', style: 'py-2 px-4 border-b text-center' },
+      { label: '5 km', style: 'py-2 px-4 border-b text-center' },
+      { label: '15 km', style: 'py-2 px-4 border-b text-center' },
+      { label: '50 km', style: 'py-2 px-4 border-b text-center' },
     ],
     body: [
       [
@@ -193,29 +193,81 @@ export const geoSiteTableData = {
           label: 'Protected Areas', style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: true,
         },
         {
-          label: <span style={{ backgroundColor: colors[2] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+          label: <span> Coming soon</span>,
+          style: 'py-2 px-4 border-b text-center',
+          hidden: false,
+          idColumn: false,
         },
         {
-          label: <span style={{ backgroundColor: colors[2] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+          label: <span>Coming soon</span>,
+          style: 'py-2 px-4 border-b text-center',
+          hidden: false,
+          idColumn: false,
         },
         {
-          label: <span style={{ backgroundColor: colors[2] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+          label: <span>Coming soon</span>,
+          style: 'py-2 px-4 border-b text-center',
+          hidden: false,
+          idColumn: false,
         },
       ],
       [
         {
-          label: 'Key Biodiversity Areas', style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: true,
+          label: 'Key Biodiversity Areas',
+          style: 'py-2 px-4 border-b text-left',
+          hidden: false,
+          idColumn: true,
         },
         {
-          label: <span style={{ backgroundColor: colors[0] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+          label: <span>Coming soon</span>,
+          style: 'py-2 px-4 border-b text-center',
+          hidden: false,
+          idColumn: false,
         },
         {
-          label: <span style={{ backgroundColor: colors[0] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+          label: <span>Coming soon</span>,
+          style: 'py-2 px-4 border-b text-center',
+          hidden: false,
+          idColumn: false,
         },
         {
-          label: <span style={{ backgroundColor: colors[0] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+          label: <span>Coming soon</span>,
+          style: 'py-2 px-4 border-b text-center',
+          hidden: false,
+          idColumn: false,
         },
       ],
     ],
+    // Traffic lights
+    // body: [
+    //   [
+    //     {
+    //       label: 'Protected Areas', style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: true,
+    //     },
+    //     {
+    //       label: <span style={{ backgroundColor: colors[3] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+    //     },
+    //     {
+    //       label: <span style={{ backgroundColor: colors[3] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+    //     },
+    //     {
+    //       label: <span style={{ backgroundColor: colors[3] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+    //     },
+    //   ],
+    //   [
+    //     {
+    //       label: 'Key Biodiversity Areas', style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: true,
+    //     },
+    //     {
+    //       label: <span style={{ backgroundColor: colors[3] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+    //     },
+    //     {
+    //       label: <span style={{ backgroundColor: colors[3] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+    //     },
+    //     {
+    //       label: <span style={{ backgroundColor: colors[3] }} className="inline-block w-4 h-4 rounded-full" />, style: 'py-2 px-4 border-b text-left', hidden: false, idColumn: false,
+    //     },
+    //   ],
+    // ],
   },
 };

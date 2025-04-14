@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
 export default async function Home() {
   const sites: SiteType[] = await selectSites();
-  const siteTable = generateSiteTable(sites);
+  const siteTable = await generateSiteTable(sites);
 
   const emptyMessage = (
     <div>
@@ -31,7 +31,7 @@ export default async function Home() {
       <div className="mt-8">
         {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
         <h2 className="text-lg font-semibold mb-4" />
-        <DataTable data={siteTable} emptyMessage={emptyMessage} actionButtons />
+        <DataTable data={siteTable} emptyMessage={emptyMessage} withActionButtons />
       </div>
     </div>
   );
