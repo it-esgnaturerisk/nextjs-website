@@ -36,15 +36,15 @@ function sitesCompareFn(a: SiteType, b: SiteType) {
 }
 
 function speciesCompareFn(a: SpeciesType, b: SpeciesType) {
-  if (a.redListStatus == 'CR' && b.redListStatus =='CR' ) { return 0; }
-  if (a.redListStatus == 'CR' && b.redListStatus =='EN' ) { return -1; }
-  if (a.redListStatus == 'CR' && b.redListStatus =='VU' ) { return -1; }
-  if (a.redListStatus == 'EN' && b.redListStatus =='CR' ) { return 1; }
-  if (a.redListStatus == 'EN' && b.redListStatus =='EN' ) { return 0; }
-  if (a.redListStatus == 'EN' && b.redListStatus =='VU' ) { return -1; }
-  if (a.redListStatus == 'VU' && b.redListStatus =='CR' ) { return 1; }
-  if (a.redListStatus == 'VU' && b.redListStatus =='EN' ) { return 1; }
-  if (a.redListStatus == 'VU' && b.redListStatus =='VU' ) { return 0; }
+  if (a.redListStatus == 'CR' && b.redListStatus == 'CR') { return 0; }
+  if (a.redListStatus == 'CR' && b.redListStatus == 'EN') { return -1; }
+  if (a.redListStatus == 'CR' && b.redListStatus == 'VU') { return -1; }
+  if (a.redListStatus == 'EN' && b.redListStatus == 'CR') { return 1; }
+  if (a.redListStatus == 'EN' && b.redListStatus == 'EN') { return 0; }
+  if (a.redListStatus == 'EN' && b.redListStatus == 'VU') { return -1; }
+  if (a.redListStatus == 'VU' && b.redListStatus == 'CR') { return 1; }
+  if (a.redListStatus == 'VU' && b.redListStatus == 'EN') { return 1; }
+  if (a.redListStatus == 'VU' && b.redListStatus == 'VU') { return 0; }
   return 0;
 }
 
@@ -91,11 +91,27 @@ const getLabel = (site: SiteType) => {
   );
 };
 
-const riskCircleColors = (risk?: string) => {
-  if (!risk) {
-    return '#cfcfcf';
+type RiskLevel = 'Low' | 'Medium' | 'High';
+
+const getRiskLevelFromNumber = (risk: number): RiskLevel | undefined => {
+  if (risk > 0 && risk <= 10) return 'Low';
+  if (risk > 10 && risk <= 20) return 'Medium';
+  if (risk > 20) return 'High';
+  return undefined;
+};
+
+const riskCircleColors = (risk: RiskLevel | number | undefined): string => {
+  if (risk == null) return '#cfcfcf';
+
+  let riskLevel: RiskLevel | undefined;
+
+  if (typeof risk === 'number') {
+    riskLevel = getRiskLevelFromNumber(risk);
+  } else {
+    riskLevel = risk;
   }
-  switch (risk) {
+
+  switch (riskLevel) {
     case 'Low':
       return '#79937A';
     case 'Medium':
@@ -105,18 +121,18 @@ const riskCircleColors = (risk?: string) => {
     default:
       return '#808080';
   }
-}
+};
 
 export async function generateSiteTable(sites: SiteType[]) {
   sites.sort(sitesCompareFn);
 
   const siteSpeciesCountMap = new Map();
-  
+
   await Promise.all(
     sites.map(async (site) => {
       const siteData = await selectSiteDataByUuid(site.uuid);
       siteSpeciesCountMap.set(site.uuid, siteData?.species.length);
-    })
+    }),
   );
 
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
@@ -126,6 +142,10 @@ export async function generateSiteTable(sites: SiteType[]) {
       {
         label: 'Name',
         style: 'py-2 px-4 border-b text-left text-bold',
+      },
+      {
+        label: 'Locality Code',
+        style: headStyle,
       },
       {
         label: 'Location',
@@ -184,19 +204,34 @@ export async function generateSiteTable(sites: SiteType[]) {
         idColumn: false,
       },
       {
+        label: site.localityNumber,
+        style: bodyStyle,
+        hidden: false,
+        idColumn: false,
+      },
+      {
         label: (site.country && site.country) || 'N/A',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: riskCircleColors(site.speciesRisk ?? undefined) }} className="inline-block w-5 h-5 rounded-full" />,
+        label: <span style={{ backgroundColor: riskCircleColors(site.speciesRisk ?? siteSpeciesCountMap.get(site.uuid)) }} className="inline-block w-5 h-5 rounded-full" />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: riskCircleColors(site.geographicalRisk ?? undefined) }} className="inline-block w-5 h-5 rounded-full" />,
+        label: <span
+          style={{
+            backgroundColor: riskCircleColors(
+              site.geographicalRisk === 'Unknown' || site.geographicalRisk === null
+                ? undefined
+                : site.geographicalRisk,
+            ),
+          }}
+          className="inline-block w-5 h-5 rounded-full"
+        />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
@@ -245,12 +280,16 @@ export async function generateSiteTable(sites: SiteType[]) {
 export function generateSpeciesTable(species: SpeciesType[]) {
   species.sort(speciesCompareFn);
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
+  const headStyleLeft = 'py-2 px-4 border-b text-left text-bold';
+  const headStyleRight = 'py-2 px-4 border-b text-right text-bold';
   const bodyStyle = 'py-2 px-4 border-b text-center';
+  const bodyStyleLeft = 'py-2 px-4 border-b text-left';
+  const bodyStyleRight = 'py-2 px-4 border-b text-right';
   const siteTable = {
     head: [
       {
         label: 'Common Name',
-        style: headStyle,
+        style: headStyleLeft,
       },
       {
         label: 'Red List Status',
@@ -258,7 +297,7 @@ export function generateSpeciesTable(species: SpeciesType[]) {
       },
       {
         label: 'Scientific Name',
-        style: headStyle,
+        style: headStyleRight,
       },
     ],
     body: species.map((species, i) => [
@@ -272,7 +311,7 @@ export function generateSpeciesTable(species: SpeciesType[]) {
         label: species.commonName[0].toLocaleUpperCase() + species.commonName.slice(1),
         hidden: false,
         idColumn: false,
-        style: bodyStyle,
+        style: bodyStyleLeft,
       },
       {
         label: species.redListStatus,
@@ -284,7 +323,7 @@ export function generateSpeciesTable(species: SpeciesType[]) {
         label: species.scientificName,
         idColumn: false,
         hidden: false,
-        style: bodyStyle,
+        style: bodyStyleRight,
       },
     ]),
   };
