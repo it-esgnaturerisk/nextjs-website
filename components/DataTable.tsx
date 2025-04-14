@@ -27,13 +27,13 @@ interface DataTableProps {
     }[][];
   };
   emptyMessage?: React.JSX.Element;
-  actionButtons?: boolean;
+  withActionButtons?: boolean;
 }
 
 export default function DataTable({
   data,
   emptyMessage = undefined,
-  actionButtons = false,
+  withActionButtons: actionButtons = false,
 }: DataTableProps) {
   const [selectedRowsIndex, setSelectedRows] = useState<number[]>([]);
   const { toast } = useToast();
