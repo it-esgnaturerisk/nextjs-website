@@ -53,6 +53,20 @@ export const portfolios = pgTable('portfolios', {
   fkCompanies: integer('fk_companies').references(() => companies.id),
 });
 
+export const speciesRisk = pgEnum('species_risk', [
+  'High',
+  'Medium',
+  'Low',
+  'Unknown',
+]);
+
+export const geographicalRisk = pgEnum('geographical_risk', [
+  'High',
+  'Medium',
+  'Low',
+  'Unknown',
+]);
+
 export const sites = pgTable('sites', {
   id: serial('id').primaryKey(),
   uuid: uuid('uuid').defaultRandom(),
@@ -62,8 +76,8 @@ export const sites = pgTable('sites', {
   address: text('address'),
   country: text('country'),
   reportLink: text('report_link'),
-  speciesRisk: text('species_risk'),
-  geographicalRisk: text('geographical_risk'),
+  speciesRisk: speciesRisk('species_risk'),
+  geographicalRisk: geographicalRisk('geographical_risk'),
   clearedCapacity: doublePrecision('cleared_capacity'),
   clearedCapacityUnit: text('cleared_capacity_unit'),
   area: doublePrecision('area'),
