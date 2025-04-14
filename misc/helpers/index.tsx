@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 import * as turf from '@turf/turf';
 import { Units } from '@turf/helpers';
-import { SiteType } from '@/lib/types';
-import { selectPortfolioWhereID } from '@/lib/db/queries';
+import { SiteType, SpeciesType } from '@/lib/types';
+import { selectPortfolioWhereID, selectSiteDataByUuid } from '@/lib/db/queries';
 import Button from '@/components/buttons/Button';
 import Link from 'next/link';
 import { IoMdDownload } from 'react-icons/io';
@@ -33,6 +33,19 @@ function sitesCompareFn(a: SiteType, b: SiteType) {
   if (!a.reportLink && !b.reportLink) { return 0; }
   if (a.reportLink && !b.reportLink) { return -1; }
   return 1;
+}
+
+function speciesCompareFn(a: SpeciesType, b: SpeciesType) {
+  if (a.redListStatus == 'CR' && b.redListStatus =='CR' ) { return 0; }
+  if (a.redListStatus == 'CR' && b.redListStatus =='EN' ) { return -1; }
+  if (a.redListStatus == 'CR' && b.redListStatus =='VU' ) { return -1; }
+  if (a.redListStatus == 'EN' && b.redListStatus =='CR' ) { return 1; }
+  if (a.redListStatus == 'EN' && b.redListStatus =='EN' ) { return 0; }
+  if (a.redListStatus == 'EN' && b.redListStatus =='VU' ) { return -1; }
+  if (a.redListStatus == 'VU' && b.redListStatus =='CR' ) { return 1; }
+  if (a.redListStatus == 'VU' && b.redListStatus =='EN' ) { return 1; }
+  if (a.redListStatus == 'VU' && b.redListStatus =='VU' ) { return 0; }
+  return 0;
 }
 
 const getLabel = (site: SiteType) => {
@@ -78,9 +91,34 @@ const getLabel = (site: SiteType) => {
   );
 };
 
-export function generateSiteTable(sites: SiteType[]) {
+const riskCircleColors = (risk?: string) => {
+  if (!risk) {
+    return '#cfcfcf';
+  }
+  switch (risk) {
+    case 'Low':
+      return '#79937A';
+    case 'Medium':
+      return '#FFAE73';
+    case 'High':
+      return '#B93E3E';
+    default:
+      return '#808080';
+  }
+}
+
+export async function generateSiteTable(sites: SiteType[]) {
   sites.sort(sitesCompareFn);
-  const riskCircleColors = ['#79937A', '#FFAE73', '#B93E3E', '#808080'];
+
+  const siteSpeciesCountMap = new Map();
+  
+  await Promise.all(
+    sites.map(async (site) => {
+      const siteData = await selectSiteDataByUuid(site.uuid);
+      siteSpeciesCountMap.set(site.uuid, siteData?.species.length);
+    })
+  );
+
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
   const bodyStyle = 'py-2 px-4 border-b text-center';
   const siteTable = {
@@ -102,7 +140,7 @@ export function generateSiteTable(sites: SiteType[]) {
         style: headStyle,
       },
       {
-        label: 'Red List',
+        label: 'Red List Species',
         style: headStyle,
       },
       {
@@ -152,37 +190,37 @@ export function generateSiteTable(sites: SiteType[]) {
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: riskCircleColors[site.reportLink ? (i * 7 + 13 + i + 0) % 3 : 3] }} className="inline-block w-4 h-4 rounded-full" />,
+        label: <span style={{ backgroundColor: riskCircleColors(site.speciesRisk ?? undefined) }} className="inline-block w-5 h-5 rounded-full" />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: riskCircleColors[site.reportLink ? (i * 7 + 13 + i + 1) % 3 : 3] }} className="inline-block w-4 h-4 rounded-full" />,
+        label: <span style={{ backgroundColor: riskCircleColors(site.geographicalRisk ?? undefined) }} className="inline-block w-5 h-5 rounded-full" />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: site.reportLink ? 1200 + i * 10 + i : 'N/A',
+        label: siteSpeciesCountMap.get(site.uuid) || 'N/A',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: site.reportLink ? (i * 14 + 1) % 20 : 'N/A',
+        label: 'Coming soon',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: site.reportLink ? (i * 14 + 1) % 5 : 'N/A',
+        label: 'Coming soon',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: site.fkPortfolios ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name) : 'N/A',
+        label: site.fkPortfolios ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name) : 'Unspecified',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
@@ -198,6 +236,55 @@ export function generateSiteTable(sites: SiteType[]) {
         style: bodyStyle,
         hidden: false,
         idColumn: false,
+      },
+    ]),
+  };
+  return siteTable;
+}
+
+export function generateSpeciesTable(species: SpeciesType[]) {
+  species.sort(speciesCompareFn);
+  const headStyle = 'py-2 px-4 border-b text-center text-bold';
+  const bodyStyle = 'py-2 px-4 border-b text-center';
+  const siteTable = {
+    head: [
+      {
+        label: 'Common Name',
+        style: headStyle,
+      },
+      {
+        label: 'Red List Status',
+        style: headStyle,
+      },
+      {
+        label: 'Scientific Name',
+        style: headStyle,
+      },
+    ],
+    body: species.map((species, i) => [
+      {
+        label: species.uuid,
+        hidden: true,
+        idColumn: true,
+        style: bodyStyle,
+      },
+      {
+        label: species.commonName[0].toLocaleUpperCase() + species.commonName.slice(1),
+        hidden: false,
+        idColumn: false,
+        style: bodyStyle,
+      },
+      {
+        label: species.redListStatus,
+        idColumn: false,
+        hidden: false,
+        style: bodyStyle,
+      },
+      {
+        label: species.scientificName,
+        idColumn: false,
+        hidden: false,
+        style: bodyStyle,
       },
     ]),
   };

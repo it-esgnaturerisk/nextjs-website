@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'; // Forces dynamic rendering
 
 export default async function Home() {
   const sites: SiteType[] = await selectSites();
-  const siteTable = generateSiteTable(sites);
+  const siteTable = await generateSiteTable(sites);
 
   const emptyMessage = (
     <div>

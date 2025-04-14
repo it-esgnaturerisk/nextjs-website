@@ -11,13 +11,13 @@ import { createCircle } from '@/misc/helpers';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function SiteMap({
-  ranges,
   latitude,
   longitude,
+  ranges,
 }: {
-  ranges: RangesType[];
   latitude: number | null;
   longitude: number | null;
+  ranges: RangesType[] | null;
 }) {
   const mapRef = useRef<MapRef>(null);
   const [circleData, setCircleData] = useState<any | null>(null);
@@ -26,13 +26,23 @@ export default function SiteMap({
     mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
   }
 
+  if(latitude === null || longitude === null) {
+    
+  }
+
   useEffect(() => {
-    if (longitude && latitude) {
+    if (ranges && longitude && latitude) {
+      console.log("🚀 ~ useEffect ~ ranges:", ranges)
+      
       const circleFeatures = ranges.map((c) => createCircle(longitude, latitude, c.value));
+      
+      circleFeatures.length === 0 ? (
+        setCircleData(null)
+      ) : (
       setCircleData({
         type: 'FeatureCollection',
         features: circleFeatures,
-      });
+    }));
     }
   }, [ranges, latitude, longitude]);
 
