@@ -135,7 +135,7 @@ export const selectPortfoliosWithCompanies = async () => {
   }
 };
 
-export const selectSiteDataByUuid = async (uuid: string) => {
+export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
   try {
     const data = await db.select()
       .from(sites)
@@ -146,16 +146,18 @@ export const selectSiteDataByUuid = async (uuid: string) => {
       .leftJoin(speciesObserved, eq(sites.id, speciesObserved.fkSites))
       .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
       .then((s) => s);
-  
+
     if (data.length > 0) {
       const d = {
         ...data[0].sites,
         portfolio: data[0].portfolios,
         ranges: data.map((x) => x.ranges),
-        species: data.map((x) => x.species).filter((s): s is SpeciesType => s !== null)
+        species: data.map((x) => x.species).filter((s): s is SpeciesType => s !== null),
       };
       return d;
     }
+
+    return null;
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }

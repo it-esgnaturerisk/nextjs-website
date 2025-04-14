@@ -36,15 +36,15 @@ function sitesCompareFn(a: SiteType, b: SiteType) {
 }
 
 function speciesCompareFn(a: SpeciesType, b: SpeciesType) {
-  if (a.redListStatus == 'CR' && b.redListStatus == 'CR') { return 0; }
-  if (a.redListStatus == 'CR' && b.redListStatus == 'EN') { return -1; }
-  if (a.redListStatus == 'CR' && b.redListStatus == 'VU') { return -1; }
-  if (a.redListStatus == 'EN' && b.redListStatus == 'CR') { return 1; }
-  if (a.redListStatus == 'EN' && b.redListStatus == 'EN') { return 0; }
-  if (a.redListStatus == 'EN' && b.redListStatus == 'VU') { return -1; }
-  if (a.redListStatus == 'VU' && b.redListStatus == 'CR') { return 1; }
-  if (a.redListStatus == 'VU' && b.redListStatus == 'EN') { return 1; }
-  if (a.redListStatus == 'VU' && b.redListStatus == 'VU') { return 0; }
+  if (a.redListStatus === 'CR' && b.redListStatus === 'CR') { return 0; }
+  if (a.redListStatus === 'CR' && b.redListStatus === 'EN') { return -1; }
+  if (a.redListStatus === 'CR' && b.redListStatus === 'VU') { return -1; }
+  if (a.redListStatus === 'EN' && b.redListStatus === 'CR') { return 1; }
+  if (a.redListStatus === 'EN' && b.redListStatus === 'EN') { return 0; }
+  if (a.redListStatus === 'EN' && b.redListStatus === 'VU') { return -1; }
+  if (a.redListStatus === 'VU' && b.redListStatus === 'CR') { return 1; }
+  if (a.redListStatus === 'VU' && b.redListStatus === 'EN') { return 1; }
+  if (a.redListStatus === 'VU' && b.redListStatus === 'VU') { return 0; }
   return 0;
 }
 
@@ -184,7 +184,7 @@ export async function generateSiteTable(sites: SiteType[]) {
         style: headStyle,
       },
     ],
-    body: sites.map((site, i) => [
+    body: sites.map((site) => [
       {
         label: site.uuid,
         hidden: true,
@@ -300,27 +300,27 @@ export function generateSpeciesTable(species: SpeciesType[]) {
         style: headStyleRight,
       },
     ],
-    body: species.map((species, i) => [
+    body: species.map((specimen) => [
       {
-        label: species.uuid,
+        label: specimen.uuid,
         hidden: true,
         idColumn: true,
         style: bodyStyle,
       },
       {
-        label: species.commonName[0].toLocaleUpperCase() + species.commonName.slice(1),
+        label: specimen.commonName[0].toLocaleUpperCase() + specimen.commonName.slice(1),
         hidden: false,
         idColumn: false,
         style: bodyStyleLeft,
       },
       {
-        label: species.redListStatus,
+        label: specimen.redListStatus,
         idColumn: false,
         hidden: false,
         style: bodyStyle,
       },
       {
-        label: species.scientificName,
+        label: specimen.scientificName,
         idColumn: false,
         hidden: false,
         style: bodyStyleRight,

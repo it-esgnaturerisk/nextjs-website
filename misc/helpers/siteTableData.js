@@ -195,7 +195,6 @@ export const geoSiteTableData = {
         {
           label: <span> Coming soon</span>,
           style: 'py-2 px-4 border-b text-center',
-          style: 'py-2 px-4 border-b text-left',
           hidden: false,
           idColumn: false,
         },

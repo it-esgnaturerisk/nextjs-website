@@ -26,23 +26,17 @@ export default function SiteMap({
     mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
   }
 
-  if(latitude === null || longitude === null) {
-    
-  }
-
   useEffect(() => {
     if (ranges && longitude && latitude) {
-      console.log("🚀 ~ useEffect ~ ranges:", ranges)
-      
       const circleFeatures = ranges.map((c) => createCircle(longitude, latitude, c.value));
-      
-      circleFeatures.length === 0 ? (
-        setCircleData(null)
-      ) : (
-      setCircleData({
-        type: 'FeatureCollection',
-        features: circleFeatures,
-    }));
+      if (circleFeatures.length === 0) {
+        setCircleData(null);
+      } else {
+        setCircleData({
+          type: 'FeatureCollection',
+          features: circleFeatures,
+        });
+      }
     }
   }, [ranges, latitude, longitude]);
 

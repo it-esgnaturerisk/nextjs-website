@@ -3,28 +3,11 @@ import React from 'react';
 import { selectSiteDataByUuid } from '@/lib/db/queries';
 import Link from 'next/link';
 import DataTable from '@/components/DataTable';
-import { siteTableData, geoSiteTableData } from '@/misc/helpers/siteTableData';
+import { geoSiteTableData } from '@/misc/helpers/siteTableData';
+import { generateSpeciesTable } from '@/misc/helpers';
 import SiteMap from './client/SiteMap';
 import SatImages from './client/SatImages';
-import { generateSpeciesTable } from '@/misc/helpers';
 
-interface AreaOverviewData {
-  [key: string]: {
-    threatenedSpecies: number;
-    totalSpecies: number;
-    keyBiodiversityAreas: number;
-    protectedAreas: number;
-  };
-}
-
-const areaOverviewData: AreaOverviewData = {
-  2025: {
-    threatenedSpecies: 93,
-    totalSpecies: 533,
-    keyBiodiversityAreas: 41,
-    protectedAreas: 15,
-  },
-};
 const images = {
   1971: '/images/TANA_1.png',
   1997: '/images/TANA_2.png',
@@ -37,8 +20,8 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
   const site = await selectSiteDataByUuid(uuid);
   const year = searchParams?.year || 2025;
   const tab = searchParams?.tab || 'map';
-  
-  if(!site) {
+
+  if (!site) {
     return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">Site not found</h1>);
   }
 
@@ -67,17 +50,23 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
       <div className="flex h-full p-6 m-3 mt-0">
         <div className="flex-grow w-[100%]">
           {tab === 'map' && (
-            site.ranges ? 
-            <SiteMap
-              latitude={site.latitude}
-              longitude={site.longitude}
-              ranges={[{uuid:'', id:0, label:'',value:0}]}
-            /> : 
-              <SiteMap
-                latitude={site.latitude}
-                longitude={site.longitude}
-                ranges={site.ranges}
-              />
+            site.ranges
+              ? (
+                <SiteMap
+                  latitude={site.latitude}
+                  longitude={site.longitude}
+                  ranges={[{
+                    uuid: '', id: 0, label: '', value: 0,
+                  }]}
+                />
+              )
+              : (
+                <SiteMap
+                  latitude={site.latitude}
+                  longitude={site.longitude}
+                  ranges={site.ranges}
+                />
+              )
           )}
           {tab === 'images' && (
             <SatImages image={images[year]} />
@@ -100,14 +89,15 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
                 Portfolio:
                 {' '}
                 {' '}
-                <span className="font-bold">{site.portfolio ? site.portfolio.name: 'Unspecified'}</span>
+                <span className="font-bold">{site.portfolio ? site.portfolio.name : 'Unspecified'}</span>
               </p>
             </div>
             <div className="m-3 text-sm">
               <p>
                 🔍 Artsgrupper: leddormer (54%), etterfulgt av bløtdyr og fugler.
                 <br />
-                🏢 Mest aktive institusjonelle bidrag til observasjoner: Miljødirektoratet med 910 observasjoner og 252 unike arter.<br />
+                🏢 Mest aktive institusjonelle bidrag til observasjoner: Miljødirektoratet med 910 observasjoner og 252 unike arter.
+                <br />
                 Andre institusjoner med observasjoner inkluderer: Birdlife Norge, Norsk botanisk forening, and NTNU.
                 <br />
                 📈 Observasjoner strekker seg fra 1986 to 2024, hvilket er 17 år med observasjoner.
@@ -156,8 +146,8 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
                 <div className="text-center">
                   No species found for this site.
                 </div>
-              ) :
-              <DataTable data={generateSpeciesTable(site.species)} />
+              )
+                : <DataTable data={generateSpeciesTable(site.species)} />
             }
             <div className="m-3 mt-6 mb-0">
               <h3 className="text-2xl">Geographical Risk</h3>
