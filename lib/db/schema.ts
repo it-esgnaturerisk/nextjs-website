@@ -18,7 +18,7 @@ export const userElevationEnum = pgEnum('user_elevation_enum', [
 
 export const companies = pgTable('companies', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   name: text('name').notNull(),
   registrationNumber: text('registration_number').notNull(),
   address: text('address'),
@@ -32,7 +32,7 @@ export const companies = pgTable('companies', {
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   email: text('email').notNull(),
   elevation: userElevationEnum('elevation').default('regular').notNull(),
   name: text('name'),
@@ -45,7 +45,7 @@ export const users = pgTable('users', {
 
 export const portfolios = pgTable('portfolios', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   name: text('name').notNull(),
   description: text('description'),
   createdAt: timestamp('created_at').defaultNow(),
@@ -69,7 +69,7 @@ export const geographicalRisk = pgEnum('geographical_risk', [
 
 export const sites = pgTable('sites', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   name: text('name').notNull(),
   latitude: doublePrecision('latitude').notNull(),
   longitude: doublePrecision('longitude').notNull(),
@@ -93,7 +93,7 @@ export const sites = pgTable('sites', {
 
 export const speciesGroups = pgTable('species_groups', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   name: text('name').notNull(),
   description: text('description'),
   lastUpdated: date('last_updated'),
@@ -102,7 +102,7 @@ export const speciesGroups = pgTable('species_groups', {
 
 export const speciesGroupsObserved = pgTable('species_groups_observed', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   numberOfObservations: integer('number_of_observations').notNull(),
   fkSpeciesGroup: integer('fk_species_group').references(() => speciesGroups.id),
   fkSites: integer('fk_sites').references(() => sites.id),
@@ -122,7 +122,7 @@ export const redListStatus = pgEnum('red_list_status', [
 
 export const species = pgTable('species', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   commonName: text('common_name').notNull(),
   scientificName: text('scientific_name'),
   description: text('description'),
@@ -134,7 +134,7 @@ export const species = pgTable('species', {
 
 export const speciesObserved = pgTable('species_observed', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   numberOfObservations: integer('number_of_observations'),
   fkSpecies: integer('fk_species').references(() => species.id),
   fkSites: integer('fk_sites').references(() => sites.id),
@@ -144,7 +144,7 @@ export const speciesObserved = pgTable('species_observed', {
 
 export const institutions = pgTable('institutions', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   name: text('name').notNull(),
   description: text('description'),
   lastUpdated: date('last_updated'),
@@ -153,7 +153,7 @@ export const institutions = pgTable('institutions', {
 
 export const institutionsObservations = pgTable('institutions_observations', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   totalObservations: integer('total_observations').notNull(),
   uniqueSpeciesObservations: integer('unique_species_observations').notNull(),
   fkInstitutions: integer('fk_institutions').references(() => institutions.id),
@@ -164,7 +164,7 @@ export const institutionsObservations = pgTable('institutions_observations', {
 
 export const yearsOfObservations = pgTable('years_of_observations', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   year: integer('year').notNull(),
   numberOfObservations: integer('number_of_observations').notNull(),
   fkSites: integer('fk_sites').references(() => sites.id),
@@ -174,14 +174,14 @@ export const yearsOfObservations = pgTable('years_of_observations', {
 
 export const ranges = pgTable('ranges', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   value: integer('value').notNull(),
   label: text('label').notNull(),
 });
 
 export const siteRanges = pgTable('site_ranges', {
   id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
   fkSites: integer('fk_sites').references(() => sites.id),
   fkRanges: integer('fk_ranges').references(() => ranges.id),
 });
