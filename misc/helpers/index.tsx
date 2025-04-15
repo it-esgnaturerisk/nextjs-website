@@ -30,9 +30,10 @@ export function formatDateLocale(dateString: Date | null) {
 }
 
 function sitesCompareFn(a: SiteType, b: SiteType) {
-  if (!a.reportLink && !b.reportLink) { return 0; }
   if (a.reportLink && !b.reportLink) { return -1; }
-  return 1;
+  if (!a.reportLink && b.reportLink) { return 1; }
+  // None has reportlink
+  return a.name.localeCompare(b.name);
 }
 
 function speciesCompareFn(a: SpeciesType, b: SpeciesType) {
@@ -135,6 +136,10 @@ export async function generateSiteTable(sites: SiteType[]) {
     }),
   );
 
+  var showCountriesInTable: boolean = false;
+  const uniqueCountries = new Set(sites.map((site) => site.country));
+  if (uniqueCountries.size > 1) {  showCountriesInTable = true; }
+
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
   const bodyStyle = 'py-2 px-4 border-b text-center';
   const siteTable = {
@@ -147,7 +152,7 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Locality Number',
         style: headStyle,
       },
-      {
+      showCountriesInTable && {
         label: 'Location',
         style: headStyle,
       },
@@ -183,90 +188,101 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Analysis',
         style: headStyle,
       },
-    ],
-    body: sites.map((site) => [
-      {
-        label: site.uuid,
-        hidden: true,
-        idColumn: true,
-        style: bodyStyle,
-      },
-      {
-        label: site.email,
-        hidden: true,
-        idColumn: false,
-        style: bodyStyle,
-      },
-      {
-        label: site.name,
-        style: 'py-2 px-4 border-b text-left',
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: site.localityNumber,
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: (site.country && site.country) || 'N/A',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: <span style={{ backgroundColor: riskCircleColors(siteSpeciesCount.get(site.uuid)) }} className="inline-block w-5 h-5 rounded-full" />,
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: siteSpeciesCount.get(site.uuid) || 'N/A',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: 'Coming soon',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: 'Coming soon',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: 0,
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: site.fkPortfolios ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name) : 'Unspecified',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: formatDateLocale(site.created) || 'N/A',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: getLabel(site),
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-    ]),
+    ].filter(Boolean),  
+    body: sites.map((site) => {
+      const row = [
+        {
+          label: site.uuid,
+          hidden: true,
+          idColumn: true,
+          style: bodyStyle,
+        },
+        {
+          label: site.email,
+          hidden: true,
+          idColumn: false,
+          style: bodyStyle,
+        },
+        {
+          label: site.name,
+          style: 'py-2 px-4 border-b text-left',
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: site.localityNumber,
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        showCountriesInTable && {
+          label: site.country || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: (
+            <span
+              style={{ backgroundColor: riskCircleColors(siteSpeciesCount.get(site.uuid)) }}
+              className="inline-block w-5 h-5 rounded-full"
+            />
+          ),
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: siteSpeciesCount.get(site.uuid) || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: 'Coming soon',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: 'Coming soon',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: 0,
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: site.fkPortfolios
+            ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name)
+            : 'Unspecified',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: formatDateLocale(site.created) || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: getLabel(site),
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+      ];
+    
+      return row.filter(Boolean);
+    }),
   };
   return siteTable;
-}
+}    
 
 export function generateSpeciesTable(species: SpeciesType[]) {
   species.sort(speciesCompareFn);
