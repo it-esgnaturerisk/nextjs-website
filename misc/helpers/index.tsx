@@ -136,10 +136,6 @@ export async function generateSiteTable(sites: SiteType[]) {
     }),
   );
 
-  var showCountriesInTable: boolean = false;
-  const uniqueCountries = new Set(sites.map((site) => site.country));
-  if (uniqueCountries.size > 1) {  showCountriesInTable = true; }
-
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
   const bodyStyle = 'py-2 px-4 border-b text-center';
   const siteTable = {
@@ -152,7 +148,7 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Locality Number',
         style: headStyle,
       },
-      showCountriesInTable && {
+      {
         label: 'Location',
         style: headStyle,
       },
@@ -215,7 +211,7 @@ export async function generateSiteTable(sites: SiteType[]) {
           hidden: false,
           idColumn: false,
         },
-        showCountriesInTable && {
+        {
           label: site.country || 'N/A',
           style: bodyStyle,
           hidden: false,
