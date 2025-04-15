@@ -16,7 +16,7 @@ export const userElevationEnum = pgEnum('user_elevation_enum', [
   'admin',
 ]);
 
-export const industry_enum = pgEnum('industry_enum', [
+export const industryEnum = pgEnum('industry_enum', [
   'fishing',
   'research',
   'other',
@@ -34,7 +34,7 @@ export const companies = pgTable('companies', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at'),
   contactEmail: text('contact_email'),
-  industry: industry_enum('industry'),
+  industry: industryEnum('industry'),
 });
 
 export const users = pgTable('users', {
@@ -67,7 +67,7 @@ export const operationTypeEnum = pgEnum('operation type enum', [
 export const siteTypeEnum = pgEnum('site type enum', [
   'fish cage',
   'factory',
-]); 
+]);
 
 export const sites = pgTable('sites', {
   id: serial('id').primaryKey(),

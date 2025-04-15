@@ -227,8 +227,6 @@ export default function Form({
         address: null,
         country: null,
         reportLink: null,
-        speciesRisk: null,
-        geographicalRisk: null,
         email: user ? user.email : null,
       };
       try {
