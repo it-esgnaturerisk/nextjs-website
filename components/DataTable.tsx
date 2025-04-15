@@ -27,13 +27,13 @@ interface DataTableProps {
     }[][];
   };
   emptyMessage?: React.JSX.Element;
-  actionButtons?: boolean;
+  withActionButtons?: boolean;
 }
 
 export default function DataTable({
   data,
   emptyMessage = undefined,
-  actionButtons = false,
+  withActionButtons: actionButtons = false,
 }: DataTableProps) {
   const [selectedRowsIndex, setSelectedRows] = useState<number[]>([]);
   const { toast } = useToast();
@@ -96,9 +96,9 @@ export default function DataTable({
   if (error) return <div>{error.message}</div>;
   if (!user) return <Link href="/api/auth/login">Login</Link>;
 
-  if (data.body.length === 0 && emptyMessage) {
+  if(data.body && data.body.length === 0 && emptyMessage) {
     return emptyMessage;
-  }
+  };
 
   // filter out the columns where email is not equal to the user email
   if (typeof data.body[0][1].label === 'string' && data.body[0][1].label.includes('@')) {

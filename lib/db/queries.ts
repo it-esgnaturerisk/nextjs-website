@@ -7,10 +7,12 @@ import {
   users, sites, portfolios, ranges,
   siteRanges,
   companies,
+  speciesObserved,
+  species,
 } from './schema';
 import {
   NewPortfolioType,
-  NewSiteType, NewUserType, SiteType, UserType,
+  NewSiteType, NewUserType, SiteType, SpeciesType, UserType,
 } from '../types';
 
 // Function to fetch all users
@@ -133,20 +135,29 @@ export const selectPortfoliosWithCompanies = async () => {
   }
 };
 
-export const getSiteDataByUuid = async (uuid: string) => {
+export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
   try {
     const data = await db.select()
       .from(sites)
       .where(eq(sites.uuid, uuid))
-      .innerJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
-      .innerJoin(siteRanges, eq(sites.id, siteRanges.fkSites))
-      .innerJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
+      .leftJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
+      .leftJoin(siteRanges, eq(sites.id, siteRanges.fkSites))
+      .leftJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
+      .leftJoin(speciesObserved, eq(sites.id, speciesObserved.fkSites))
+      .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
       .then((s) => s);
+
     if (data.length > 0) {
-      const d = { ...data[0].sites, portfolio: data[0].portfolios, ranges: data.map((r) => r.ranges) };
+      const d = {
+        ...data[0].sites,
+        portfolio: data[0].portfolios,
+        ranges: data.map((x) => x.ranges),
+        species: data.map((x) => x.species).filter((s): s is SpeciesType => s !== null),
+      };
       return d;
     }
-    return { latitude: null, longitude: null, ranges: [] }; // Why not just return null?
+
+    return null;
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
