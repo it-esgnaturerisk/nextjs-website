@@ -126,12 +126,12 @@ const riskCircleColors = (risk: RiskLevel | number | undefined): string => {
 export async function generateSiteTable(sites: SiteType[]) {
   sites.sort(sitesCompareFn);
 
-  const siteSpeciesCountMap = new Map();
+  const siteSpeciesCount = new Map();
 
   await Promise.all(
     sites.map(async (site) => {
       const siteData = await selectSiteDataByUuid(site.uuid);
-      siteSpeciesCountMap.set(site.uuid, siteData?.species.length);
+      siteSpeciesCount.set(site.uuid, siteData?.species.length);
     }),
   );
 
@@ -216,28 +216,19 @@ export async function generateSiteTable(sites: SiteType[]) {
         idColumn: false,
       },
       {
-        label: <span style={{ backgroundColor: riskCircleColors(site.speciesRisk ?? siteSpeciesCountMap.get(site.uuid)) }} className="inline-block w-5 h-5 rounded-full" />,
+        label: <span style={{ backgroundColor: riskCircleColors(siteSpeciesCount.get(site.uuid)) }} className="inline-block w-5 h-5 rounded-full" />,
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: siteSpeciesCountMap.get(site.uuid) || 'N/A',
+        label: siteSpeciesCount.get(site.uuid) || 'N/A',
         style: bodyStyle,
         hidden: false,
         idColumn: false,
       },
       {
-        label: <span
-          style={{
-            backgroundColor: riskCircleColors(
-              site.geographicalRisk === 'Unknown' || site.geographicalRisk === null
-                ? undefined
-                : site.geographicalRisk,
-            ),
-          }}
-          className="inline-block w-5 h-5 rounded-full"
-        />,
+        label: 'Coming soon',
         style: bodyStyle,
         hidden: false,
         idColumn: false,

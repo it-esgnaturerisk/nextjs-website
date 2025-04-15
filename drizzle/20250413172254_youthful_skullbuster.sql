@@ -1,0 +1,1 @@
+ALTER TABLE "species_observed" ALTER COLUMN "number_of_observations" DROP NOT NULL;
