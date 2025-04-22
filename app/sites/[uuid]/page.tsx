@@ -24,7 +24,6 @@ const getImage = async (uuid: string) => {
 export default async function Site({ params, searchParams }: { params: { uuid: string }, searchParams: { year: keyof typeof geoSiteTableData, tab: string } }) {
   const { uuid } = params;
   const site = await selectSiteDataByUuid(uuid);
-  console.log("🚀 ~ Site ~ site:", site.ranges)
   const imageUrl = await getImage(uuid);
   const year = searchParams?.year || 2025;
   const tab = searchParams?.tab || 'map';
