@@ -184,7 +184,7 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Analysis',
         style: headStyle,
       },
-    ].filter(Boolean),  
+    ].filter(Boolean),
     body: sites.map((site) => {
       const row = [
         {
@@ -273,12 +273,12 @@ export async function generateSiteTable(sites: SiteType[]) {
           idColumn: false,
         },
       ];
-    
+
       return row.filter(Boolean);
     }),
   };
   return siteTable;
-}    
+}
 
 export function generateSpeciesTable(species: SpeciesType[]) {
   species.sort(speciesCompareFn);

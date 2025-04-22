@@ -6,20 +6,29 @@ import DataTable from '@/components/DataTable';
 import { geoSiteTableData } from '@/misc/helpers/siteTableData';
 import { generateSpeciesTable } from '@/misc/helpers';
 import SiteMap from './client/SiteMap';
-import SatImages from './client/SatImages';
+import Images from './client/Images';
 
-const images = {
-  1971: '/images/TANA_1.png',
-  1997: '/images/TANA_2.png',
-  2008: '/images/TANA_3.png',
-  2025: '/images/TANA_4.png',
+const getImage = async (uuid: string) => {
+  try {
+    const response = await fetch(`${process.env.AUTH0_BASE_URL}/api/images/${uuid}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch image');
+    }
+    const { url } = await response.json(); // Make sure your API returns `{ url }`
+    return url;
+  } catch (error) {
+    return null;
+  }
 };
 
 export default async function Site({ params, searchParams }: { params: { uuid: string }, searchParams: { year: keyof typeof geoSiteTableData, tab: string } }) {
   const { uuid } = params;
   const site = await selectSiteDataByUuid(uuid);
+  console.log("🚀 ~ Site ~ site:", site.ranges)
+  const imageUrl = await getImage(uuid);
   const year = searchParams?.year || 2025;
   const tab = searchParams?.tab || 'map';
+  
 
   if (!site) {
     return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">Site not found</h1>);
@@ -55,21 +64,23 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
                 <SiteMap
                   latitude={site.latitude}
                   longitude={site.longitude}
+                  ranges={site.ranges}
+                />
+              ) : 
+              (
+                <SiteMap
+                  latitude={site.latitude}
+                  longitude={site.longitude}
                   ranges={[{
                     uuid: '', id: 0, label: '', value: 0,
                   }]}
                 />
               )
-              : (
-                <SiteMap
-                  latitude={site.latitude}
-                  longitude={site.longitude}
-                  ranges={site.ranges}
-                />
-              )
           )}
           {tab === 'images' && (
-            <SatImages image={images[year]} />
+            <Images
+              imageUrl={imageUrl}
+            />
           )}
         </div>
         <div className="w-[100%] bg-white rounded-tr-xl rounded-br-xl overflow-auto">

@@ -137,27 +137,38 @@ export const selectPortfoliosWithCompanies = async () => {
 
 export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
   try {
-    const data = await db.select()
-      .from(sites)
-      .where(eq(sites.uuid, uuid))
-      .leftJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
-      .leftJoin(siteRanges, eq(sites.id, siteRanges.fkSites))
-      .leftJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
-      .leftJoin(speciesObserved, eq(sites.id, speciesObserved.fkSites))
-      .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
-      .then((s) => s);
+    // 1. Get the site and its portfolio
+    const siteWithPortfolio = await db
+    .select()
+    .from(sites)
+    .where(eq(sites.uuid, uuid))
+    .leftJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
+    .then((s) => s[0]);
 
-    if (data.length > 0) {
-      const d = {
-        ...data[0].sites,
-        portfolio: data[0].portfolios,
-        ranges: data.map((x) => x.ranges),
-        species: data.map((x) => x.species).filter((s): s is SpeciesType => s !== null),
-      };
-      return d;
-    }
+    // 2. Get ranges for the site
+    const siteRangesData = await db
+    .select()
+    .from(siteRanges)
+    .where(eq(siteRanges.fkSites, siteWithPortfolio.sites.id))
+    .leftJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
+    .then((rows) => rows.map((r) => r.ranges).filter(Boolean));
 
-    return null;
+    // 3. Get species observed at the site
+    const speciesData = await db
+    .select()
+    .from(speciesObserved)
+    .where(eq(speciesObserved.fkSites, siteWithPortfolio.sites.id))
+    .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
+    .then((rows) => rows.map((r) => r.species).filter((s): s is SpeciesType => s !== null));
+
+    // Final structured object
+    const result = {
+    ...siteWithPortfolio.sites,
+    portfolio: siteWithPortfolio.portfolios,
+    ranges: siteRangesData,
+    species: speciesData,
+    };
+    return result;
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }

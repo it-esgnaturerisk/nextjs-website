@@ -32,6 +32,16 @@
         ]
       }
     ],
+    "overrides": [
+      {
+        "files": [
+          "app/api/**/route.ts"
+        ],
+        "rules": {
+          "import/prefer-default-export": "off"
+        }
+      }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
