@@ -30,9 +30,10 @@ export function formatDateLocale(dateString: Date | null) {
 }
 
 function sitesCompareFn(a: SiteType, b: SiteType) {
-  if (!a.reportLink && !b.reportLink) { return 0; }
   if (a.reportLink && !b.reportLink) { return -1; }
-  return 1;
+  if (!a.reportLink && b.reportLink) { return 1; }
+  // None has reportlink
+  return a.name.localeCompare(b.name);
 }
 
 function speciesCompareFn(a: SpeciesType, b: SpeciesType) {
@@ -126,12 +127,12 @@ const riskCircleColors = (risk: RiskLevel | number | undefined): string => {
 export async function generateSiteTable(sites: SiteType[]) {
   sites.sort(sitesCompareFn);
 
-  const siteSpeciesCountMap = new Map();
+  const siteSpeciesCount = new Map();
 
   await Promise.all(
     sites.map(async (site) => {
       const siteData = await selectSiteDataByUuid(site.uuid);
-      siteSpeciesCountMap.set(site.uuid, siteData?.species.length);
+      siteSpeciesCount.set(site.uuid, siteData?.species.length);
     }),
   );
 
@@ -144,7 +145,7 @@ export async function generateSiteTable(sites: SiteType[]) {
         style: 'py-2 px-4 border-b text-left text-bold',
       },
       {
-        label: 'Locality Code',
+        label: 'Locality Number',
         style: headStyle,
       },
       {
@@ -156,19 +157,19 @@ export async function generateSiteTable(sites: SiteType[]) {
         style: headStyle,
       },
       {
-        label: 'Geo. Risk',
-        style: headStyle,
-      },
-      {
         label: 'Red List Species',
         style: headStyle,
       },
       {
-        label: 'PAs',
+        label: 'Geographical Risk',
         style: headStyle,
       },
       {
-        label: 'KBAs',
+        label: 'Protected Areas',
+        style: headStyle,
+      },
+      {
+        label: 'Key Biodiversity Areas',
         style: headStyle,
       },
       {
@@ -183,96 +184,98 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Analysis',
         style: headStyle,
       },
-    ],
-    body: sites.map((site) => [
-      {
-        label: site.uuid,
-        hidden: true,
-        idColumn: true,
-        style: bodyStyle,
-      },
-      {
-        label: site.email,
-        hidden: true,
-        idColumn: false,
-        style: bodyStyle,
-      },
-      {
-        label: site.name,
-        style: 'py-2 px-4 border-b text-left',
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: site.localityNumber,
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: (site.country && site.country) || 'N/A',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: <span style={{ backgroundColor: riskCircleColors(site.speciesRisk ?? siteSpeciesCountMap.get(site.uuid)) }} className="inline-block w-5 h-5 rounded-full" />,
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: <span
-          style={{
-            backgroundColor: riskCircleColors(
-              site.geographicalRisk === 'Unknown' || site.geographicalRisk === null
-                ? undefined
-                : site.geographicalRisk,
-            ),
-          }}
-          className="inline-block w-5 h-5 rounded-full"
-        />,
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: siteSpeciesCountMap.get(site.uuid) || 'N/A',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: 'Coming soon',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: 'Coming soon',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: site.fkPortfolios ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name) : 'Unspecified',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: formatDateLocale(site.created) || 'N/A',
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-      {
-        label: getLabel(site),
-        style: bodyStyle,
-        hidden: false,
-        idColumn: false,
-      },
-    ]),
+    ].filter(Boolean),
+    body: sites.map((site) => {
+      const row = [
+        {
+          label: site.uuid,
+          hidden: true,
+          idColumn: true,
+          style: bodyStyle,
+        },
+        {
+          label: site.email,
+          hidden: true,
+          idColumn: false,
+          style: bodyStyle,
+        },
+        {
+          label: site.name,
+          style: 'py-2 px-4 border-b text-left',
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: site.localityNumber,
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: site.country || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: (
+            <span
+              style={{ backgroundColor: riskCircleColors(siteSpeciesCount.get(site.uuid)) }}
+              className="inline-block w-5 h-5 rounded-full"
+            />
+          ),
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: siteSpeciesCount.get(site.uuid) || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: 'Coming soon',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: 'Coming soon',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: 0,
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: site.fkPortfolios
+            ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name)
+            : 'Unspecified',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: formatDateLocale(site.created) || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: getLabel(site),
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+      ];
+
+      return row.filter(Boolean);
+    }),
   };
   return siteTable;
 }

@@ -16,6 +16,12 @@ export const userElevationEnum = pgEnum('user_elevation_enum', [
   'admin',
 ]);
 
+export const industryEnum = pgEnum('industry_enum', [
+  'fishing',
+  'research',
+  'other',
+]);
+
 export const companies = pgTable('companies', {
   id: serial('id').primaryKey(),
   uuid: uuid('uuid').defaultRandom().notNull(),
@@ -28,6 +34,7 @@ export const companies = pgTable('companies', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at'),
   contactEmail: text('contact_email'),
+  industry: industryEnum('industry'),
 });
 
 export const users = pgTable('users', {
@@ -53,18 +60,13 @@ export const portfolios = pgTable('portfolios', {
   fkCompanies: integer('fk_companies').references(() => companies.id),
 });
 
-export const speciesRisk = pgEnum('species_risk', [
-  'High',
-  'Medium',
-  'Low',
-  'Unknown',
+export const operationTypeEnum = pgEnum('operation type enum', [
+  'traditional',
 ]);
 
-export const geographicalRisk = pgEnum('geographical_risk', [
-  'High',
-  'Medium',
-  'Low',
-  'Unknown',
+export const siteTypeEnum = pgEnum('site type enum', [
+  'fish cage',
+  'factory',
 ]);
 
 export const sites = pgTable('sites', {
@@ -76,14 +78,12 @@ export const sites = pgTable('sites', {
   address: text('address'),
   country: text('country'),
   reportLink: text('report_link'),
-  speciesRisk: speciesRisk('species_risk'),
-  geographicalRisk: geographicalRisk('geographical_risk'),
-  clearedCapacity: doublePrecision('cleared_capacity'),
-  clearedCapacityUnit: text('cleared_capacity_unit'),
+  approvedCapacity: doublePrecision('approved_capacity'),
+  approvedCapacityUnit: text('approved_capacity_unit'),
   area: doublePrecision('area'),
   areaUnit: text('area_unit'),
-  typeOfOperation: text('type_of_operation'),
-  typeOfSite: text('type_of_site'),
+  operationTypeEnum: operationTypeEnum('operation_type_enum'),
+  siteTypeEnum: siteTypeEnum('site_type_enum'),
   localityNumber: text('locality_number'),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),

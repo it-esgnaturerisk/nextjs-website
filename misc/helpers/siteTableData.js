@@ -182,10 +182,10 @@ export const siteTableData = {
 export const geoSiteTableData = {
   2025: {
     head: [
-      { label: ' ', style: 'py-2 px-4 border-b text-center' },
-      { label: '5 km', style: 'py-2 px-4 border-b text-center' },
-      { label: '15 km', style: 'py-2 px-4 border-b text-center' },
-      { label: '50 km', style: 'py-2 px-4 border-b text-center' },
+      { label: ' ', style: 'py-2 px-4 border-b text-center text-bold' },
+      { label: '5 km', style: 'py-2 px-4 border-b text-center text-bold' },
+      { label: '15 km', style: 'py-2 px-4 border-b text-center text-bold' },
+      { label: '50 km', style: 'py-2 px-4 border-b text-center text-bold' },
     ],
     body: [
       [
@@ -219,19 +219,19 @@ export const geoSiteTableData = {
           idColumn: true,
         },
         {
-          label: <span>Coming soon</span>,
+          label: <span>0</span>,
           style: 'py-2 px-4 border-b text-center',
           hidden: false,
           idColumn: false,
         },
         {
-          label: <span>Coming soon</span>,
+          label: <span>0</span>,
           style: 'py-2 px-4 border-b text-center',
           hidden: false,
           idColumn: false,
         },
         {
-          label: <span>Coming soon</span>,
+          label: <span>0</span>,
           style: 'py-2 px-4 border-b text-center',
           hidden: false,
           idColumn: false,
