@@ -155,12 +155,12 @@ export default function DataTable({
           ))}
         </TableBody>
       </Table>
-      {actionButtons ? (
+      {/* {actionButtons ? (
         <>
           <Button className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md" onClick={handleSendToEmail}> Process </Button>
           <Button className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md" onClick={handleDeleteSite}> Delete </Button>
         </>
-      ) : null}
+      ) : null} */}
       <Toaster />
     </div>
   );
