@@ -20,6 +20,16 @@
       "version": "detect"
     }
   },
+  "overrides": [
+    {
+      "files": [
+        "app/api/**/route.ts"
+      ],
+      "rules": {
+        "import/prefer-default-export": "off"
+      }
+    }
+  ],
   "rules": {
     "react/jsx-filename-extension": [
       2,
@@ -30,16 +40,6 @@
           ".ts",
           ".tsx"
         ]
-      }
-    ],
-    "overrides": [
-      {
-        "files": [
-          "app/api/**/route.ts"
-        ],
-        "rules": {
-          "import/prefer-default-export": "off"
-        }
       }
     ],
     "import/extensions": [
