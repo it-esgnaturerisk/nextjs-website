@@ -130,6 +130,10 @@ export const species = pgTable('species', {
   redListStatus: redListStatus('red_list_status'),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
+  pollutionRiskNutrientSalts: integer('pollution_risk_nutrient_salts'),
+  pollutionRiskOrganicMaterals: integer('pollution_risk_organic_materials'),
+  pollutionRiskChemicals: integer('pollution_risk_chemicals'),
+  pollutionRiskDisturbances: integer('pollution_risk_disturbances'),
 });
 
 export const speciesObserved = pgTable('species_observed', {

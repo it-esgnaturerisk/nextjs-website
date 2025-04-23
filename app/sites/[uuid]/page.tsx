@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DataTable from '@/components/DataTable';
 import { geoSiteTableData } from '@/misc/helpers/siteTableData';
 import { generateSpeciesTable } from '@/misc/helpers';
+import BarChartComponent from '@/components/BarChartComponent';
 import SiteMap from './client/SiteMap';
 import Images from './client/Images';
 
@@ -27,7 +28,6 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
   const imageUrl = await getImage(uuid);
   const year = searchParams?.year || 2025;
   const tab = searchParams?.tab || 'map';
-  
 
   if (!site) {
     return (<h1 className="text-4xl p-6 py-3 m-3  h-1/2 w-1/2">Site not found</h1>);
@@ -65,8 +65,8 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
                   longitude={site.longitude}
                   ranges={site.ranges}
                 />
-              ) : 
-              (
+              )
+              : (
                 <SiteMap
                   latitude={site.latitude}
                   longitude={site.longitude}
@@ -83,10 +83,10 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
           )}
         </div>
         <div className="w-[100%] bg-white rounded-tr-xl rounded-br-xl overflow-auto">
-          <div className="bg-[#E1E5E1] rounded-tr-xl p-2 px-16">
+          <div className="bg-[#E1E5E1] rounded-tr-xl p-2 px-12">
             <h4 className="text-xl mx-3 text-black">Site information</h4>
           </div>
-          <div className="px-16">
+          <div className="px-12">
             <div className="flex w-[100%] m-3">
               <p className="w-[100%]">
                 Location:
@@ -118,7 +118,7 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
             </div>
           </div>
           <div className="h-1 w-full bg-gradient-to-r from-[#C3C7C3] to-white" />
-          <div className="px-16">
+          <div className="px-12">
             <div className="md:grid md:grid-cols-4 md:gap-4 block">
               <div className="my-6">
                 <p className="text-bold text-xs text-center my-2">
@@ -130,19 +130,19 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
                 <p className="text-bold text-xs text-center my-2">
                   Total Species:
                 </p>
-                <p className="text-1xl content-center text-center my-2">Ikke implementert</p>
+                <p className="text-1xl content-center text-center my-2">Coming soon</p>
               </div>
               <div className="my-6">
                 <p className="text-bold text-xs text-center my-2">
                   Key Biodiversity areas
                 </p>
-                <p className="text-ms content-center text-center my-2">Ikke implementert</p>
+                <p className="text-ms content-center text-center my-2">Coming soon</p>
               </div>
               <div className="my-6">
                 <p className="text-bold text-xs text-center my-2">
                   Protected Areas:
                 </p>
-                <p className="text-1xl content-center text-center my-2">Ikke implementert</p>
+                <p className="text-1xl content-center text-center my-2">Coming soon</p>
               </div>
             </div>
             <div className="m-3 mt-6 mb-0">
@@ -150,7 +150,7 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
             </div>
           </div>
           <div className="h-1 w-full bg-gradient-to-r from-[#C3C7C3] to-white" />
-          <div className="px-16 my-3 mb-0">
+          <div className="px-12 my-3 mb-0">
             {
               site.species.length === 0 ? (
                 <div className="text-center">
@@ -160,11 +160,21 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
                 : <DataTable data={generateSpeciesTable(site.species)} />
             }
             <div className="m-3 mt-6 mb-0">
+              <h4 className="text-2xl">Years of Observation</h4>
+              {site.years.lenght === 0 ? (
+                <div className="text-center">
+                  No yearly observational data found for this site.
+                </div>
+              )
+                : <BarChartComponent data={site.years} />}
+            </div>
+
+            <div className="m-3 mt-6 mb-0">
               <h3 className="text-2xl">Geographical Risk</h3>
             </div>
           </div>
           <div className="h-1 w-full bg-gradient-to-r from-[#C3C7C3] to-white" />
-          <div className="px-16 my-3">
+          <div className="px-12 my-3">
             <DataTable data={geoSiteTableData[2025]} />
           </div>
         </div>

@@ -124,6 +124,21 @@ const riskCircleColors = (risk: RiskLevel | number | undefined): string => {
   }
 };
 
+const riskCircleColorsOneToThree = (risk: number | null): string => {
+  if (risk == null) return '#cfcfcf';
+
+  switch (risk) {
+    case 1:
+      return '#79937A';
+    case 2:
+      return '#FFAE73';
+    case 3:
+      return '#B93E3E';
+    default:
+      return '#808080';
+  }
+};
+
 export async function generateSiteTable(sites: SiteType[]) {
   sites.sort(sitesCompareFn);
 
@@ -284,14 +299,12 @@ export function generateSpeciesTable(species: SpeciesType[]) {
   species.sort(speciesCompareFn);
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
   const headStyleLeft = 'py-2 px-4 border-b text-left text-bold';
-  const headStyleRight = 'py-2 px-4 border-b text-right text-bold';
   const bodyStyle = 'py-2 px-4 border-b text-center';
   const bodyStyleLeft = 'py-2 px-4 border-b text-left';
-  const bodyStyleRight = 'py-2 px-4 border-b text-right';
-  const siteTable = {
+  const speciesTable = {
     head: [
       {
-        label: 'Common Name',
+        label: 'Name',
         style: headStyleLeft,
       },
       {
@@ -299,8 +312,20 @@ export function generateSpeciesTable(species: SpeciesType[]) {
         style: headStyle,
       },
       {
-        label: 'Scientific Name',
-        style: headStyleRight,
+        label: 'Nutrient Salts',
+        style: headStyle,
+      },
+      {
+        label: 'Organic Materials',
+        style: headStyle,
+      },
+      {
+        label: 'Medicine and Chemicals',
+        style: headStyle,
+      },
+      {
+        label: 'Disturbances',
+        style: headStyle,
       },
     ],
     body: species.map((specimen) => [
@@ -323,12 +348,53 @@ export function generateSpeciesTable(species: SpeciesType[]) {
         style: bodyStyle,
       },
       {
-        label: specimen.scientificName,
+        label: (
+          <span
+            style={{ backgroundColor: riskCircleColorsOneToThree(specimen.pollutionRiskNutrientSalts) }}
+            className="inline-block w-5 h-5 rounded-full"
+          />
+        ),
         idColumn: false,
         hidden: false,
-        style: bodyStyleRight,
+        style: bodyStyle,
+      },
+
+      {
+        label: (
+          <span
+            style={{ backgroundColor: riskCircleColorsOneToThree(specimen.pollutionRiskOrganicMaterals) }}
+            className="inline-block w-5 h-5 rounded-full"
+          />
+        ),
+        idColumn: false,
+        hidden: false,
+        style: bodyStyle,
+      },
+
+      {
+        label: (
+          <span
+            style={{ backgroundColor: riskCircleColorsOneToThree(specimen.pollutionRiskChemicals) }}
+            className="inline-block w-5 h-5 rounded-full"
+          />
+        ),
+        idColumn: false,
+        hidden: false,
+        style: bodyStyle,
+      },
+
+      {
+        label: (
+          <span
+            style={{ backgroundColor: riskCircleColorsOneToThree(specimen.pollutionRiskDisturbances) }}
+            className="inline-block w-5 h-5 rounded-full"
+          />
+        ),
+        idColumn: false,
+        hidden: false,
+        style: bodyStyle,
       },
     ]),
   };
-  return siteTable;
+  return speciesTable;
 }

@@ -19,8 +19,6 @@ export default function SiteMap({
   longitude: number | null;
   ranges: RangesType[] | null;
 }) {
-  console.log("🚀 ~ ranges:", ranges)
-  
   const mapRef = useRef<MapRef>(null);
   const [circleData, setCircleData] = useState<any | null>(null);
   let mapboxToken: string = '';
