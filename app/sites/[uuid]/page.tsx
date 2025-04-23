@@ -38,6 +38,10 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
   }
 
   const baseUrl = `/sites/${uuid}?year=${year}`;
+
+  const firstYearOfObservation = Math.min(...site.years.map((entry: { year: number; }) => entry.year));
+  const lastYearOfObservation = Math.max(...site.years.map((entry: { year: number; }) => entry.year));
+
   return (
     <div className="flex flex-col h-[calc(100vh-200px-20px)]">
       <div className="p-6 py-3 m-3 mb-0">
@@ -104,17 +108,49 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
             </div>
             <div className="m-3 text-sm">
               <p>
-                🔍 Artsgrupper: leddormer (54%), etterfulgt av bløtdyr og fugler.
+                🔍 De mest observerte artsgruppene er
+                {' '}
+                {site.speciesGroupsObserved[0].name}
+                {' '}
+                (
+                {site.speciesGroupsObserved[0].observations}
+                {' '}
+                observasjoner),
+                etterfulgt av
+                {' '}
+                {site.speciesGroupsObserved[1].name}
+                {' '}
+                (
+                {site.speciesGroupsObserved[1].observations}
+                {' '}
+                observasjoner)
+                og
+                {' '}
+                {site.speciesGroupsObserved[2].name}
+                {' '}
+                (
+                {site.speciesGroupsObserved[2].observations}
+                {' '}
+                observasjoner).
                 <br />
-                🏢 Mest aktive institusjonelle bidrag til observasjoner: Miljødirektoratet med 910 observasjoner og 252 unike arter.
+                📈 Området har observasjoner over
+                {' '}
+                {lastYearOfObservation - firstYearOfObservation}
+                {' '}
+                år, fra
+                {' '}
+                {firstYearOfObservation}
+                {' '}
+                til
+                {' '}
+                {lastYearOfObservation}
+                .
                 <br />
-                Andre institusjoner med observasjoner inkluderer: Birdlife Norge, Norsk botanisk forening, and NTNU.
-                <br />
-                📈 Observasjoner strekker seg fra 1986 to 2024, hvilket er 17 år med observasjoner.
+                🏢 Coming soon: mest aktive institusjonelle bidrag til observasjoner.
               </p>
             </div>
             <div className="m-3 mt-6 mb-0">
-              <h3 className="text-2xl">Exposure</h3>
+              {/* <h3 className="text-2xl">Exposure</h3> */}
             </div>
           </div>
           <div className="h-1 w-full bg-gradient-to-r from-[#C3C7C3] to-white" />

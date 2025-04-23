@@ -10,6 +10,8 @@ import {
   speciesObserved,
   species,
   yearsOfObservations,
+  speciesGroupsObserved,
+  speciesGroups,
 } from './schema';
 import {
   NewPortfolioType,
@@ -169,6 +171,17 @@ export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
       .where(eq(yearsOfObservations.fkSites, siteWithPortfolio.sites.id))
       .then((years) => years);
 
+    // 4. Get the years of observations at the site
+    const speciesGroupsData = await db
+      .select()
+      .from(speciesGroupsObserved)
+      .where(eq(speciesGroupsObserved.fkSites, siteWithPortfolio.sites.id))
+      .leftJoin(speciesGroups, eq(speciesGroupsObserved.fkSpeciesGroup, speciesGroups.id))
+      .then((rows) => rows.map((r) => ({
+        name: r.species_groups?.name,
+        observations: r.species_groups_observed.numberOfObservations,
+      })));
+
     // Final structured object
     const result = {
       ...siteWithPortfolio.sites,
@@ -176,10 +189,11 @@ export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
       ranges: siteRangesData,
       species: speciesData,
       years: yearsData,
+      speciesGroupsObserved: speciesGroupsData,
     };
     return result;
   } catch (error) {
-    throw new Error(`Error: ${error}`);
+    throw new Error(`${error}`);
   }
 };
 
