@@ -9,6 +9,7 @@ import {
   companies,
   speciesObserved,
   species,
+  yearsOfObservations,
 } from './schema';
 import {
   NewPortfolioType,
@@ -139,34 +140,42 @@ export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
   try {
     // 1. Get the site and its portfolio
     const siteWithPortfolio = await db
-    .select()
-    .from(sites)
-    .where(eq(sites.uuid, uuid))
-    .leftJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
-    .then((s) => s[0]);
+      .select()
+      .from(sites)
+      .where(eq(sites.uuid, uuid))
+      .leftJoin(portfolios, eq(sites.fkPortfolios, portfolios.id))
+      .then((s) => s[0]);
 
     // 2. Get ranges for the site
     const siteRangesData = await db
-    .select()
-    .from(siteRanges)
-    .where(eq(siteRanges.fkSites, siteWithPortfolio.sites.id))
-    .leftJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
-    .then((rows) => rows.map((r) => r.ranges).filter(Boolean));
+      .select()
+      .from(siteRanges)
+      .where(eq(siteRanges.fkSites, siteWithPortfolio.sites.id))
+      .leftJoin(ranges, eq(siteRanges.fkRanges, ranges.id))
+      .then((rows) => rows.map((r) => r.ranges).filter(Boolean));
 
     // 3. Get species observed at the site
     const speciesData = await db
-    .select()
-    .from(speciesObserved)
-    .where(eq(speciesObserved.fkSites, siteWithPortfolio.sites.id))
-    .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
-    .then((rows) => rows.map((r) => r.species).filter((s): s is SpeciesType => s !== null));
+      .select()
+      .from(speciesObserved)
+      .where(eq(speciesObserved.fkSites, siteWithPortfolio.sites.id))
+      .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
+      .then((rows) => rows.map((r) => r.species).filter((s): s is SpeciesType => s !== null));
+
+    // 3. Get the years of observations at the site
+    const yearsData = await db
+      .select()
+      .from(yearsOfObservations)
+      .where(eq(yearsOfObservations.fkSites, siteWithPortfolio.sites.id))
+      .then((years) => years);
 
     // Final structured object
     const result = {
-    ...siteWithPortfolio.sites,
-    portfolio: siteWithPortfolio.portfolios,
-    ranges: siteRangesData,
-    species: speciesData,
+      ...siteWithPortfolio.sites,
+      portfolio: siteWithPortfolio.portfolios,
+      ranges: siteRangesData,
+      species: speciesData,
+      years: yearsData,
     };
     return result;
   } catch (error) {

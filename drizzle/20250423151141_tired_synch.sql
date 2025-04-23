@@ -1,0 +1,1 @@
+ALTER TABLE "species" RENAME COLUMN "pollution_risk_pharmaceuticals" TO "pollution_risk_chemicals";
