@@ -12,6 +12,8 @@ import {
   yearsOfObservations,
   speciesGroupsObserved,
   speciesGroups,
+  valuedNatureTypes,
+  protectedAreas,
 } from './schema';
 import {
   NewPortfolioType,
@@ -164,14 +166,14 @@ export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
       .leftJoin(species, eq(speciesObserved.fkSpecies, species.id))
       .then((rows) => rows.map((r) => r.species).filter((s): s is SpeciesType => s !== null));
 
-    // 3. Get the years of observations at the site
+    // 4. Get years of observations at the site
     const yearsData = await db
       .select()
       .from(yearsOfObservations)
       .where(eq(yearsOfObservations.fkSites, siteWithPortfolio.sites.id))
       .then((years) => years);
 
-    // 4. Get the years of observations at the site
+    // 5.
     const speciesGroupsData = await db
       .select()
       .from(speciesGroupsObserved)
@@ -182,6 +184,30 @@ export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
         observations: r.species_groups_observed.numberOfObservations,
       })));
 
+    // 6.
+    const natureTypesData = await db
+      .select({
+      // uuid: valuedNatureTypes.uuid,
+        rangesValue: ranges.value,
+        veryBig: valuedNatureTypes.veryBig,
+        big: valuedNatureTypes.big,
+        medium: valuedNatureTypes.medium,
+        small: valuedNatureTypes.small,
+      })
+      .from(valuedNatureTypes)
+      .where(eq(valuedNatureTypes.fkSites, siteWithPortfolio.sites.id))
+      .leftJoin(ranges, eq(valuedNatureTypes.fkRanges, ranges.id));
+
+    // 6.
+    const protectedAreasData = await db
+      .select({
+        numberOfPAs: protectedAreas.numberOfProtectedAreas,
+        rangesValue: ranges.value,
+      })
+      .from(protectedAreas)
+      .where(eq(protectedAreas.fkSites, siteWithPortfolio.sites.id))
+      .leftJoin(ranges, eq(protectedAreas.fkRanges, ranges.id));
+
     // Final structured object
     const result = {
       ...siteWithPortfolio.sites,
@@ -190,6 +216,8 @@ export const selectSiteDataByUuid = async (uuid: string): Promise<any> => {
       species: speciesData,
       years: yearsData,
       speciesGroupsObserved: speciesGroupsData,
+      valuedNatureTypes: natureTypesData,
+      protectedAreas: protectedAreasData,
     };
     return result;
   } catch (error) {

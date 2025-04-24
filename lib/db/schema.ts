@@ -77,7 +77,7 @@ export const sites = pgTable('sites', {
   longitude: doublePrecision('longitude').notNull(),
   address: text('address'),
   country: text('country'),
-  reportLink: text('report_link'),
+  uniqueSpecies: integer('unique_species'),
   approvedCapacity: doublePrecision('approved_capacity'),
   approvedCapacityUnit: text('approved_capacity_unit'),
   area: doublePrecision('area'),
@@ -85,10 +85,39 @@ export const sites = pgTable('sites', {
   operationTypeEnum: operationTypeEnum('operation_type_enum'),
   siteTypeEnum: siteTypeEnum('site_type_enum'),
   localityNumber: text('locality_number'),
+  email: text('email'),
+  fkPortfolios: integer('fk_portfolios').references(() => portfolios.id),
+  reportLink: text('report_link'),
+  created: timestamp('created').defaultNow(),
+  lastUpdated: date('last_updated'),
+});
+
+export const ranges = pgTable('ranges', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
+  value: integer('value').notNull(),
+  label: text('label').notNull(),
+});
+
+export const valuedNatureTypes = pgTable('valued_nature_types', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
+  fkSites: integer('fk_sites').references(() => sites.id),
+  fkRanges: integer('fk_ranges').references(() => ranges.id),
+  veryBig: integer('very_big'),
+  big: integer('big'),
+  medium: integer('medium'),
+  small: integer('small'),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
-  fkPortfolios: integer('fk_portfolios').references(() => portfolios.id),
-  email: text('email'),
+});
+
+export const protectedAreas = pgTable('protected_areas', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').defaultRandom().notNull(),
+  fkSites: integer('fk_sites').references(() => sites.id),
+  fkRanges: integer('fk_ranges').references(() => ranges.id),
+  numberOfProtectedAreas: integer('number_of_protected_areas'),
 });
 
 export const speciesGroups = pgTable('species_groups', {
@@ -174,13 +203,6 @@ export const yearsOfObservations = pgTable('years_of_observations', {
   fkSites: integer('fk_sites').references(() => sites.id),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
-});
-
-export const ranges = pgTable('ranges', {
-  id: serial('id').primaryKey(),
-  uuid: uuid('uuid').defaultRandom().notNull(),
-  value: integer('value').notNull(),
-  label: text('label').notNull(),
 });
 
 export const siteRanges = pgTable('site_ranges', {

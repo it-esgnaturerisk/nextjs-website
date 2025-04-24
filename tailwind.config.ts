@@ -30,6 +30,7 @@ const config = {
       scatterblue: '#A1B8E1',
       scatteryellow: '#FFDB70',
       red: '#FF0000',
+      graphblue: '#4f46e5',
     },
     extend: {
       colors: {
