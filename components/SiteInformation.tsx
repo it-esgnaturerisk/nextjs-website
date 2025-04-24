@@ -31,7 +31,12 @@ export default function SiteInformation({ site }:any) {
             {site.speciesGroupsObserved.slice(0, 3).map((group: { name: string; observations: number}) => (
               <li key={group.name}>
                 <span className="font-medium">{capitalize(group.name)}</span>
-                {' '} – {group.observations} observasjoner
+                {' '}
+                {' '}
+                –
+                {group.observations}
+                {' '}
+                observasjoner
               </li>
             ))}
           </ol>

@@ -25,9 +25,9 @@ const transformData = (item: RawDataType) => [
 
 export default function BarChartNatureTypes({ data }: BarChartNatureTypesProps) {
   // Find maximum value in the data
-  const maxValue = data.reduce((maxValue, item) => {
+  const maxValue = data.reduce((prev, item) => {
     const itemMax = Math.max(item.veryBig, item.big, item.medium, item.small);
-    return Math.max(maxValue, itemMax);
+    return Math.max(prev, itemMax);
   }, 0);
 
   return (
@@ -45,19 +45,21 @@ export default function BarChartNatureTypes({ data }: BarChartNatureTypesProps) 
             </h3>
             <div className="w-full h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={transformData(item)}
-                margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis
-                  tick={{ fontSize: 12 }}
-                  domain={[0, maxValue]}
-                />
-                <Tooltip />
-                <Bar dataKey="value" fill="#4f46e5" radius={[4, 4, 0, 0]} />
-              </BarChart>
+                <BarChart
+                  data={transformData(item)}
+                  margin={{
+                    top: 20, right: 0, bottom: 20, left: 0,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                  <YAxis
+                    tick={{ fontSize: 12 }}
+                    domain={[0, maxValue]}
+                  />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+                </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
