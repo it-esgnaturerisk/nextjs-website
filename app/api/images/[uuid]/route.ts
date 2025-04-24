@@ -25,7 +25,6 @@ export async function GET(
     // const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 });
     return NextResponse.json({ url }); // Responds with { url: ... }
   } catch (error) {
-    console.error('❌ Error fetching image from S3:', error);
     return new NextResponse('Error fetching image from S3', { status: 500 });
   }
 }

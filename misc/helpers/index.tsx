@@ -2,7 +2,7 @@
 import * as turf from '@turf/turf';
 import { Units } from '@turf/helpers';
 import { SiteType, SpeciesType } from '@/lib/types';
-import { selectPortfolioWhereID, selectSiteDataByUuid } from '@/lib/db/queries';
+import { selectSiteDataByUuid } from '@/lib/db/queries';
 import Button from '@/components/buttons/Button';
 import Link from 'next/link';
 import { IoMdDownload } from 'react-icons/io';
@@ -183,14 +183,14 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Protected Areas',
         style: headStyle,
       },
-      {
-        label: 'Key Biodiversity Areas',
-        style: headStyle,
-      },
-      {
-        label: 'Portfolio',
-        style: headStyle,
-      },
+      // {
+      //   label: 'Key Biodiversity Areas',
+      //   style: headStyle,
+      // },
+      // {
+      //   label: 'Portfolio',
+      //   style: headStyle,
+      // },
       {
         label: 'Date',
         style: headStyle,
@@ -261,20 +261,20 @@ export async function generateSiteTable(sites: SiteType[]) {
           hidden: false,
           idColumn: false,
         },
-        {
-          label: 0,
-          style: bodyStyle,
-          hidden: false,
-          idColumn: false,
-        },
-        {
-          label: site.fkPortfolios
-            ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name)
-            : 'Unspecified',
-          style: bodyStyle,
-          hidden: false,
-          idColumn: false,
-        },
+        // {
+        //   label: 0,
+        //   style: bodyStyle,
+        //   hidden: false,
+        //   idColumn: false,
+        // },
+        // {
+        //   label: site.fkPortfolios
+        //     ? selectPortfolioWhereID(site.fkPortfolios).then((p) => p.name)
+        //     : 'Unspecified',
+        //   style: bodyStyle,
+        //   hidden: false,
+        //   idColumn: false,
+        // },
         {
           label: formatDateLocale(site.created) || 'N/A',
           style: bodyStyle,

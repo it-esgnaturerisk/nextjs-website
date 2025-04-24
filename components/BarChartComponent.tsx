@@ -16,7 +16,6 @@ type BarChartComponentProps = {
 
 export default function BarChartComponent({ data }: BarChartComponentProps) {
   const sortedData = [...data].sort((a, b) => a.year - b.year);
-
   return (
   // <Card className="mt-4">
   // <CardContent>
