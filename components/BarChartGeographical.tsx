@@ -17,17 +17,23 @@ type BarChartNatureTypesProps = {
 };
 
 const transformData = (item: RawDataType) => [
-  { name: 'Very big value nature', value: item.veryBig },
-  { name: 'Big value nature', value: item.big },
-  { name: 'Medium value nature', value: item.medium },
-  { name: 'Some Value nature', value: item.small },
+  { name: 'Low-value', value: item.small },
+  { name: 'Medium-value', value: item.medium },
+  { name: 'High-value', value: item.big },
+  { name: 'Very-high-value', value: item.veryBig },
 ];
 
 export default function BarChartNatureTypes({ data }: BarChartNatureTypesProps) {
+  // Find maximum value in the data
+  const maxValue = data.reduce((prev, item) => {
+    const itemMax = Math.max(item.veryBig, item.big, item.medium, item.small);
+    return Math.max(prev, itemMax);
+  }, 0);
+
   return (
     <div className="w-full px-6">
       <h2 className="text-2xl font-bold text-center mb-8">
-        Valued Nature Types Around Site
+        Nature Types Around Site
       </h2>
 
       <div className="flex flex-col md:flex-row gap-6 w-full">
@@ -47,7 +53,10 @@ export default function BarChartNatureTypes({ data }: BarChartNatureTypesProps) 
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
+                  <YAxis
+                    tick={{ fontSize: 12 }}
+                    domain={[0, maxValue]}
+                  />
                   <Tooltip />
                   <Bar dataKey="value" fill="#4f46e5" radius={[4, 4, 0, 0]} />
                 </BarChart>

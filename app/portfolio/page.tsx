@@ -74,16 +74,17 @@ export default async function NewSite() {
   //   ]),
   // };
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="h-screen flex flex-col">
+      <div className="flex justify-between items-center px-6 pt-6 pb-2">
         <h1 className="text-2xl font-bold">Portfolio</h1>
       </div>
-      <div className="mt-4 m-16">
-        <Image src="/images/portfolio_salmar_042025.png" width={1500} height={200} alt="Portfolio image" style={{ objectFit: 'contain' }} />
-        {/* <PortfolioScatter pData={pData} /> */}
-        {/* <h2 className="text-lg font-semibold mb-4">Recent Portfolios</h2>
-        <DataTable data={portfolioTable} emptyMessage={<p>No portfolios yet..</p>} />
-        <AddPortfolio disabled={pData.length >= 3} /> */}
+      <div className="relative h-[75vh] px-6 pb-6">
+        <Image
+          src="/images/portfolio_salmar_042025.png"
+          alt="Portfolio image"
+          fill
+          style={{ objectFit: 'contain' }}
+        />
       </div>
     </div>
   );

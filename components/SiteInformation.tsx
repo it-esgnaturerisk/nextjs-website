@@ -32,6 +32,7 @@ export default function SiteInformation({ site }:any) {
               <li key={group.name}>
                 <span className="font-medium">{capitalize(group.name)}</span>
                 {' '}
+                {' '}
                 –
                 {group.observations}
                 {' '}
