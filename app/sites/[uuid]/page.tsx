@@ -8,8 +8,14 @@ import { generateSpeciesTable } from '@/misc/helpers';
 import BarChartGeographical from '@/components/BarChartGeographical';
 import HistoricalObservations from '@/components/HistoricalObservations';
 import SiteInformation from '@/components/SiteInformation';
+import dynamic from 'next/dynamic';
 import Images from './client/Images';
 import SiteMap from './client/SiteMap';
+
+// Dynamically import the file upload component with SSR disabled
+const FileUploadComponent = dynamic(() => import('@/components/FileUploadComponent'), {
+  ssr: false,
+});
 
 const getImage = async (uuid: string) => {
   try {
@@ -80,6 +86,14 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
             Geographical Risk
           </Link>
         </div>
+        <div className={`py-2 px-4 cursor-pointer transition-all duration-200 ${
+          tab === 'geographical' ? 'border-b-4 border-blue-600 font-semibold text-blue-600 bg-blue-50 rounded-t-md' : 'text-gray-600'
+        }`}
+        >
+          <Link href={`${baseUrl}&tab=upload`}>
+            Upload
+          </Link>
+        </div>
       </div>
 
       <div className="flex h-full p-6 m-3 mt-0">
@@ -146,6 +160,9 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
         />
         )}
 
+        {tab === 'upload' && (
+        <FileUploadComponent />
+        )}
       </div>
     </div>
   );
