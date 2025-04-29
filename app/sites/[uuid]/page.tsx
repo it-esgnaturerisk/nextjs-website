@@ -8,9 +8,9 @@ import { generateSpeciesTable } from '@/misc/helpers';
 import BarChartGeographical from '@/components/BarChartGeographical';
 import HistoricalObservations from '@/components/HistoricalObservations';
 import SiteInformation from '@/components/SiteInformation';
+import dynamic from 'next/dynamic';
 import Images from './client/Images';
 import SiteMap from './client/SiteMap';
-import dynamic from 'next/dynamic';
 
 // Dynamically import the file upload component with SSR disabled
 const FileUploadComponent = dynamic(() => import('@/components/FileUploadComponent'), {
@@ -161,7 +161,7 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
         )}
 
         {tab === 'upload' && (
-        <FileUploadComponent/>
+        <FileUploadComponent />
         )}
       </div>
     </div>

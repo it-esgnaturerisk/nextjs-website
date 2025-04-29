@@ -92,17 +92,15 @@ const getLabel = (site: SiteType) => {
   );
 };
 
-
-const getUploadLabel = () => {
-  return (
-<div className="py-2 px-5">
-<Link
-href={`?`}>
-<IoMdCloudUpload width={20} height={20} />
-</Link>
-</div>
-  );
-}
+const getUploadLabel = () => (
+  <div className="py-2 px-5">
+    <Link
+      href="?"
+    >
+      <IoMdCloudUpload width={20} height={20} />
+    </Link>
+  </div>
+);
 
 type RiskLevel = 'Low' | 'Medium' | 'High';
 
