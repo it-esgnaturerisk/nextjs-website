@@ -5,7 +5,7 @@ import { SiteType, SpeciesType } from '@/lib/types';
 import { selectSiteDataByUuid } from '@/lib/db/queries';
 import Button from '@/components/buttons/Button';
 import Link from 'next/link';
-import { IoMdDownload } from 'react-icons/io';
+import { IoMdCloudUpload, IoMdDownload } from 'react-icons/io';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createCircle(lng: number, lat: number, radiusInKm: number) {
@@ -91,6 +91,18 @@ const getLabel = (site: SiteType) => {
     </div>
   );
 };
+
+
+const getUploadLabel = () => {
+  return (
+<div className="py-2 px-5">
+<Link
+href={`?`}>
+<IoMdCloudUpload width={20} height={20} />
+</Link>
+</div>
+  );
+}
 
 type RiskLevel = 'Low' | 'Medium' | 'High';
 
@@ -196,6 +208,10 @@ export async function generateSiteTable(sites: SiteType[]) {
         style: headStyle,
       },
       {
+        label: 'Upload',
+        style: headStyle,
+      },
+      {
         label: 'Analysis',
         style: headStyle,
       },
@@ -277,6 +293,12 @@ export async function generateSiteTable(sites: SiteType[]) {
         // },
         {
           label: formatDateLocale(site.created) || 'N/A',
+          style: bodyStyle,
+          hidden: false,
+          idColumn: false,
+        },
+        {
+          label: getUploadLabel(),
           style: bodyStyle,
           hidden: false,
           idColumn: false,
