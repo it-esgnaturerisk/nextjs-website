@@ -1,4 +1,4 @@
-import BarChartComponent from './BarChartComponent';
+import BarChartObservationsOverYears from './BarChartObservationsOverYears';
 
 export default function HistoricalObservations({ site }: any) {
   return (
@@ -10,7 +10,7 @@ export default function HistoricalObservations({ site }: any) {
           No yearly observational data found for this site.
         </div>
       )
-        : <BarChartComponent data={site.years} />}
+        : <BarChartObservationsOverYears data={site.years} />}
     </div>
   );
 }
