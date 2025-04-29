@@ -107,7 +107,7 @@ export default function DataTable({
 
   return (
     <div>
-      <Table className="min-w-full bg-white">
+      <Table className="min-w-full bg-white mb-10">
         <TableHeader className="bg-greenlight">
           <TableRow>
             {actionButtons ? (

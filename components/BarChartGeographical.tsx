@@ -24,11 +24,11 @@ const transformData = (item: RawDataType) => [
 ];
 
 export default function BarChartNatureTypes({ data }: BarChartNatureTypesProps) {
-  // Find maximum value in the data
-  const maxValue = data.reduce((prev, item) => {
-    const itemMax = Math.max(item.veryBig, item.big, item.medium, item.small);
-    return Math.max(prev, itemMax);
-  }, 0);
+  // Find maximum value in the data if we want them both to use same y-axis
+  // const maxValue = data.reduce((prev, item) => {
+  //   const itemMax = Math.max(item.veryBig, item.big, item.medium, item.small);
+  //   return Math.max(prev, itemMax);
+  // }, 0);
 
   return (
     <div className="w-full px-6">
@@ -55,7 +55,6 @@ export default function BarChartNatureTypes({ data }: BarChartNatureTypesProps) 
                   <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                   <YAxis
                     tick={{ fontSize: 12 }}
-                    domain={[0, maxValue]}
                   />
                   <Tooltip />
                   <Bar dataKey="value" fill="#4f46e5" radius={[4, 4, 0, 0]} />

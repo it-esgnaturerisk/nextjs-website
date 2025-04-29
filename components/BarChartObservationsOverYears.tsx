@@ -14,7 +14,7 @@ type BarChartComponentProps = {
   data: YearData[];
 };
 
-export default function BarChartComponent({ data }: BarChartComponentProps) {
+export default function BarChartObservationsOverYears({ data }: BarChartComponentProps) {
   const sortedData = [...data].sort((a, b) => a.year - b.year);
   return (
   // <Card className="mt-4">
