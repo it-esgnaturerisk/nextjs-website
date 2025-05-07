@@ -2,13 +2,13 @@
 import React from 'react';
 import { selectSiteDataByUuid } from '@/lib/db/queries';
 import Link from 'next/link';
-import DataTable from '@/components/DataTable';
 import { geoSiteTableData } from '@/misc/helpers/siteTableData';
 import { generateSpeciesTable } from '@/misc/helpers';
 import BarChartGeographical from '@/components/BarChartGeographical';
 import HistoricalObservations from '@/components/HistoricalObservations';
 import SiteInformation from '@/components/SiteInformation';
 import dynamic from 'next/dynamic';
+import DataTableSpecies from '@/components/DataTableSpecies';
 import Images from './client/Images';
 import SiteMap from './client/SiteMap';
 
@@ -143,7 +143,7 @@ export default async function Site({ params, searchParams }: { params: { uuid: s
               ) : (
                 <div className="flex flex-col lg:flex-row gap-6">
                   <div className="lg:w-1/2 w-full">
-                    <DataTable data={generateSpeciesTable(site.species)} />
+                    <DataTableSpecies data={generateSpeciesTable(site.species)} actions />
                   </div>
                   <div className="lg:w-1/2 w-full">
                     <HistoricalObservations site={site} />

@@ -58,7 +58,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.34.1",
+    "drizzle-orm": "^0.43.1",
     "embla-carousel-react": "^8.1.8",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "flowbite-react": "^0.10.2",

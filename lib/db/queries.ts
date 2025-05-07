@@ -48,6 +48,39 @@ export const selectSites = async () => {
   }
 };
 
+export const selectPAs = async () => {
+  try {
+    const protectedCounts = await db
+      .select({
+        siteId: protectedAreas.fkSites,
+        PAs: protectedAreas.numberOfProtectedAreas,
+        rangesValue: ranges.value,
+      })
+      .from(protectedAreas)
+      .leftJoin(ranges, eq(protectedAreas.fkRanges, ranges.id));
+    return protectedCounts;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+// export const selectNatureTypeCounts = async () => {
+//   try {
+//     const natureTypeCounts = await db
+//     .select({
+//       siteId: valuedNatureTypes.fkSites,
+//       totalBigNatureTypes: sql<number>`SUM(COALESCE(${valuedNatureTypes.veryBig}, 0) + COALESCE(${valuedNatureTypes.big}, 0))`,
+//     })
+//     .from(valuedNatureTypes)
+//     .leftJoin(ranges, eq(valuedNatureTypes.fkRanges, ranges.id))
+//     .where(eq(ranges.value, 1))
+//     .groupBy(valuedNatureTypes.fkSites);
+//     return natureTypeCounts;
+//   } catch (error) {
+//     throw new Error(`Error: ${error}`);
+//   }
+// };
+
 export const selectRanges = async () => {
   try {
     const results = await db.select().from(ranges);
@@ -242,6 +275,20 @@ export const updateSiteReportLink = async (uuid: string) => {
   } catch (error) {
     throw new Error(`Error updating site reportLink: ${error}`);
   }
+};
+
+export const updateSpeciesMarkedIrrelevant = async (uuid: string) => {
+  const res = await db
+    .update(species)
+    .set({ markedIrrelevant: true })
+    .where(eq(species.uuid, uuid))
+    .returning()
+    .then((s) => s[0]);
+
+  if (!res) {
+    throw new Error('Species not found');
+  }
+  return { success: true };
 };
 
 export const deleteSite = async (uuid: string) => {

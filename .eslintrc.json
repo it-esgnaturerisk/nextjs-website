@@ -31,6 +31,9 @@
     }
   ],
   "rules": {
+    "no-param-reassign": [
+      "warn"
+    ],
     "react/jsx-filename-extension": [
       2,
       {

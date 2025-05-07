@@ -149,7 +149,7 @@ const riskCircleColorsOneToThree = (risk: number | null): string => {
   }
 };
 
-export async function generateSiteTable(sites: SiteType[]) {
+export async function generateSiteTable(sites: any[]) {
   sites.sort(sitesCompareFn);
 
   const siteSpeciesCount = new Map();
@@ -185,10 +185,10 @@ export async function generateSiteTable(sites: SiteType[]) {
         label: 'Red List Species',
         style: headStyle,
       },
-      {
-        label: 'Geographical Risk',
-        style: headStyle,
-      },
+      // {
+      //   label: 'Geographical Risk',
+      //   style: headStyle,
+      // },
       {
         label: 'Protected Areas',
         style: headStyle,
@@ -263,14 +263,14 @@ export async function generateSiteTable(sites: SiteType[]) {
           hidden: false,
           idColumn: false,
         },
+        // {
+        //   label: site.veryBigNatureTypes,
+        //   style: bodyStyle,
+        //   hidden: false,
+        //   idColumn: false,
+        // },
         {
-          label: 'Coming soon',
-          style: bodyStyle,
-          hidden: false,
-          idColumn: false,
-        },
-        {
-          label: 'Coming soon',
+          label: site.totalPAs,
           style: bodyStyle,
           hidden: false,
           idColumn: false,
@@ -317,6 +317,8 @@ export async function generateSiteTable(sites: SiteType[]) {
 
 export function generateSpeciesTable(species: SpeciesType[]) {
   species.sort(speciesCompareFn);
+  const speciesFiltered = species.filter((s) => !s.markedIrrelevant);
+
   const headStyle = 'py-2 px-4 border-b text-center text-bold';
   const headStyleLeft = 'py-2 px-4 border-b text-left text-bold';
   const bodyStyle = 'py-2 px-4 border-b text-center';
@@ -348,7 +350,7 @@ export function generateSpeciesTable(species: SpeciesType[]) {
         style: headStyle,
       },
     ],
-    body: species.map((specimen) => [
+    body: speciesFiltered.map((specimen) => [
       {
         label: specimen.uuid,
         hidden: true,
