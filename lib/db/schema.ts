@@ -8,6 +8,7 @@ import {
   uuid,
   serial,
   integer,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
 export const userElevationEnum = pgEnum('user_elevation_enum', [
@@ -159,6 +160,7 @@ export const species = pgTable('species', {
   redListStatus: redListStatus('red_list_status'),
   lastUpdated: date('last_updated'),
   created: timestamp('created').defaultNow(),
+  markedIrrelevant: boolean('marked_irrelevant').default(false),
   pollutionRiskNutrientSalts: integer('pollution_risk_nutrient_salts'),
   pollutionRiskOrganicMaterals: integer('pollution_risk_organic_materials'),
   pollutionRiskChemicals: integer('pollution_risk_chemicals'),

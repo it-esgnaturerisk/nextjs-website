@@ -1,0 +1,1 @@
+ALTER TABLE "species" ADD COLUMN "marked_irrelevant" boolean DEFAULT false;

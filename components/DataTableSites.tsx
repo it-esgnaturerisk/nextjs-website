@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
-import { deleteSite, updateSiteReportLink } from '@/lib/db/queries';
+import { deleteSite } from '@/lib/db/queries';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { Button } from './ui/button';
@@ -27,13 +27,13 @@ interface DataTableProps {
     }[][];
   };
   emptyMessage?: React.JSX.Element;
-  withActionButtons?: boolean;
+  actions?: boolean;
 }
 
-export default function DataTable({
+export default function DataTableSites({
   data,
   emptyMessage = undefined,
-  withActionButtons: actionButtons = false,
+  actions = false,
 }: DataTableProps) {
   const [selectedRowsIndex, setSelectedRows] = useState<number[]>([]);
   const { toast } = useToast();
@@ -73,7 +73,6 @@ export default function DataTable({
           description: successMessage.replace('{count}', selectedRowsIndex.length.toString()),
         });
       } catch (err) {
-        console.error('Error processing sites:', err);
         toast({
           title: 'Error',
           description: 'Failed to process some sites. Please try again.',
@@ -83,11 +82,11 @@ export default function DataTable({
     [selectedRowsIndex, toast, getSelectedUUIDs],
   );
 
-  const handleSendToEmail = useCallback(() => {
-    processSelectedSites(updateSiteReportLink, '{count} site(s) was processed!');
-  }, [processSelectedSites]);
+  // const handleSendToEmail = useCallback(() => {
+  //   processSelectedSites(updateSiteReportLink, '{count} site(s) was processed!');
+  // }, [processSelectedSites]);
 
-  const handleDeleteSite = useCallback(() => {
+  const handleDelete = useCallback(() => {
     processSelectedSites(deleteSite, '{count} site(s) deleted!');
     setSelectedRows([]);
   }, [processSelectedSites]);
@@ -96,9 +95,9 @@ export default function DataTable({
   if (error) return <div>{error.message}</div>;
   if (!user) return <Link href="/api/auth/login">Login</Link>;
 
-  if(data.body && data.body.length === 0 && emptyMessage) {
+  if (data.body && data.body.length === 0 && emptyMessage) {
     return emptyMessage;
-  };
+  }
 
   // filter out the columns where email is not equal to the user email
   if (typeof data.body[0][1].label === 'string' && data.body[0][1].label.includes('@')) {
@@ -107,12 +106,13 @@ export default function DataTable({
 
   return (
     <div>
-      <Table className="min-w-full bg-white mb-10">
+      <Table className="min-w-full bg-white mb-5">
         <TableHeader className="bg-greenlight">
           <TableRow>
-            {actionButtons ? (
+            {actions ? (
               <TableHead className="w-12">
-                <input
+                {' '}
+                {/* <input
                   type="checkbox"
                   onChange={() => setSelectedRows(
                     selectedRowsIndex.length === data.body.length
@@ -120,7 +120,7 @@ export default function DataTable({
                       : data.body.map((_, index) => index),
                   )}
                   checked={selectedRowsIndex.length === data.body.length}
-                />
+                /> */}
               </TableHead>
             ) : null}
 
@@ -134,7 +134,7 @@ export default function DataTable({
         <TableBody>
           {data.body.map((body, index) => (
             <TableRow key={`${index + 1}`}>
-              {actionButtons ? (
+              {actions ? (
                 <TableCell className="w-12">
                   <input
                     type="checkbox"
@@ -155,12 +155,12 @@ export default function DataTable({
           ))}
         </TableBody>
       </Table>
-      {/* {actionButtons ? (
+      {actions ? (
         <>
-          <Button className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md" onClick={handleSendToEmail}> Process </Button>
-          <Button className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md" onClick={handleDeleteSite}> Delete </Button>
+          {/* <Button className="bg-greendark text-white py-2 px-4 m-2 rounded-lg shadow-md" onClick={handleSendToEmail}> Process </Button> */}
+          <Button className="bg-greendark text-white rounded-lg shadow-md" onClick={handleDelete}> Delete </Button>
         </>
-      ) : null} */}
+      ) : null}
       <Toaster />
     </div>
   );

@@ -107,22 +107,12 @@ export default function SiteInformation({ site }:any) {
             <p className="text-bold text-xs text-center my-2">
               Protected Areas:
             </p>
-            <p className="text-1xl content-center text-center my-2">
-              {site.protectedAreas.map((pa: { rangesValue: number; numberOfPAs: number}) => (
-                <span key={pa.rangesValue}>
-                  {pa.numberOfPAs}
-                  {' '}
-                  (
-                  {pa.rangesValue}
-                  km)
-                  <br />
-                </span>
-              ))}
-              <div className="h-1 w-full bg-greenlight" />
-
+            <p className="text-2xl content-center text-center my-2">
+              {/* {site.protectedAreas.map((pa: { rangesValue: number; numberOfPAs: number}) => (
+                <span key={pa.rangesValue}> {pa.numberOfPAs} ({pa.rangesValue}km)<br/> </span>
+              ))} */}
+              {/* <div className="h-1 w-full bg-greenlight" /> */}
               {site.protectedAreas.reduce((acc: number, pa: { numberOfPAs: number }) => acc + pa.numberOfPAs, 0)}
-              {' '}
-              (total)
             </p>
           </div>
         </div>
